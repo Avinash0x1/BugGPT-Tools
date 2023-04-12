@@ -125,7 +125,8 @@ while [[ "$dir_to_check" != "/" ]]; do
     echo -e "Proceeding with ${BLUE}Submodules${NC}"
     echo -e "${YELLOW}This will take quite some time${NC}" 
     echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
-    echo -e "${BLUE}Just let your terminal be!${NC}"     
+    echo -e "${BLUE}Just let your terminal be!${NC}"  
+    find $dir_to_check -type d -name '.git' -exec sh -c 'cd "$(dirname "{}")" && git config --global --add safe.directory "$(pwd)"' \;
     git config --global --add safe.directory $(pwd)
     #Rood's base for lhf wordlists
     wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O /tmp/wordium-rood-lhf.txt
