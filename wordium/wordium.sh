@@ -55,7 +55,7 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
     sudo chmod +xwr /usr/local/bin/wordium
     rm -f "$REMOTE_FILE" 2>/dev/null
   else
-    echo -e "➼ ${YELLOW}Already UptoDate${NC}"
+    echo -e "➼ ${GREEN}Already UptoDate${NC}"
     rm -f "$REMOTE_FILE" 2>/dev/null
     exit 0
   fi
