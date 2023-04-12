@@ -125,6 +125,7 @@ while [[ "$dir_to_check" != "/" ]]; do
   if [[ -d "$dir_to_check/.git" ]]; then
     echo -e "Git ${YELLOW}(.git)${NC} detected in ${YELLOW}$dir_to_check${NC}"
     echo -e "Proceeding with ${BLUE}Submodules${NC}"
+    git config --global --add safe.directory $(pwd)
     #Rood's base for lhf wordlists
     wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O /tmp/wordium-rood-lhf.txt
     cat /tmp/wordium-rood-lhf.txt | anew -q $WORDLIST/x-lhf-mini.txt
