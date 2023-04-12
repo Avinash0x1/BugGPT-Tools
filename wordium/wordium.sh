@@ -72,8 +72,6 @@ while getopts ":w:-:" opt; do
     \? ) echo -e "${RED}Invalid option: -$OPTARG${NC} , use ${BLUE}-w${NC} or ${BLUE}--wordlist-dir${NC}" >&2; exit 1 ;;
   esac
 done
-#ENV VARS
-lhf_mini_lines=$(wc -l < x-lhf-mini.txt)
 # Check if WORDLIST is already set in the environment
 if [ -z "$WORDLIST" ]; then
   echo -e "Path for ${BLUE}WORDLIST${NC} is ${RED}not set in the environment or specified as an option.${NC}" >&2
@@ -173,7 +171,9 @@ done
 #grep -E '^\.' file.txt
 ## Removes lines with digits, and removes slashes from beginning of each line 
 #sed '/[0-9]/d' file.txt | sed '/^[[:space:]]*$/d' | sed 's#^/##'
-
+#ENV VARS
+echo "test" | anew -q $WORDLIST/x-lhf-mini.txt
+lhf_mini_lines=$(wc -l < $WORDLIST/x-lhf-mini.txt)
 ## --> Bo0oM/fuzz.txt
 echo ""
 echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}Bo0oM/fuzz.txt${NC}" 
