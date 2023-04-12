@@ -126,7 +126,6 @@ while [[ "$dir_to_check" != "/" ]]; do
     echo -e "${YELLOW}This will take quite some time${NC}" 
     echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
     echo -e "${BLUE}Just let your terminal be!${NC}"  
-    find $dir_to_check -type d -name '.git' -exec sh -c 'cd "$(dirname "{}")" && git config --global --add safe.directory "$(pwd)"' \;
     git config --global --add safe.directory $(pwd)
     #Rood's base for lhf wordlists
     wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O /tmp/wordium-rood-lhf.txt
@@ -144,7 +143,9 @@ while [[ "$dir_to_check" != "/" ]]; do
     git clone https://github.com/thehlopster/hfuzz 2>/dev/null
     git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
     git clone https://github.com/six2dez/OneListForAll 2>/dev/null
-    git clone https://github.com/rix4uni/WordList 2>/dev/null 
+    git clone https://github.com/rix4uni/WordList 2>/dev/null
+    #Mark Safe
+    find $dir_to_check -type d -name '.git' -exec sh -c 'cd "$(dirname "{}")" && git config --global --add safe.directory "$(pwd)"' \; 
     break
   fi
   dir_to_check=$(dirname "$dir_to_check")
