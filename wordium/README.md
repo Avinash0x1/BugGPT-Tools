@@ -6,6 +6,7 @@
 ```
 ### About:
 A dirty utility to fetch, create & update fuzzing wordlists
+
 ### **Installation**:
  - **Bash**: 
 ```bash
@@ -55,3 +56,4 @@ echo "api/v1/graphql" | anew $WORDLIST/x-lhf-mini.txt
 #And now run
 wordium -w $/path/to/WORDLIST
 ```
+![Demo](https://github.com/Azathothas/BugGPT-Tools/blob/main/wordium/assets/wordium-demo.png)
