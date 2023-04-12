@@ -33,16 +33,34 @@ echo -e "${NC}"
 
 #Help / Usage
 if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
-  echo -e "${YELLOW}➼ Usage${NC}: ${GREEN}wordium${NC} ${BLUE}-w${NC} ${GREEN}</path/to/your/wordlist/directory> ${NC}"
+  echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}wordium${NC} ${BLUE}-w${NC} ${GREEN}</path/to/your/wordlist/directory> ${NC}"
   echo ""
   echo -e "${YELLOW}Extended Help${NC}"
   echo -e "${BLUE}-w${NC},  ${BLUE}--wordlist-dir${NC}     Specify where to create your wordlists (${YELLOW}Required${NC}, else specify as ${GREEN}\$WORDLIST${NC} in ${RED}\$ENV:VAR)${NC}\n"
+  echo "${BLUE}-up${NC}, ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}wordium${NC}\n"
   echo -e "${YELLOW}Example Usage${NC}: "
-  echo -e "${GREEN}wordium${NC} -w ${BLUE}/tmp/wordlists${NC}\n"  
+  echo -e "${PURPLE}wordium${NC} -w ${BLUE}/tmp/wordlists${NC}\n"  
   echo -e "➼ ${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.. It's a feature not a bug"
   exit 0
 fi
-
+# Update. Github caches take several minutes to reflect globally  
+if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
+  echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
+  REMOTE_FILE=$(mktemp)
+  curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
+  if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
+    echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
+    dos2unix $REMOTE_FILE > /dev/null 2>&1 
+    sudo mv "$REMOTE_FILE" /usr/local/bin/wordium && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
+    sudo chmod +xwr /usr/local/bin/wordium
+    rm -f "$REMOTE_FILE" 2>/dev/null
+  else
+    echo -e "➼ ${YELLOW}Already UptoDate${NC}"
+    rm -f "$REMOTE_FILE" 2>/dev/null
+    exit 0
+  fi
+  exit 0
+fi
 # Accepts wildcard options ( -w*)
 while getopts ":w:-:" opt; do
   case $opt in
@@ -90,6 +108,11 @@ fi
 if ! command -v anew &> /dev/null; then
    echo "➼ anew is not installed. Installing..." 
    go install -v github.com/tomnomnom/anew@latest
+fi
+#dos2unix, for updates
+if ! command -v dos2unix >/dev/null 2>&1; then
+    echo "➼ dos2unix is not installed. Installing..."
+    sudo apt-get update && sudo apt-get install dos2unix -y
 fi
 ##Check if it's a git dir
 dir_to_check="$(pwd)"
@@ -208,4 +231,16 @@ echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(wc -l $WORDLIST/x-lhf-mini.
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-lhf-mid.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.txt${NC} : ${GREEN}$(wc -l $WORDLIST/x-lhf-large.txt)${NC}"
 echo -e "➼ ${BLUE}x-massive.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-massive.txt)${NC}\n" 
+
+#Check For Update on Script end
+echo ""
+REMOTE_FILE=$(mktemp)
+curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
+if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
+echo ""
+echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(wordium -up)" 
+  else
+  rm -f "$REMOTE_FILE" 2>/dev/null
+    exit 0
+fi
 #EOF
