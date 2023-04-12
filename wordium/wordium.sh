@@ -51,7 +51,7 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
   if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
     echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
     dos2unix $REMOTE_FILE > /dev/null 2>&1 
-    sudo mv "$REMOTE_FILE" /usr/local/bin/wordium && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
+    sudo mv "$REMOTE_FILE" /usr/local/bin/wordium && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC} --> /n[$(git log -1 --pretty=%B)]" 
     sudo chmod +xwr /usr/local/bin/wordium
     rm -f "$REMOTE_FILE" 2>/dev/null
   else
