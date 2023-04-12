@@ -137,13 +137,6 @@ while [[ "$dir_to_check" != "/" ]]; do
     git submodule add https://github.com/ayoubfathi/leaky-paths 2>/dev/null
     git submodule add https://github.com/six2dez/OneListForAll 2>/dev/null
     git submodule add https://github.com/rix4uni/WordList 2>/dev/null
-    #Sync Repos
-     for dir in */; do
-     if [ -d "$dir.git" ]; then
-       echo "Updating $dir to @latest"
-       cd "$dir" && git pull && cd ..
-     fi
-     done
     break
   fi
   dir_to_check=$(dirname "$dir_to_check")
@@ -166,7 +159,14 @@ while [[ "$dir_to_check" != "/" ]]; do
     break
   fi
 done
-
+#Sync Repos to @latest
+cd $WORDLIST
+for dir in */; do
+ if [ -d "$dir.git" ]; then
+ echo "Updating $dir to @latest"
+ cd "$dir" && git pull && cd ..
+fi
+done
 #Begins
 #echo -e "➼${YELLOW}Fetching & Updating${NC} from ${BLUE}WORDLIST/WORDLIST${NC} \n" 
 #echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : $()${NC}" 
