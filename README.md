@@ -2,7 +2,7 @@
 - **➼** [**`Misc`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/misc) : Dumpyard for things!
 - **➼** [**`Scopegen`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/scopegen) : Generates **`.scope`** compatible format for TomNomNom's [**Inscope**](https://github.com/tomnomnom/hacks/tree/master/inscope).
 - **➼** [**`Scopeview`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/scopeview) : Slightly revamped vesion of TomNomNom's [**Inscope**](https://github.com/tomnomnom/hacks/tree/master/inscope) that allows custom **`.scope`** to be defined.
-
+- **➼** [**`Wordium`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/wordium) : Fetcher, Creator & Updater for **`Fuzzing`** Wordlists.
 
 
 
