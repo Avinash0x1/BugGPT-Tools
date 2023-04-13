@@ -37,7 +37,7 @@ if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; 
   echo ""
   echo -e "${YELLOW}Extended Help${NC}"
   echo -e "${BLUE}-w${NC},  ${BLUE}--wordlist-dir${NC}     Specify where to create your wordlists (${YELLOW}Required${NC}, else specify as ${GREEN}\$WORDLIST${NC} in ${RED}\$ENV:VAR)${NC}\n"
-  echo "${BLUE}-up${NC}, ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}wordium${NC}\n"
+  echo -e "${BLUE}-up${NC}, ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}wordium${NC}\n"
   echo -e "${YELLOW}Example Usage${NC}: "
   echo -e "${PURPLE}wordium${NC} -w ${BLUE}/tmp/wordlists${NC}\n"  
   echo -e "➼ ${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.. It's a feature not a bug"
