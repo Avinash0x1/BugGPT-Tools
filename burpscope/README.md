@@ -1,47 +1,90 @@
-### About:
-Generates **`.scope`** compatible format for TomNomNom's [Inscope](https://github.com/tomnomnom/hacks/tree/master/inscope)
+ ### About:
+➼ Generate BurpSuite Configuration file **`scope.json`** (based on Edoardottt's [genscope](https://github.com/edoardottt/lit-bb-hack-tools/tree/main/genscope))     
+Major ***differences*** being able to specify input (`-t`), output (`-o`) flags and printing to `stdout`  
 
 ### **Installation**
- - **Bash**: (Stable)
+ - **Go**:  `go get -v github.com/Azathothas/BugGPT-Tools/burpscope`
+
+ ### Usage: `burpscope -h`
  ```bash
- sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/scopegen/scopegen.sh -O /usr/local/bin/scopegen.sh && sudo chmod +xwr /usr/local/bin/scopegen.sh
- ```
- - **Go**: (Stable & Preffered)
- ```bash
- go install -v github.com/Azathothas/BugGPT-Tools/scopegen@main
- ```
- - **Rust**: (Experimental)
- ```bash
- wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/scopegen/scopegen.rs && rustc scopegen.rs && sudo mv scopegen $HOME/.cargo/bin
- ```
- ### Usage: `scopegen -h` will display help
- **Examples**: 
- `cat inscope-domains.txt`
-```bash example.com
- example.org
- abc.example.com
- ```
- `cat outscope-domains.txt`
- ```bash
- oos.example.com
- oos.abc.example.org
- ```
- Then, **`scopegen -t inscope-domains.txt -in`** will generate **`inscope`**  domains:
- ```bash
- .*\.example\.com$
-.*\.example\.org$
-.*\.abc\.example\.com$
- ```
- similarly, **`scopegen -t outscope-domains.txt -os`** will generate **`outscope`**  domains:
- ```bash
-!.*oos\.example\.com$
-!.*oos\.abc\.example\.org$
- ```
- you can also pass **`stdin`**: 
-```bash 
-cat [inscope|outscope]-domains.txt | scopegen [-in | -os]
-#or as echo
-echo "example.com" | scopegen [-in | -os]
+burpscope -t domains.txt -o burpscope.json
+#Or via stdin:
+cat domains.txt | burpscope -o burpscope.json
 ```
-
-
+ ### Examples: 
+ **`cat domains.txt`** [wildcards (**`*.`**) are allowed]
+```bash 
+example.com
+*.example2.com
+www.example3.com
+*.example4.com
+ ```
+ Then, **`burpscope -t domains.txt `** will generate **`burpscope.json`** in current directory [use `-o` to specify custom output]
+ ```json
+{
+	"target": {
+		"scope": {
+			"advanced_mode": true,
+			"exclude": [],
+			"include": [
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^example\\.com$",
+					"port": "^80$",
+					"protocol": "http"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^example\\.com$",
+					"port": "^443$",
+					"protocol": "https"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^.*\\.example2\\.com$",
+					"port": "^80$",
+					"protocol": "http"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^.*\\.example2\\.com$",
+					"port": "^443$",
+					"protocol": "https"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^www\\.example3\\.com$",
+					"port": "^80$",
+					"protocol": "http"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^www\\.example3\\.com$",
+					"port": "^443$",
+					"protocol": "https"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^.*\\.example4\\.com$",
+					"port": "^80$",
+					"protocol": "http"
+				},
+				{
+					"enabled": true,
+					"file": "^/.*",
+					"host": "^.*\\.example4\\.com$",
+					"port": "^443$",
+					"protocol": "https"
+				}
+			]
+		}
+	}
+}
+ ```
