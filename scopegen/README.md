@@ -42,6 +42,14 @@ cat domains.txt | scopegen -os           # Generate wildcard out-of-scope domain
 .*example.*
 .*abc.*
  ```
+ > Note on `wildcards`:
+ [Use [subxtract](https://github.com/Azathothas/BugGPT-Tools/tree/main/subxtract) to filter first]
+  ```bash
+ #using subxtract, extract only root domains
+ subxtract -i inscope-domains.txt | sed '/^$/d' | scopegen -wl
+ #this will only print main domain
+ .*example.*
+ ```
  similarly, **`scopegen -t outscope-domains.txt -os`** will generate **`outscope`**  domains:
  ```bash
 !.*oos\.example\.com$
@@ -54,5 +62,3 @@ cat [inscope|outscope]-domains.txt | scopegen [-in | -wl | -os]
 #or as echo
 echo "example.com" | scopegen [-in | -wl | -os]
 ```
-
-
