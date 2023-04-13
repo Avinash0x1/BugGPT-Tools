@@ -69,6 +69,12 @@ if ! command -v dos2unix >/dev/null 2>&1; then
     echo "➼ dos2unix is not installed. Installing..."
     sudo apt-get update && sudo apt-get install dos2unix -y
 fi
+#gup
+if ! command -v gup >/dev/null 2>&1; then
+    echo "➼ gup is not installed. Installing..."
+    go install -v github.com/nao1215/gup@latest && clear
+    echo "➼ Updating all your go tools..keep patience..."
+fi
 #Health Check for binaries
 binaries=("anew" "burpscope" "fasttld" "fff" "scopegen" "scopeview")
 for binary in "${binaries[@]}"; do
