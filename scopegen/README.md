@@ -2,22 +2,13 @@
 Generates **`.scope`** compatible format for TomNomNom's [Inscope](https://github.com/tomnomnom/hacks/tree/master/inscope)
 
 ### **Installation**
- - **Bash**: (Stable)
- ```bash
- sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/scopegen/scopegen.sh -O /usr/local/bin/scopegen.sh && sudo chmod +xwr /usr/local/bin/scopegen.sh
- ```
- - **Go**: (Stable & Preffered)
- ```bash
- go install -v github.com/Azathothas/BugGPT-Tools/scopegen@main
- ```
- - **Rust**: (Experimental)
- ```bash
- wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/scopegen/scopegen.rs && rustc scopegen.rs && sudo mv scopegen $HOME/.cargo/bin
- ```
+ - **Go**:  `go install -v github.com/Azathothas/BugGPT-Tools/scopegen@main`
  ### Usage: `scopegen -h` will display help
  **Examples**: 
+
  `cat inscope-domains.txt`
-```bash example.com
+```bash 
+ example.com
  example.org
  abc.example.com
  ```
@@ -32,16 +23,22 @@ Generates **`.scope`** compatible format for TomNomNom's [Inscope](https://githu
 .*\.example\.org$
 .*\.abc\.example\.com$
  ```
+ and, **`scopegen -t inscope-domains.txt -wl`** will generate **`wildcard`** **inscope** domains:
+  ```bash
+.*example.*
+.*abc.*
+ ```
  similarly, **`scopegen -t outscope-domains.txt -os`** will generate **`outscope`**  domains:
  ```bash
 !.*oos\.example\.com$
 !.*oos\.abc\.example\.org$
  ```
+
  you can also pass **`stdin`**: 
 ```bash 
-cat [inscope|outscope]-domains.txt | scopegen [-in | -os]
+cat [inscope|outscope]-domains.txt | scopegen [-in | -wl | -os]
 #or as echo
-echo "example.com" | scopegen [-in | -os]
+echo "example.com" | scopegen [-in | -wl | -os]
 ```
 
 
