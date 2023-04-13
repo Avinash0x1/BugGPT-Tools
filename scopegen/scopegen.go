@@ -10,14 +10,26 @@ import (
 )
 
 func main() {
-	inScope := flag.Bool("in", false, "generate in-scope domains")
-	outScope := flag.Bool("os", false, "generate out-of-scope domains")
 	filePath := flag.String("t", "", "path to file containing domain list")
-	flexScope := flag.Bool("fl", false, "generate flexible scope")
-	flag.Parse()
+	inScope := flag.Bool("in", false, "generate in-scope domains")
+	wildScope := flag.Bool("wl", false, "generate wildcard in-scope domains")	
+	outScope := flag.Bool("os", false, "generate out-of-scope domains")
 
-	if !(*inScope || *outScope || *flexScope) {
-		fmt.Println("Please specify either -in, -os, or -fl")
+	flag.Usage = func() {
+		fmt.Printf("Usage: %s [OPTIONS]\n\n", os.Args[0])
+		fmt.Println("Options:")
+		flag.VisitAll(func(f *flag.Flag) {
+			fmt.Printf("  -%-12s %s\n", f.Name, f.Usage)
+		})
+		fmt.Printf("\nExamples:\n")
+		fmt.Printf("  %s -t domains.txt -in           # Generate in-scope domains \n", os.Args[0])
+		fmt.Printf("  %s -t domains.txt -wl           # Generate wildcard in-scope domains\n", os.Args[0])		
+		fmt.Printf("  %s -t domains.txt -os           # Generate wildcard out-of-scope domains\n", os.Args[0])
+	}
+
+	flag.Parse()
+	if !(*inScope || *wildScope || *outScope) {
+		fmt.Println("Please specify either -in, -wl, or -os")
 		os.Exit(1)
 	}
 
@@ -40,12 +52,12 @@ func main() {
 	var output []string
 	scanner := bufio.NewScanner(strings.NewReader(string(input)))
 	for scanner.Scan() {
-		domain := scanner.Text()
+		domain := strings.TrimSpace(scanner.Text()) // Trim spaces from each line
 		if *inScope {
 			output = append(output, fmt.Sprintf(".*\\.%s$", strings.ReplaceAll(domain, ".", "\\.")))
 		} else if *outScope {
 			output = append(output, fmt.Sprintf("!.*%s$", strings.ReplaceAll(domain, ".", "\\.")))
-		} else if *flexScope {
+		} else if *wildScope {
 			rootDomain := strings.Split(domain, ".")[0]
 			if !strings.ContainsAny(rootDomain, ".") {
 				output = append(output, fmt.Sprintf(".*%s.*", strings.ReplaceAll(rootDomain, ".", "\\.")))
