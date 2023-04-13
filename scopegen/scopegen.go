@@ -13,10 +13,11 @@ func main() {
 	inScope := flag.Bool("in", false, "generate in-scope domains")
 	outScope := flag.Bool("os", false, "generate out-of-scope domains")
 	filePath := flag.String("t", "", "path to file containing domain list")
+	flexScope := flag.Bool("fl", false, "generate flexible scope")
 	flag.Parse()
 
-	if !(*inScope || *outScope) {
-		fmt.Println("Please specify either -in or -os")
+	if !(*inScope || *outScope || *flexScope) {
+		fmt.Println("Please specify either -in, -os, or -fl")
 		os.Exit(1)
 	}
 
@@ -44,6 +45,11 @@ func main() {
 			output = append(output, fmt.Sprintf(".*\\.%s$", strings.ReplaceAll(domain, ".", "\\.")))
 		} else if *outScope {
 			output = append(output, fmt.Sprintf("!.*%s$", strings.ReplaceAll(domain, ".", "\\.")))
+		} else if *flexScope {
+			rootDomain := strings.Split(domain, ".")[0]
+			if !strings.ContainsAny(rootDomain, ".") {
+				output = append(output, fmt.Sprintf(".*%s.*", strings.ReplaceAll(rootDomain, ".", "\\.")))
+			}
 		}
 	}
 
@@ -52,5 +58,23 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Remove duplicates
+	output = removeDuplicates(output)
+
 	fmt.Println(strings.Join(output, "\n"))
+}
+
+// Helper function to remove duplicates from a string slice
+func removeDuplicates(slice []string) []string {
+	seen := make(map[string]bool)
+	j := 0
+	for _, val := range slice {
+		if seen[val] {
+			continue
+		}
+		seen[val] = true
+		slice[j] = val
+		j++
+	}
+	return slice[:j]
 }
