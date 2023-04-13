@@ -8,8 +8,8 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+
 	"github.com/edoardottt/golazy"
-	// "github.com/elliotwutingfeng/go-fasttld"
 )
 
 func main() {
@@ -43,12 +43,12 @@ func main() {
 
 // help shows the usage.
 func help() {
-	var usage = `Take as input a file containing a list of (sub)domains (wildcards allowed) and produce a BurpSuite Configuration file.
-	$> burpscope -t domains.txt -o burpscope.json
+	var usage = `Usage:
+	➼ burpscope -t domains.txt -o burpscope.json
 
-	Alternatively, provide the domains via stdin:
-	$> cat domains.txt | burpscope -o burpscope.json`
+	Or via stdin:
 
+	➼ cat domains.txt | burpscope -o burpscope.json`
 	fmt.Println()
 	fmt.Println(usage)
 	fmt.Println()
