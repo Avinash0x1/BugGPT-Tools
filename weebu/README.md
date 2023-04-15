@@ -16,8 +16,8 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/w
 ### Configuration:
  1. [Configure](https://github.com/owasp-amass/amass/blob/master/examples/config.ini) your **Passive Total** , **Shodan** & **VirusTotal** **`API KEYS`** in `$HOME/.config/amass/config.ini`
  2. Add your [**`Github Tokens`**](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) in `$HOME/.config/.github_tokens` [1 per line]
- 3. After running **`weebu --init`**, your `$HOME/.env.wtfis` should be populated like shown below:
-    > Just add **`IP2WHOIS_API_KEY`** and run `sudo chmod +xwr $HOME/.env.wtfis`
+ 3. After running **`weebu --init`**, your `$HOME/.env.wtfis` should be populated like shown below: (**double check** and **comment unnecessary**  **`#`** ones)
+    > If **`VT_API_KEY`** [**Mandatory**] already exists, just add **`IP2WHOIS_API_KEY`** and run `sudo chmod +xwr $HOME/.env.wtfis` 
     ```bash
     # Example $HOME/.env.wtfis file
     # Don't forget to chmod 400!
