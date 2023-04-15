@@ -1,5 +1,5 @@
  ```bash
-       ╭╮
+        ╭╮
 ╭┳┳┳━┳━┫╰┳┳╮
 ┃>W┃e┫e┫b┃u┃ : Attack Surface Discovery >> whois || whatis || whereis  
 ╰━━┻━┻━┻━┻━╯
@@ -10,7 +10,7 @@ A Fancy Wrapper around [**ASN**](https://github.com/nitefood/asn) | [**whris**](
 ### **Installation**:
  - **Bash**: 
 ```bash 
-sudo wget https://github.com/Azathothas/BugGPT-Tools/blob/main/weebu/weebu.sh -O /usr/local/bin/weebu && sudo chmod +xwr /usr/local/bin/weebu && weebu --init
+sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -O /usr/local/bin/weebu && sudo chmod +xwr /usr/local/bin/weebu && weebu --init
 ``` 
 
 ### Configuration:
@@ -69,3 +69,15 @@ Tips:
 ➼ Include multiple github_tokens in $HOME/.config/.github_tokens to avoid rate limits
 ➼ Don't Worry if your Terminal Hangs for a bit.. It's a feature not a bug
 ```
+
+### Afterthoughts:
+ - **Weebu** is desgned and coded to be used on a **single** `$URL` | `$Domain` **at one time**.
+    > If for some reason (not much point, **you will be hit with rate limits, performance issues and more**) , you want weebu to go brrrr....
+    1. Install [interlace](https://github.com/codingo/Interlace) and then: 
+        ```bash
+        #create a directory (for convenience)
+        mkdir -p /tmp/weebu
+        #Don't change values for -u & -o, can change others. Weebu go brrrrr
+        interlace -tL ./many-urls-or-domains.txt -c "weebu -u _target_ -o /tmp/linky/_cleantarget_-weebu <other-weebu-options> 2>&1" -threads 69
+        #If you really ever did do this, don't be surprised if it takes toooooooo long
+        ```
