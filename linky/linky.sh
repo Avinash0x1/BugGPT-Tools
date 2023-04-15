@@ -6,16 +6,17 @@ GREEN='\033[32m'
 GREY='\033[37m'
 BLUE='\033[34m'
 YELLOW='\033[33m'
+PURPLE='\033[35m'
 RESET='\033[0m'
 NC='\033[0m'
 #Banner
-echo -e "${BLUE}"
+echo -e "${PURPLE}"
 cat << "EOF"
-──╔╗──╔╗
+  ╔╗  ╔╗
 ╔╗╠╬═╦╣╠╦╦╗
 ║╚╣║║║║═╣║║
 ╚═╩╩╩═╩╩╬╗║
-────────╚═╝
+        ╚═╝
 EOF
 echo -e "${NC}"
 #Initialization, Only on a fresh install
@@ -31,35 +32,36 @@ if [[ "$*" == *"-init"* ]] || [[ "$*" == *"--init"* ]] || [[ "$*" == *"init"* ]]
 fi
 #Help / Usage
 if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
-  echo -e "${YELLOW}➼ Usage${NC}: ${GREEN}linky${NC} ${BLUE}-u${NC} <url> ${BLUE}-o${NC} /path/to/outputdir ${BLUE}-gh${NC} <github_token> ${BLUE}<other options>${NC}"
-  echo ""
+  echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}linky${NC} ${BLUE}-u${NC} <url> ${BLUE}-o${NC} /path/to/outputdir ${BLUE}-gh${NC} <github_token> <other-options, see ${BLUE}--help${NC}\n"
   echo -e "${YELLOW}Extended Help${NC}"
-  echo "-u,       --url              Specify the URL to scrape (Required)"
-  echo "-o,       --output_dir       Specify the directory to save the output files (Required)"
-  echo "-gh,      --github_token     Specify manually: ghp_xxx (Not Required if $HOME/.config/.github_tokens exists)"
-  echo "-d,       --deep             Specify if Gospider, Hakrawler, Katana & XnLinkfinder should run with depth 5.(Slow)"
-  echo "-h,       --headers          Specify additional headers or cookies to use in the HTTP request (optional)"
-  echo "-init,    --init             Initialize ➼ linky by dry-running it against example.com (Only run on a fresh Install)"
-  echo "-up,      --update           Update linky"
-  echo "-ctmp,    --clean-tmp        Cleans /tmp/ files after run"
-  echo "-curls,   --clean-urls       Removes noisy junk urls (godeclutter | urless)"
-  echo "-params,  --discover-params  Runs Arjun for parameter discovery (Basic & Slow)"
-  echo "-fl,      --flex-scope       Run linky with normal scope but include CDNs" 
-  echo "-wl,      --wildcard         Run linky with wildcard (.*) scope"
-  echo "-secrets, --scan-secrets     Runs gf-secrets + TruffleHog (Massive Output, Resource-Intensive & Slow)"
-  echo ""
+  echo -e "${BLUE}-u${NC},       ${BLUE}--url${NC}              Specify the ${BLUE}URL${NC}  to scrape (${YELLOW}Required${NC} )"
+  echo -e "${BLUE}-o${NC},       ${BLUE}--output_dir${NC}       Specify the ${BLUE}directory${NC} to save the output files (${YELLOW}Required${NC})"
+  echo -e "${BLUE}-h${NC},       ${BLUE}--headers${NC}          Specify additional ${BLUE}headers${NC} or ${BLUE}cookies${NC} (use ${YELLOW}\"\"${NC}, optional)"
+  echo -e "${BLUE}-d${NC},       ${BLUE}--deep${NC}             Specify if ${YELLOW}Gospider Hakrawler Katana${NC} & ${YELLOW}XnLinkfinder${NC} should run with ${RED}depth 5${NC}.(${YELLOW}Slow${NC})"
+  echo -e "${BLUE}-ctmp${NC},    ${BLUE}--clean-tmp${NC}        Cleans /tmp/ files after run"
+  echo -e "${BLUE}-curls${NC},   ${BLUE}--clean-urls${NC}       Removes noisy junk urls (${YELLOW}godeclutter | urless${NC})"
+  echo -e "${BLUE}-params${NC},  ${BLUE}--discover-params${NC}  Runs ${YELLOW}Arjun${NC} for parameter discovery (${YELLOW}Basic & Slow${NC})"
+  echo -e "${BLUE}-fl${NC},      ${BLUE}--flex-scope${NC}       Run linky with normal scope but ${YELLOW}include CDNs${NC}" 
+  echo -e "${BLUE}-wl${NC},      ${BLUE}--wildcard${NC}         Run linky with wildcard (${RED}.*${NC}) scope"
+  echo -e "${BLUE}-up,      ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}linky${NC}\n"
+  echo -e "(${YELLOW}Not Required${NC} if ${BLUE}$HOME/.config/.github_tokens ${GREEN}exists${NC})"
+  echo -e "${BLUE}-gh${NC},      ${BLUE}--github_token${NC}     Specify manually: ${YELLOW}ghp_xxx${NC}\n"
+  echo -e "(Uses ${YELLOW}Entropy Scanning${NC} : ${RED}Massive Output, Resource-Intensive & Slow${NC})"
+  echo -e "${BLUE}-secrets${NC}, ${BLUE}--scan-secrets${NC}     Runs ${YELLOW}gf-secrets + TruffleHog${NC}\n"
+  echo -e "(${YELLOW}Only run on a fresh Install${NC})"
+  echo -e "${BLUE}-init${NC},    ${BLUE}--init${NC}             ${GREEN}Initialize${NC} ➼ ${PURPLE}linky${NC} by dry-running it against example.com\n"
+  echo -e ""
   echo -e "${YELLOW}Example Usage${NC}: "
   echo -e "${BLUE}Basic${NC}: "
-  echo 'linky --url https://example.com --output_dir /path/to/outputdir --github_token ghp_xyz'
-  echo ""
+  echo -e "${PURPLE}linky${NC} ${BLUE}--url${NC} ${YELLOW}https://example.com${NC} ${BLUE}--output_dir${NC} ${YELLOW}/path/to/outputdir${NC} ${BLUE}--github_token${NC} ${YELLOW}ghp_xyz${NC}\n"
   echo -e "${RED}Extensive${NC}: "
-  echo 'linky --url https://example.com --output_dir /path/to/outputdir --github_token ghp_xyz --headers "Authorization: Bearer token; Cookie: cookie_value" --deep --discover-params --scan-secrets'
+  echo -e "${PURPLE}linky${NC} ${BLUE}--url${NC} ${YELLOW}https://example.com${NC} ${BLUE}--output_dir${NC} ${YELLOW}/path/to/outputdir${NC} ${BLUE}--github_token${NC} ${YELLOW}ghp_xyz${NC} ${BLUE}--headers ${YELLOW}\"Authorization: Bearer token; Cookie: cookie_value\"${NC} ${BLUE}--deep${NC} ${BLUE}--discover-params${NC} ${BLUE}--wildcard${NC}"
   echo ""
   echo -e "${GREEN}Tips${NC}: "
   echo -e "➼ Include ${BLUE}UrlScan API keys${NC} in ${BLUE}$HOME/Tools/waymore/config.yml${NC} to find more links"
   echo -e "➼ Include multiple ${GREEN}github_tokens${NC} in ${BLUE}$HOME/.config/.github_tokens${NC} to avoid ${RED}rate limits${NC}"
-  echo -e "➼ ${RED}--scan-secrets${NC} produces ${YELLOW}massive files (Several ${RED}GB${NC}s). So TuffleHog is run by default. Best run with ${BLUE}--deep${NC}" 
-  echo -e "➼ ${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.. It's a feature not a bug"
+  echo -e "➼ ${RED}--scan-secrets${NC} produces ${YELLOW}massive files (Several ${RED}GB${NC}s). So ${GREEN}TuffleHog is run by default${NC}. Best run with ${BLUE}--deep${NC}" 
+  echo -e "➼ ${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.. It's a feature not a bug\n"
   exit 0
 fi
 # Update. Github caches take several minutes to reflect globally  
@@ -535,6 +537,10 @@ else
  echo "Extensive Secret Scannig Skipped$(sleep 5s)"
  mkdir -p $outputDir/Secrets/fff-urls
  cat $outputDir/urls.txt | fff --header 'Authorization: Bearer null' --save-status 200 --save-status 405 --save-status 401 --save-status 403 -o $outputDir/Secrets/fff-urls
+ find . -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt
+ find . -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt
+ find . -type f -exec gf truffle {} \; | tee -a $outputDir/Secrets/gf-secrets.txt 
+ #find $outputDir -type f -exec cat {} + | gf api-keys | tee -a $outputDir/Secrets/gf-api-keys.txt
  trufflehog filesystem --directory=$outputDir/ --concurrency 70 | tee -a $outputDir/Secrets/trufflehog.txt && clear
  echo "" && clear
 fi
