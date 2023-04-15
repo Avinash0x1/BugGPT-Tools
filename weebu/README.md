@@ -1,5 +1,5 @@
  ```bash
-       ╭╮
+        ╭╮
 ╭┳┳┳━┳━┫╰┳┳╮
 ┃>W┃e┫e┫b┃u┃ : Attack Surface Discovery >> whois || whatis || whereis  
 ╰━━┻━┻━┻━┻━╯
@@ -69,3 +69,15 @@ Tips:
 ➼ Include multiple github_tokens in $HOME/.config/.github_tokens to avoid rate limits
 ➼ Don't Worry if your Terminal Hangs for a bit.. It's a feature not a bug
 ```
+
+### Afterthoughts:
+ - **Weebu** is desgned and coded to be used on a **single** `$URL` | `$Domain` **at one time**.
+    > If for some reason (not much point, **you will be hit with rate limits, performance issues and more**) , you want weebu to go brrrr....
+    1. Install [interlace](https://github.com/codingo/Interlace) and then: 
+        ```bash
+        #create a directory (for convenience)
+        mkdir -p /tmp/weebu
+        #Don't change values for -u & -o, can change others. Weebu go brrrrr
+        interlace -tL ./many-urls-or-domains.txt -c "weebu -u _target_ -o /tmp/linky/_cleantarget_-weebu <other-weebu-options> 2>&1" -threads 69
+        #If you really ever did do this, don't be surprised if it takes toooooooo long
+        ```
