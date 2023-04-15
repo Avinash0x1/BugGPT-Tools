@@ -267,6 +267,7 @@ if ! command -v go &> /dev/null 2>&1; then
     echo "➼ golang is not installed. Installing..."
     cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
     source /etc/profile.d/golang_path.sh
+    sudo su -c "bash <(curl -sL https://git.io/go-installer)"
 else
     GO_VERSION=$(go version | awk '{print $3}')
 if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
@@ -345,6 +346,7 @@ for binary in "${binaries[@]}"; do
         go install -v github.com/Azathothas/BugGPT-Tools/cdna@main
         #eget
         go install -v github.com/zyedidia/eget@latest
+        sudo su -c "go install -v github.com/zyedidia/eget@latest"
         #fasttld
         sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/assets/fasttld -O /usr/local/bin/fasttld && sudo chmod +xwr /usr/local/bin/fasttld
         #httpx
@@ -358,7 +360,7 @@ for binary in "${binaries[@]}"; do
         #subxtract
         sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/subxtract/subxtract.sh -O /usr/local/bin/subxtract && sudo chmod +xwr /usr/local/bin/subxtract 
         #webanalyze
-        sudo eget rverton/webanalyze --to /usr/local/bin/webanalyze && sudo chmod +xwr /usr/local/bin/webanalyze
+        sudo /root/go/bin/eget rverton/webanalyze --to /usr/local/bin/webanalyze && sudo chmod +xwr /usr/local/bin/webanalyze
         #whris
         go install -v github.com/harakeishi/whris@latest        
         #wtfis
