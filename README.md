@@ -10,6 +10,8 @@
 ---
 - **➼** [**SubXtract**](https://github.com/Azathothas/BugGPT-Tools/tree/main/subxtract) : Wrapper around [go-fasttld](https://github.com/elliotwutingfeng/go-fasttld) for extracting **`TLD`** (Top-Level-Domains) & **`Subdomains`** using ***accurate*** and ***always-uptodate*** `public-suffix` list from **domains**, **urls**, **ipv4**, **ipv6**, etc.  
 ---
+- **➼** [**Weebu**](https://github.com/Azathothas/BugGPT-Tools/blob/main/weebu) : A Fancy Wrapper around [**ASN**](https://github.com/nitefood/asn) | [**whris**](https://github.com/harakeishi/whris) | [**wtfis**](https://github.com/pirxthepilot/wtfis) | [**Humble**](https://github.com/rfc-st/humble) | [**DNSdumpster**](https://github.com/nmmapper/dnsdumpster) | [**nmap**](https://github.com/nmap/nmap) | [**linky**](https://github.com/Azathothas/BugGPT-Tools/tree/main/linky) & more to find as much Info & Data as possible on a single `$DOMAIN`.
+---
 - **➼** [**Wordium**](https://github.com/Azathothas/BugGPT-Tools/tree/main/wordium) : Fetcher, Creator & Updater for **`Fuzzing`** Wordlists.
 ---
 
