@@ -190,7 +190,7 @@ timeout 10 echo "$url_domain" | httpx -silent -ports 20,21,22,25,53,80,110,137,1
 if [ $? -ne 0 ]; then
 echo -e "${RED}✘ Error${NC}: Host ${BLUE}$url_domain${NC} is ${YELLOW}unreachable!${NC}"
 echo -e "Please ${YELLOW}double check${NC} your ${BLUE}URL${NC} | ${BLUE}Domain${NC}"
-exit 1
+exit 0
 fi
 #output
 export outputDir=$outputDir
