@@ -251,7 +251,7 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
           do
          echo $cdn >> $outputDir/tmp/cdns.txt
          done
-  cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/tmp/.scope 
+  cat $outputDir/tmp/cdns.txt | sed '/^$/d' | scopegen -wl | anew -q $outputDir/tmp/.scope 
   echo -e "${YELLOW}$(cat $outputDir/tmp/.scope)${NC}\n"
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
