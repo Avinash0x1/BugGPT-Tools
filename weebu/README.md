@@ -10,7 +10,7 @@ A Fancy Wrapper around [**ASN**](https://github.com/nitefood/asn) | [**whris**](
 ### **Installation**:
  - **Bash**: 
 ```bash 
-sudo wget https://github.com/Azathothas/BugGPT-Tools/blob/main/weebu/weebu.sh -O /usr/local/bin/weebu && sudo chmod +xwr /usr/local/bin/weebu && weebu --init
+sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -O /usr/local/bin/weebu && sudo chmod +xwr /usr/local/bin/weebu && weebu --init
 ``` 
 
 ### Configuration:
