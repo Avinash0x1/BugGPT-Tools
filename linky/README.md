@@ -67,8 +67,8 @@ Tips:
 ```
 
 ### Afterthoughts:
- - Linky is desgned and coded to be used on a single $URL | $Domain at one time.
-    > If for some reason (not much point, **you will be hit with rate limits, performance issues and more**) , you want linky to go brrrr....
+ - **Linky** is desgned and coded to be used on a **single** **`$URL`** | **`$Domain`** at **one time**.
+    > If for ***some reason*** (not much point, **you will be hit with rate limits, performance issues and more**) , you want linky to go brrrr....
     1. Install [interlace](https://github.com/codingo/Interlace) and then: 
         ```bash
         #create a directory (for convenience)
