@@ -3,6 +3,7 @@
 #A bit of Styling
 RED='\033[31m'
 GREEN='\033[32m'
+GREY='\033[37m'
 BLUE='\033[34m'
 YELLOW='\033[33m'
 RESET='\033[0m'
@@ -43,6 +44,8 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
   echo "-ctmp,    --clean-tmp        Cleans /tmp/ files after run"
   echo "-curls,   --clean-urls       Removes noisy junk urls (godeclutter | urless)"
   echo "-params,  --discover-params  Runs Arjun for parameter discovery (Basic & Slow)"
+  echo "-fl,      --flex-scope       Run linky with normal scope but include CDNs" 
+  echo "-wl,      --wildcard         Run linky with wildcard (.*) scope"
   echo "-secrets, --scan-secrets     Runs gf-secrets + TruffleHog (Massive Output, Resource-Intensive & Slow)"
   echo ""
   echo -e "${YELLOW}Example Usage${NC}: "
@@ -149,7 +152,15 @@ do
     -params|--discover-params)
      discover_params=1
      shift
-    ;;   
+    ;;  
+    -fl|--flex-scope)
+     flex_scope=1
+     shift
+    ;;      
+    -wl|--wildcard)
+     wildcard_scope=1
+     shift
+    ;;     
     -secrets|--scan-secrets)
      scan_secrets=1
      shift
@@ -164,17 +175,21 @@ done
 #Setup Vars & default values
 export url=$url
 export outputDir=$outputDir
-github_tokens="$HOME/.config/.github_tokens"
-if [ -s "$github_tokens" ]; then
-  random_token=$(shuf -n 1 "$github_tokens")
-  export githubToken=$random_token
-else
-  export githubToken=$githubToken
+#Select Random token if !ghp
+if [ -z "$githubToken" ]; then
+  github_tokens="$HOME/.config/.github_tokens"
+  if [ -s "$github_tokens" ]; then
+    random_token=$(shuf -n 1 "$github_tokens")
+    export githubToken=$random_token
+  fi
 fi
+#Others
 export optionalHeaders=$optionalHeaders
 export deep=$deep
 export clean_tmp=$clean_tmp
 export discover_params=$discover_params
+export flex_scope=$flex_scope
+export wildcard=$wildcard_scope
 export scan_secrets=$scan_secrets
 originalDir=$(pwd)
 
@@ -208,48 +223,92 @@ if [ -n "$scan_secrets" ] && [ "$scan_secrets" -eq 1 ]; then
 else
   echo -e "${YELLOW}Secrets Scanning everything in $outputDir? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
+##Scope
+#Extract root domain name 
+scope_domain=$(echo "$url" | unfurl apexes)
+alt_scope_domain=$(fasttld extract $url | grep -E 'domain:|suffix:' | awk '{print $2}' | sed -n '2,3p' | sed -n '1p;2p' | tr '\n' '.' | sed 's/\.$//' ; echo)
+#Extract full domain name
+domain=$(echo "$url" | unfurl domains)
+#Set .scope 
+echo ""
+if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
+  echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+   #CDNS 
+    mkdir -p $outputDir/tmp
+    CDNs=(adobedtm akamai alibabacloud aliyun amazonaws appsflyer arubacloud aspnetcdn awsstatic azure bootstrapcdn bdimg cachefly cdn cdnjs cdnsun centurylink cloud cloudflare cloudfront cloudinary cloudsigma d3js fastly firebase fontawesome gcorelabs googleapis googletagmanager incapsula jquery jsdelivr keycdn onapp rackspace rawgit scaleaway section stackpath swarmify unpkg vercel yastatic)
+       for cdn in "${CDNs[@]}"
+          do
+         echo $cdn >> $outputDir/tmp/cdns.txt
+         done
+  cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope
+  echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
+else
+  echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+  echo $domain | scopegen -in | anew -q $outputDir/.scope
+fi
+if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
+  echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+  wl_scope=$(echo "$url" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+   #CDNS 
+    mkdir -p $outputDir/tmp
+    CDNs=(adobedtm akamai alibabacloud aliyun amazonaws appsflyer arubacloud aspnetcdn awsstatic azure bootstrapcdn bdimg cachefly cdn cdnjs cdnsun centurylink cloud cloudflare cloudfront cloudinary cloudsigma d3js fastly firebase fontawesome gcorelabs googleapis googletagmanager incapsula jquery jsdelivr keycdn onapp rackspace rawgit scaleaway section stackpath swarmify unpkg vercel yastatic)
+       for cdn in "${CDNs[@]}"
+          do
+         echo $cdn >> $outputDir/tmp/cdns.txt
+         done 
+  cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope      
+  echo $wl_scope | scopegen -wl | anew -q $outputDir/.scope
+  echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
+else
+  echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+  echo $domain | scopegen -in | anew -q $outputDir/.scope
+fi
+echo -e "${BLUE}Scope is set as:${NC} " 
+echo -e "${GREY}$(cat $outputDir/.scope)${NC}\n"
+echo -e "${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.."
+echo "It's a feature not a bug!"
+echo ""
+
 #Dependency Checks
-#Chromium webrivers for headless crawling
 if ! command -v chromium >/dev/null 2>&1; then
     echo "➼ chromium-chromedriver is not installed. Installing..."
     sudo apt-get update && sudo apt-get install chromium chromium-chromedriver chromium-common chromium-driver -y
 fi
-#dos2unix --> used on --update 
 if ! command -v dos2unix >/dev/null 2>&1; then
     echo "➼ dos2unix is not installed. Installing..."
     sudo apt-get update && sudo apt-get install dos2unix -y
 fi
-#GoLang --> => 1.20.0
 if ! command -v go &> /dev/null 2>&1; then
     echo "➼ golang is not installed. Installing..."
     cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
     source /etc/profile.d/golang_path.sh
-  else
+else
     GO_VERSION=$(go version | awk '{print $3}')
-  if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
+if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
         echo "➼ golang version 1.20.0 or greater is not installed. Installing..."
         cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
         source /etc/profile.d/golang_path.sh
-  else
+    else
         echo ""
-  fi
+    fi
 fi
-#npm --> for js enum
+if ! command -v gup >/dev/null 2>&1; then
+    echo "➼ gup is not installed. Installing..."
+    go install -v github.com/nao1215/gup@latest && clear
+    echo "➼ Updating all your go tools..keep patience..."
+fi
 if ! command -v npm &> /dev/null 2>&1; then
     echo "➼ npm is not installed. Installing..."
     sudo apt-get update && sudo apt-get install npm -y
 fi
-#parallel --> run commands in parallel
 if ! command -v parallel >/dev/null 2>&1; then
     echo "➼ parallel is not installed. Installing..."
     sudo apt-get update && sudo apt-get install parallel -y
 fi
-#Python3-pip
 if ! command -v pip3 &> /dev/null; then
    echo "➼ python3-pip is not installed. Installing..." 
    sudo apt-get update && sudo apt-get install python3-pip -y
 fi
-#makes python apps global
 if ! command -v pipx &> /dev/null; then
    echo "➼ pipx is not installed. Installing..." 
    python3 -m pip install pipx
@@ -317,21 +376,6 @@ for path in "${paths[@]}"; do
     fi
 done
 
-#Extract root domain name 
-scope_domain=$(echo "$url" | unfurl apexes)
-alt_scope_domain=$(fasttld extract $url | grep -E 'domain:|suffix:' | awk '{print $2}' | sed -n '2,3p' | sed -n '1p;2p' | tr '\n' '.' | sed 's/\.$//' ; echo)
-#Extract full domain name
-domain=$(echo "$url" | unfurl domains)
-#Set .scope 
-echo ""
-echo -e "${BLUE}Scope is set as:${NC} "
-echo $scope_domain | scopegen -in | anew -q $outputDir/.scope
-echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
-echo -e "${YELLOW}$(cat $outputDir/.scope)${NC}"
-echo ""
-echo -e "${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.."
-echo "It's a feature not a bug!"
-echo ""
 #Start Tools
 #Gau
 echo -e "➼ ${YELLOW}Running ${BLUE}gau${NC} on: ${GREEN}$url${NC}" && sleep 3s
