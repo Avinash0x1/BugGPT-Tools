@@ -182,7 +182,8 @@ if [ -z "$url_domain" ]; then
     url_domain=$(echo "$url" | unfurl domains)
 fi
 if [ -n "$url_domain" ]; then
-    sdomain=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+    #sdomain=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+    sdomain=$(echo "$url_domain" | unfurl domains )
     export url_domain=$sdomain
 fi
 #check health
