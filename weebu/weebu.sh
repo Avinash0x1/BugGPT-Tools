@@ -23,7 +23,7 @@ if [[ "$*" == *"-init"* ]] || [[ "$*" == *"--init"* ]] || [[ "$*" == *"init"* ]]
   echo -e "➼ ${GREEN}Initializing weebu...${NC}"
   echo -e "➼ Please ${YELLOW}exit (ctrl + c)${NC} if you already did this" 
   echo "➼ Setting up...$(rm -rf /tmp/example.com 2>/dev/null)"
-  weebu -u https://example5.com -o /tmp/example.com --linky --wildcard-scope 
+  weebu -u https://example.com -o /tmp/example.com --linky --wildcard-scope 
   rm -rf /tmp/example.com 2>/dev/null
   echo ""
   echo -e "${GREEN}Initialized Successfully${NC}"
@@ -434,7 +434,7 @@ echo $url_domain | httpx -ports 20,21,22,25,53,80,110,137,139,143,161,443,445,46
 wbappsfile=$(mktemp -d) && cd $wbappsfile && webanalyze -update
 echo -e "\n" | tee -a $outputDir/Info.txt
 echo "--------------------Webanalyzed---TechDetect--------------------" | tee -a $outputDir/Info.txt
-webanalyze -host $url_domain -crawl 1 -silent | | tee -a $outputDir/Info.txt
+webanalyze -host $url_domain -crawl 1 -silent | tee -a $outputDir/Info.txt
 cd $originalDir
 
 #DNSMAP --> https://dnsdumpster.com 
