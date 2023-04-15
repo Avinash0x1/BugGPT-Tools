@@ -252,6 +252,7 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
          echo $cdn >> $outputDir/tmp/cdns.txt
          done
   cat $outputDir/tmp/cdns.txt | sed '/^$/d' | scopegen -wl | anew -q $outputDir/tmp/.scope 
+
   echo -e "${YELLOW}$(cat $outputDir/tmp/.scope)${NC}\n"
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
@@ -522,8 +523,13 @@ else
   echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv4_1${NC} | ${BLUE}$ipv4_2${NC} | ${BLUE}$ipv6_1${NC} | ${BLUE}$ipv6_2${NC}\n ➼ ${GREEN}tcp${NC} only\n"
      sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 $ipv4_1 -oX $outputDir/tmp/nmap/ipv4_1.xml
      sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 $ipv4_2 -oX $outputDir/tmp/nmap/ipv4_2.xml
-     sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6_1 -oX $outputDir/tmp/nmap/ipv6_1.xml
-     sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6_2 -oX $outputDir/tmp/nmap/ipv6_2.xml
+          if [ "$ipv6_1" == "$ipv6_2" ]; then
+              export ipv6="$ipv6_1"  
+              sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6 -oX $outputDir/tmp/nmap/ipv6.xml
+          else    
+              sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6_1 -oX $outputDir/tmp/nmap/ipv6_1.xml
+              sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6_2 -oX $outputDir/tmp/nmap/ipv6_2.xml
+          fi    
   fi
 fi
 # permissions
