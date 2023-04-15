@@ -373,10 +373,10 @@ for path in "${paths[@]}"; do
 done
 #configure wtfis --> $HOME/.env.wtfis
 if [ ! -f "$HOME/.env.wtfis" ]; then
-  echo "VT_API_KEY=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.VirusTotal.Credentials -A 2 | grep -oP "(?<=apikey = ).*")" | anew "$HOME/.env.wtfis"
-  echo "PT_API_KEY=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.PassiveTotal.Credentials -A 2 | grep -oP "(?<=apikey = ).*")" | anew "$HOME/.env.wtfis"  
+  echo "VT_API_KEY=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.VirusTotal.Credentials -A 1 | grep -oP "(?<=apikey = ).*")" | anew "$HOME/.env.wtfis"
+  echo "PT_API_KEY=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.PassiveTotal.Credentials -A 1 | grep -oP "(?<=apikey = ).*")" | anew "$HOME/.env.wtfis"  
   echo "PT_API_USER=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.PassiveTotal.Credentials -A 2 | grep -oP "(?<=username = ).*")" | anew "$HOME/.env.wtfis"   
-  echo "SHODAN_API_KEY=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.Shodan.Credentials -A 2 | grep -oP "(?<=apikey = ).*")" | anew "$HOME/.env.wtfis" 
+  echo "SHODAN_API_KEY=$(cat $HOME/.config/amass/config.ini | grep -i data_sources.Shodan.Credentials -A 1 | grep -oP "(?<=apikey = ).*")" | anew "$HOME/.env.wtfis" 
   echo "IP2WHOIS_API_KEY=" | anew "$HOME/.env.wtfis"
   echo "WTFIS_DEFAULTS=-s -1 -n" | anew "$HOME/.env.wtfis"  
   sudo chmod +xwr $HOME/.env.wtfis
