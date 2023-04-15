@@ -23,7 +23,7 @@ if [[ "$*" == *"-init"* ]] || [[ "$*" == *"--init"* ]] || [[ "$*" == *"init"* ]]
   echo -e "➼ ${GREEN}Initializing weebu...${NC}"
   echo -e "➼ Please ${YELLOW}exit (ctrl + c)${NC} if you already did this" 
   echo "➼ Setting up...$(rm -rf /tmp/example.com 2>/dev/null)"
-  weebu -u https://example.com -o /tmp/example.com --linky --wildcard-scope 
+  weebu -u https://example5.com -o /tmp/example.com --linky --wildcard-scope 
   rm -rf /tmp/example.com 2>/dev/null
   echo ""
   echo -e "${GREEN}Initialized Successfully${NC}"
@@ -169,22 +169,23 @@ done
 
 #Setup Vars & default values
 #Check URL, else httpx from domain
-if [ -s "$url" ]; then
-  export url=$url
-  export URL=$url
-else
+if [ -n "$url_domain" ]; then
     turl=$(echo "$url_domain" | httpx -silent)
-  export url=$turl
-  export URL=$turl
+    export url=$turl
+    export URL=$turl
+elif [ -n "$url" ]; then
+    export URL=$url
 fi
+
 #Check domain, else subxtract from url
-if [ -s "$url_domain" ]; then
-     tdomain=$(echo "$url" | unfurl domains)
-  export url_domain=$tdomain
-else
-     sdomain=$(echo $url_domain | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
-  export url_domain=$sdomain
+if [ -z "$url_domain" ]; then
+    url_domain=$(echo "$url" | unfurl domains)
 fi
+if [ -n "$url_domain" ]; then
+    sdomain=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+    export url_domain=$sdomain
+fi
+
 #output
 export outputDir=$outputDir
 #Select Random token if !ghp
@@ -195,7 +196,6 @@ if [ -z "$githubToken" ]; then
     export githubToken=$random_token
   fi
 fi
-
 #Other
 export optionalHeaders=$optionalHeaders
 export linky=$run_linky
@@ -434,7 +434,7 @@ echo $url_domain | httpx -ports 20,21,22,25,53,80,110,137,139,143,161,443,445,46
 wbappsfile=$(mktemp -d) && cd $wbappsfile && webanalyze -update
 echo -e "\n" | tee -a $outputDir/Info.txt
 echo "--------------------Webanalyzed---TechDetect--------------------" | tee -a $outputDir/Info.txt
-webanalyze -host $url_domain -crawl 1 -silent | tee -a $outputDir/Info.txt
+webanalyze -host $url_domain -crawl 1 -silent | | tee -a $outputDir/Info.txt
 cd $originalDir
 
 #DNSMAP --> https://dnsdumpster.com 
