@@ -326,7 +326,7 @@ if ! command -v pipx >/dev/null 2>&1; then
      fi
 fi
 #Health Check for binaries
-binaries=("anew" "ansi2txt" "cdna" "eget" "fasttld" "httpx" "nmap-formatter" "scopegen" "scopeview" "subxtract" "whris" "wtfis")
+binaries=("anew" "ansi2txt" "cdna" "eget" "fasttld" "httpx" "nmap-formatter" "scopegen" "scopeview" "subxtract" "webanalyze" "whris" "wtfis")
 for binary in "${binaries[@]}"; do
     if ! command -v "$binary" &> /dev/null; then
         echo "➼ Error: $binary not found"
