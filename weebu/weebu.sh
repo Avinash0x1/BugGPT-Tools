@@ -422,9 +422,9 @@ sed -i '/^✓ Fetching domain whois from Virustotal/d' $outputDir/Info.txt
 sed -i '/^✓ Fetching IP enrichments from Shodan/d' $outputDir/Info.txt
 sed -i '/^✓ Fetching domain whois from Passivetotal/d' $outputDir/Info.txt
 #asn detailed trace
-asn -d $url_domain | ansi2txt |sed '/^[B]*$/d' | tee -a $outputDir/Info.txt
+asn -d $url_domain | ansi2txt | sed '/^[B]*$/d' | tee -a $outputDir/Info.txt
 #shodan scan
-asn -s $url_domain | ansi2txt |sed '/^[B]*$/d' | tee -a $TargetDir/1.txt
+asn -s $url_domain | ansi2txt | sed '/^[B]*$/d' | tee -a $TargetDir/1.txt
 echo -e "\n" | tee -a $outputDir/Info.txt
 #TechStack
 #HttpX
@@ -434,7 +434,7 @@ echo $url_domain | httpx -ports 20,21,22,25,53,80,110,137,139,143,161,443,445,46
 wbappsfile=$(mktemp -d) && cd $wbappsfile && webanalyze -update
 echo -e "\n" | tee -a $outputDir/Info.txt
 echo "--------------------Webanalyzed---TechDetect--------------------" | tee -a $outputDir/Info.txt
-webanalyze -host $url_domain -crawl 1 -silent | | tee -a $outputDir/Info.txt
+webanalyze -host $url_domain -crawl 1 -silent | tee -a $outputDir/Info.txt
 cd $originalDir
 
 #DNSMAP --> https://dnsdumpster.com 
