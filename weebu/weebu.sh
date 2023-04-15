@@ -185,7 +185,13 @@ if [ -n "$url_domain" ]; then
     sdomain=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
     export url_domain=$sdomain
 fi
-
+#check health
+timeout 10 echo "$url_domain" | httpx -silent -ports 20,21,22,25,53,80,110,137,139,143,161,443,445,465,587,902,993,995,1433,2379,3000,3306,3389,4004,4194,4443,5432,5900,6443,6666,6782,6783,6784,6969,8000,8008,8080,8081,8088,8888,8443,9000,9001,9002,9090,9099,10000,10250,10255,10256,10443,30876,44134,50000,50001,60000 | grep -q '.'
+if [ $? -ne 0 ]; then
+echo -e "${RED}✘ Error${NC}: Host ${BLUE}$url_domain${NC} is ${YELLOW}unreachable!${NC}"
+echo -e "Please ${YELLOW}double check${NC} your ${BLUE}URL${NC} | ${BLUE}Domain${NC}"
+exit 1
+fi
 #output
 export outputDir=$outputDir
 #Select Random token if !ghp
@@ -403,12 +409,7 @@ fi
 ##
 
 #Main Subroutines
-#check health
-timeout 10 echo "$url_domain" | httpx -silent -ports 20,21,22,25,53,80,110,137,139,143,161,443,445,465,587,902,993,995,1433,2379,3000,3306,3389,4004,4194,4443,5432,5900,6443,6666,6782,6783,6784,6969,8000,8008,8080,8081,8088,8888,8443,9000,9001,9002,9090,9099,10000,10250,10255,10256,10443,30876,44134,50000,50001,60000 | grep -q '.'
-if [ $? -ne 0 ]; then
-echo -e "${RED}✘ Error${NC}: Host ${BLUE}$url_domain${NC} is ${YELLOW}unreachable!${NC}"
-echo -e "Please ${YELLOW}double check${NC} your ${BLUE}URL${NC} | ${BLUE}Domain${NC}"
-fi
+
 
 #INFO: 
 echo -e "➼ INFO: \n" | tee -a $outputDir/Info.txt
