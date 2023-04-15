@@ -23,7 +23,7 @@ if [[ "$*" == *"-init"* ]] || [[ "$*" == *"--init"* ]] || [[ "$*" == *"init"* ]]
   echo -e "➼ ${GREEN}Initializing weebu...${NC}"
   echo -e "➼ Please ${YELLOW}exit (ctrl + c)${NC} if you already did this" 
   echo "➼ Setting up...$(rm -rf /tmp/example.com 2>/dev/null)"
-  weebu -u https://example5.com -o /tmp/example.com --linky 
+  weebu -u https://example5.com -o /tmp/example.com --linky --wildcard-scope 
   rm -rf /tmp/example.com 2>/dev/null
   echo ""
   echo -e "${GREEN}Initialized Successfully${NC}"
@@ -55,7 +55,7 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
   if [ ! -f "$HOME/.config/amass/config.ini" ]; then
     echo -e "Your ${YELLOW}$HOME/.config/amass/config.ini${NC} ${RED}does not exist${NC}. You must create one:${BLUE}https://github.com/owasp-amass/amass/blob/master/examples/config.ini${NC}"
   else
-    echo -e "➼ Specify ${YELLOW}VirusTotal${NC} , ${YELLOW}PassiveTotal${NC} & ${YELLOW}Shodan${NC} ${GREEN}API KEYS${NC} in ${BLUE}$HOME.config/amass/config.ini${NC} if you haven't already!"
+    echo -e "➼ Specify ${YELLOW}VirusTotal${NC} , ${YELLOW}PassiveTotal${NC} & ${YELLOW}Shodan${NC} ${GREEN}API KEYS${NC} in ${BLUE}$HOME/.config/amass/config.ini${NC} if you haven't already!"
     echo -e "➼ Include ${BLUE}IP2WHOIS_API_KEY${NC} in ${BLUE}$HOME/.env.wtfis${NC} to find more info"
   fi  
   echo -e "➼ Include multiple ${GREEN}github_tokens${NC} in ${BLUE}$HOME/.config/.github_tokens${NC} to avoid ${RED}rate limits${NC}" 
