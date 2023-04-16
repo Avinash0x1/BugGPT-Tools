@@ -3,11 +3,14 @@
 #A bit of Styling
 RED='\033[31m'
 GREEN='\033[32m'
+GREY='\033[37m'
 BLUE='\033[34m'
-PURPLE='\033[35m'
 YELLOW='\033[33m'
+PURPLE='\033[35m'
+PINK='\033[38;5;206m'
 RESET='\033[0m'
 NC='\033[0m'
+
 #Banner
 echo -e "${PURPLE}"
 cat << "EOF"
@@ -43,24 +46,35 @@ if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; 
   echo -e "➼ ${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.. It's a feature not a bug"
   exit 0
 fi
+
 # Update. Github caches take several minutes to reflect globally  
 if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
   echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
-  REMOTE_FILE=$(mktemp)
-  curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
-  if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
-    echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-    dos2unix $REMOTE_FILE > /dev/null 2>&1 
-    sudo mv "$REMOTE_FILE" /usr/local/bin/wordium && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
-    sudo chmod +xwr /usr/local/bin/wordium
-    rm -f "$REMOTE_FILE" 2>/dev/null
-  else
-    echo -e "➼ ${GREEN}Already UptoDate${NC}"
-    rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-  fi
+      if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
+             echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
+             dos2unix $REMOTE_FILE > /dev/null 2>&1 
+             sudo mv "$REMOTE_FILE" /usr/local/bin/wordium && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}\n" 
+             echo -e "➼ ${YELLOW}ChangeLog:${NC} ${PINK}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=wordium/wordium.sh | jq -r '.[0].commit.message')${NC}"
+             echo -e "${YELLOW}Pushed at${NC}: ${BLUE}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=wordium/wordium.sh | jq -r '.[0].commit.author.date')${NC}\n"
+             sudo chmod +xwr /usr/local/bin/wordium
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             else
+             echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
+             echo -e "➼ Most ${YELLOW}recent change${NC} was on: ${BLUE}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=wordium/wordium.sh | jq -r '.[0].commit.author.date')${NC} [${PINK}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=wordium/wordium.sh | jq -r '.[0].commit.message')${NC}]\n"             
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             exit 0
+             fi
+     else
+         echo -e "➼ ${YELLOW}Github.com${NC} is ${RED}unreachable${NC}"
+         echo -e "➼ ${YELLOW}Try again later!${NC} "
+         exit 1
+     fi
   exit 0
 fi
+
 # Accepts wildcard options ( -w*)
 while getopts ":w:-:" opt; do
   case $opt in
@@ -240,14 +254,16 @@ echo -e "➼ ${BLUE}x-lhf-large.txt${NC} : ${GREEN}$(wc -l $WORDLIST/x-lhf-large
 echo -e "➼ ${BLUE}x-massive.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-massive.txt)${NC}\n" 
 
 #Check For Update on Script end
-echo ""
-REMOTE_FILE=$(mktemp)
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
-if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
-echo ""
-echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(wordium -up)" 
-  else
-  rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-fi
+#Update. Github caches take several minutes to reflect globally  
+   if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
+              echo ""
+              echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(wordium -up)" 
+         else
+            rm -f "$REMOTE_FILE" 2>/dev/null
+              exit 0
+         fi
+   fi
 #EOF
