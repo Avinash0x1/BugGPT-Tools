@@ -159,7 +159,7 @@ while [[ "$dir_to_check" != "/" ]]; do
     git clone https://github.com/six2dez/OneListForAll 2>/dev/null
     git clone https://github.com/rix4uni/WordList 2>/dev/null
     #Mark Safe
-    find $dir_to_check -type d -name '.git' -exec sh -c 'cd "$(dirname "{}")" && git config --global --add safe.directory "$(pwd)"' \; 
+    find $dir_to_check -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \;
     break
   fi
   dir_to_check=$(dirname "$dir_to_check")
@@ -183,7 +183,8 @@ while [[ "$dir_to_check" != "/" ]]; do
   fi
 done
 #Sync Repos to @latest
-find $WORDLIST -maxdepth 1 -type d -exec sh -c '(cd {} && [ -d .git ] && echo "Updating {} to @latest" && git pull)' \;
+find $WORDLIST -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \;
+find $WORDLIST -maxdepth 1 -type d -exec sh -c '(cd {} && echo "Updating {} to @latest" && git pull 2>/dev/null )' \;
 #Begins
 #echo -e "➼${YELLOW}Fetching & Updating${NC} from ${BLUE}WORDLIST/WORDLIST${NC} \n" 
 #echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : $()${NC}" 
