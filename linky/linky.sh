@@ -245,11 +245,11 @@ if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
          done
   cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope
   echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
-  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 else
   echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo $domain | scopegen -in | anew -q $outputDir/.scope
-  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 fi
 #Wildcard
 if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
@@ -267,11 +267,11 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
          done 
   cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope      
 #Cleans bad chars
-  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo $domain | scopegen -in | anew -q $outputDir/.scope
-  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 fi
 echo -e "${BLUE}Scope is set as:${NC} " 
 echo -e "${GREY}$(cat $outputDir/.scope)${NC}\n"
