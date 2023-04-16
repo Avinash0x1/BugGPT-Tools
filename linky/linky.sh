@@ -369,7 +369,7 @@ if ! command -v pipx >/dev/null 2>&1; then
      fi
 fi
 #Health Check for binaries
-binaries=("anew" "ansi2tx" "arjun" "fasttld" "fff" "fget" "gau" "godeclutter" "gospider" "hakrawler" "js-beautify" "katana" "nuclei" "roboxtractor" "scopegen" "scopeview" "subjs" "trufflehog" "unfurl" "waybackurls" "yataf")
+binaries=("anew" "ansi2txt" "arjun" "fasttld" "fff" "fget" "gau" "godeclutter" "gospider" "hakrawler" "js-beautify" "katana" "nuclei" "roboxtractor" "scopegen" "scopeview" "subjs" "trufflehog" "unfurl" "waybackurls" "yataf")
 for binary in "${binaries[@]}"; do
     if ! command -v "$binary" &> /dev/null; then
         echo "➼ Error: $binary not found"
