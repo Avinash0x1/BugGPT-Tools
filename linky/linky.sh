@@ -87,6 +87,7 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
          echo -e "➼ ${YELLOW}Try again later!${NC} "
          exit 1
      fi
+  exit 0
 fi
 
 # Parse command line options
@@ -706,3 +707,4 @@ fi
               exit 0
          fi
    fi
+#EOF
