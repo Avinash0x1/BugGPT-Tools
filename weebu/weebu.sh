@@ -3,6 +3,7 @@
 #A bit of Styling
 RED='\033[31m'
 GREEN='\033[32m'
+DGREEN='\033[38;5;28m'
 GREY='\033[37m'
 BLUE='\033[34m'
 YELLOW='\033[33m'
@@ -10,6 +11,7 @@ PURPLE='\033[35m'
 PINK='\033[38;5;206m'
 RESET='\033[0m'
 NC='\033[0m'
+
 #Banner
 echo -e "${PURPLE}"
 cat << "EOF"
@@ -74,13 +76,13 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
              echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
              dos2unix $REMOTE_FILE > /dev/null 2>&1 
              sudo mv "$REMOTE_FILE" /usr/local/bin/weebu && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}\n" 
-             echo -e "➼ ${YELLOW}ChangeLog:${NC} ${PINK}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.message')${NC}"
-             echo -e "➼ ${YELLOW}Pushed at${NC}: ${BLUE}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.author.date')${NC}\n"
+             echo -e "➼ ${YELLOW}ChangeLog:${NC} ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.message')${NC}"
+             echo -e "➼ ${YELLOW}Pushed at${NC}: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.author.date')${NC}\n"
              sudo chmod +xwr /usr/local/bin/weebu
              rm -f "$REMOTE_FILE" 2>/dev/null
              else
              echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
-             echo -e "➼ Most ${YELLOW}recent change${NC} was on: ${BLUE}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.author.date')${NC} [${PINK}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.message')${NC}]\n"             
+             echo -e "➼ Most ${YELLOW}recent change${NC} was on: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.author.date')${NC} [${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=weebu/weebu.sh | jq -r '.[0].commit.message')${NC}]\n"             
              rm -f "$REMOTE_FILE" 2>/dev/null
              exit 0
              fi
