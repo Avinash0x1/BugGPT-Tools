@@ -519,24 +519,27 @@ else
      sudo nmap -A -sU -sT -p1-65535 -Pn -v --min-rate 5000 --min-parallelism 200 -6 $ipv6_1 -oX $outputDir/tmp/nmap/tcudp_ipv6_1.xml
      sudo nmap -A -sU -sT -p1-65535 -Pn -v --min-rate 5000 --min-parallelism 200 -6 $ipv6_2 -oX $outputDir/tmp/nmap/tcudp_ipv6_2.xml
   else
-  echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv4_1${NC} | ${BLUE}$ipv4_2${NC} | ${BLUE}$ipv6_1${NC} | ${BLUE}$ipv6_2${NC}\n ➼ ${GREEN}tcp${NC} only\n"
+     echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv4_1${NC}\n ➼ ${GREEN}tcp${NC} only\n"
      sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 $ipv4_1 -oX $outputDir/tmp/nmap/ipv4_1.xml
+     echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv4_2${NC}\n ➼ ${GREEN}tcp${NC} only\n"
      sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 $ipv4_2 -oX $outputDir/tmp/nmap/ipv4_2.xml
           if [ "$ipv6_1" == "$ipv6_2" ]; then
               export ipv6="$ipv6_1"  
+              echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv6${NC}\n ➼ ${GREEN}tcp${NC} only\n"
               sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6 -oX $outputDir/tmp/nmap/ipv6.xml
           else    
+              echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv6_1${NC}\n ➼ ${GREEN}tcp${NC} only\n"
               sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6_1 -oX $outputDir/tmp/nmap/ipv6_1.xml
+              echo -e "${YELLOW}ⓘ nmapping ${BLUE}$ipv6_2${NC}\n ➼ ${GREEN}tcp${NC} only\n"
               sudo nmap -A -p1-65535 -Pn -v --min-rate 2000 -6 $ipv6_2 -oX $outputDir/tmp/nmap/ipv6_2.xml
           fi    
   fi
 fi
 # permissions
 find $outputDir -type f -exec sudo chmod +xwr {} \; -o -type d -exec chmod +xwr {} \;
+echo -e "\n"
 # Parse Output & Clean Results
 find $outputDir/tmp/nmap -type f -name "*.xml" -print0 | xargs -0 -I {} sh -c 'prefix="$url_domain-"; filename=$(basename "{}" .xml); output_file="${prefix}${filename}.html"; nmap-formatter html "{}" > "$output_file"'
-
-
 
 
 #linky
@@ -554,7 +557,6 @@ rm -rf $outputDir/linky 2>/dev/null ; mkdir -p $outputDir/linky
     flags+=("-wl")
   fi
   echo -e "➼ Running ${GREEN}ⓘ Linky${NC} on ${BLUE}$url${NC} with flags: ${YELLOW}${flags[*]}${NC}\n"
-  sleep 50s
   linky -u $linky_url -o $outputDir/linky "${flags[@]}"
 fi
 
@@ -572,7 +574,7 @@ find $outputDir -type f -size 0 -delete && find $outputDir -type d -empty -delet
 
 
 #Check For Update on Script end
-echo ""
+echo -e "\n"
 REMOTE_FILE=$(mktemp)
 curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -o "$REMOTE_FILE"
 if ! diff --brief /usr/local/bin/weebu "$REMOTE_FILE" >/dev/null 2>&1; then
