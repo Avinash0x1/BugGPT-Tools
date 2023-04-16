@@ -232,7 +232,6 @@ alt_scope_domain=$(fasttld extract $url | grep -E 'domain:|suffix:' | awk '{prin
 #Extract full domain name
 domain=$(echo "$url" | unfurl domains)
 #Set .scope 
-echo ""
 #Flex Scope
 if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
   echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
