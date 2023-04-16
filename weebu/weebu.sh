@@ -274,12 +274,11 @@ if ! command -v go &> /dev/null 2>&1; then
     sudo su -c "bash <(curl -sL https://git.io/go-installer)"
 else
     GO_VERSION=$(go version | awk '{print $3}')
-if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
+    if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
         echo "➼ golang version 1.20.0 or greater is not installed. Installing..."
         cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
         source /etc/profile.d/golang_path.sh
-    #else
-    #    echo ""
+        sudo su -c "bash <(curl -sL https://git.io/go-installer)"
     fi
 fi
 #asn
@@ -310,6 +309,7 @@ if ! command -v pipx >/dev/null 2>&1; then
      #pipx
      python3 -m pip install pipx
      python3 -m pipx ensurepath
+     pip install --upgrade pip
      sudo su -c "python3 -m pip install pipx"
      sudo su -c "python3 -m pipx ensurepath"
 fi
@@ -323,15 +323,27 @@ if ! command -v pipx >/dev/null 2>&1; then
              echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.profile
              echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.profile
              echo 'eval "$(pyenv init -)"' >>  $HOME/.profile
+             exec "$SHELL"
+             #set pyenv global vars
+             pyenv install 3.11.2
+             pyenv global 3.11.2 
      elif [ "$SHELL" = "/bin/zsh" ]; then
              echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.zshrc
              echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.zshrc && source  $HOME/.zshrc
              echo 'eval "$(pyenv init -)"' >>  $HOME/.zshrc
              source  $HOME/.zshrc
+             exec "$SHELL"
+            #set pyenv global vars
+             pyenv install 3.11.2
+             pyenv global 3.11.2              
      elif [ "$SHELL" = "/usr/bin/fish" ]; then
              set -Ux PYENV_ROOT $HOME/.pyenv
              set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
-            echo "pyenv init - | source" >> $HOME/.config/fish/config.fish
+             echo "pyenv init - | source" >> $HOME/.config/fish/config.fish
+             exec "$SHELL"
+            #set pyenv global vars
+             pyenv install 3.11.2
+             pyenv global 3.11.2              
      else
            echo "Unknown shell: $SHELL"
      fi
@@ -416,6 +428,16 @@ fi
 ##
 
 #Main Subroutines
+#Check if latest python:
+if python3 -c 'import sys; print(sys.version_info >= (3, 11, 0))'; then
+   echo -e "➼ ${YELLOW}Python =>3.11.0${NC} ?\n ${GREEN}✓ Yes!${NC}"
+else
+   echo -e "➼ ${BLUE}Installing${NC} ${YELLOW}python 3.11.2${NC}, ${GREEN}Press${NC} ${PURPLE}Y${NC} & ${GREEN}Enter${NC}"
+   pyenv install 3.11.2
+   pyenv global 3.11.2
+fi
+#set pyenv global vars
+pyenv global 3.11.2 
 #INFO: 
 echo -e "➼ INFO: \n" | tee -a $outputDir/Info.txt
 #Whris:
@@ -462,14 +484,6 @@ else
 fi
 
 #Headers
-#Check if latest python:
-if python3 -c 'import sys; print(sys.version_info >= (3, 11, 0))'; then
-   echo -e "➼ ${YELLOW}Python =>3.11.0${NC} ?\n ${GREEN}✓ Yes!${NC}"
-else
-   echo -e "➼ ${BLUE}Installing${NC} ${YELLOW}python 3.11.2${NC}, ${GREEN}Press${NC} ${PURPLE}Y${NC} & ${GREEN}Enter${NC}"
-   pyenv install 3.11.2
-   pyenv global 3.11.2
-fi
 #Run Humble
 cd $TOOLS/humble && python3 $TOOLS/humble/humble.py -u $url -r -o html
 mv $TOOLS/humble/*.html $outputDir/$url_domain-headers.html
