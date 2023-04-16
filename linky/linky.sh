@@ -64,24 +64,31 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
   echo -e "➼ ${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.. It's a feature not a bug\n"
   exit 0
 fi
+
 # Update. Github caches take several minutes to reflect globally  
 if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
   echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
-  REMOTE_FILE=$(mktemp)
-  curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/linky.sh -o "$REMOTE_FILE"
-  if ! diff --brief /usr/local/bin/linky "$REMOTE_FILE" >/dev/null 2>&1; then
-    echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-    dos2unix $REMOTE_FILE > /dev/null 2>&1 
-    sudo mv "$REMOTE_FILE" /usr/local/bin/linky && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
-    sudo chmod +xwr /usr/local/bin/linky
-    rm -f "$REMOTE_FILE" 2>/dev/null
-  else
-    echo -e "➼ ${YELLOW}Already UptoDate${NC}"
-    rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-  fi
-  exit 0
+      if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/linky.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/linky "$REMOTE_FILE" >/dev/null 2>&1; then
+             echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
+             dos2unix $REMOTE_FILE > /dev/null 2>&1 
+             sudo mv "$REMOTE_FILE" /usr/local/bin/linky && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
+             sudo chmod +xwr /usr/local/bin/linky
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             else
+             echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             exit 0
+             fi
+     else
+         echo -e "➼ ${YELLOW}Github.com${NC} is ${RED}unreachable${NC}"
+         echo -e "➼ ${YELLOW}Try again later!${NC} "
+         exit 1
+     fi
 fi
+
 # Parse command line options
 while [[ $# -gt 0 ]]
 do
@@ -575,6 +582,7 @@ cat $outputDir/jsfile-links.txt | grep -aEo 'https?://[^ ]+' | sed 's/]$//' | an
 cat $outputDir/jsfiles-params.txt | anew $outputDir/parameters.txt 
 #Yataf for JS
 rm -rf /tmp/yataf ; rm -rf $outputDir/Secrets/yataf
+mkdir -p $outputDir/Secrets/yataf
 path_to_directory="$outputDir/jsfiles/" ; log_directory="/tmp/yataf" ; mkdir -p "$log_directory"
 find "$path_to_directory" -type f -exec sh -c 'yataf -file "$1" 2>&1 | sed -E '\''s/'$(echo -e "\033")'\[[0-9]{1,2}(;([0-9]{1,2})?)?[mK]//g'\'' | tee -a "$2/$(basename "$1").yataf.log"' _ {} "$log_directory" \;
 # Copy Results and Filter
@@ -590,18 +598,51 @@ if [ -n "$scan_secrets" ]; then
 #Download Responses
  mkdir -p $outputDir/Secrets/fff-urls
  cat $outputDir/urls.txt | fff --header 'Authorization: Bearer null' --save-status 200 --save-status 405 --save-status 401 --save-status 403 -o $outputDir/Secrets/fff-urls
-#gf-Secrets
- cd $outputDir && $HOME/Tools/gf-secrets/gf-secrets.sh | tee -a $outputDir/Secrets/gf-secrets.txt 
+#Extensive: gf-Secrets
+ echo -e "${RED}Extensive Secret Scannig${NC} ${YELLOW}Initiated${NC}\n$(sleep 5s)"
+ cd $outputDir && $HOME/Tools/gf-secrets/gf-secrets.sh | tee -a $outputDir/Secrets/gf-secrets.txt &
+ pid=$!
+ while true; do
+  size=$(du -m $outputDir/Secrets/gf-secrets.txt | awk '{print $1}')
+  if [ $size -gt 7000 ]; then
+    kill $pid
+    echo -e "${YELLOW}File size limit exceeded ${RED}7GBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
+    break
+  fi
+  sleep 1
+ done
 #Trufflehog
  trufflehog filesystem --directory=$outputDir/ --concurrency 70 | tee -a $outputDir/Secrets/trufflehog.txt && clear
 else
- echo "Extensive Secret Scannig Skipped$(sleep 5s)"
+#Basic: gf-Secrets
+ echo -e "${RED}Extensive Secret Scannig${NC} ${GREEN}Skipped${NC}\n$(sleep 5s)"
  mkdir -p $outputDir/Secrets/fff-urls
  cat $outputDir/urls.txt | fff --header 'Authorization: Bearer null' --save-status 200 --save-status 405 --save-status 401 --save-status 403 -o $outputDir/Secrets/fff-urls
- find $outputDir -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt
- find $outputDir -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt
- find $outputDir -type f -exec gf truffle {} \; | tee -a $outputDir/Secrets/gf-secrets.txt 
- #find $outputDir -type f -exec cat {} + | gf api-keys | tee -a $outputDir/Secrets/gf-api-keys.txt
+#gf api-keys
+ find $outputDir -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt &
+ pid=$!
+ while true; do
+  size=$(du -m $outputDir/Secrets/gf-api-keys.txt | awk '{print $1}')
+  if [ $size -gt 20 ]; then
+    kill $pid
+    echo -e "${YELLOW}File size limit exceeded ${RED}20MBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
+    break
+  fi
+  sleep 1
+ done
+#gf secrets
+find $outputDir -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt &
+ pid=$!
+ while true; do
+  size=$(du -m $outputDir/Secrets/gf-secrets.txt | awk '{print $1}')
+  if [ $size -gt 20 ]; then
+    kill $pid
+    echo -e "${YELLOW}File size limit exceeded ${RED}20MBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
+    break
+  fi
+  sleep 1
+ done
+#Trufflehog
  trufflehog filesystem --directory=$outputDir/ --concurrency 70 | tee -a $outputDir/Secrets/trufflehog.txt && clear
  echo "" && clear
 fi
@@ -653,13 +694,15 @@ rm -rf $outputDir/tmp 2>/dev/null
 fi
 
 #Check For Update on Script end
-echo ""
-REMOTE_FILE=$(mktemp)
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/linky.sh -o "$REMOTE_FILE"
-if ! diff --brief /usr/local/bin/linky "$REMOTE_FILE" >/dev/null 2>&1; then
-echo ""
-echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(linky -up)" 
-  else
-  rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-fi
+#Update. Github caches take several minutes to reflect globally  
+   if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/linky.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/linky "$REMOTE_FILE" >/dev/null 2>&1; then
+              echo ""
+              echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(linky -up)" 
+         else
+            rm -f "$REMOTE_FILE" 2>/dev/null
+              exit 0
+         fi
+   fi
