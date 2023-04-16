@@ -253,13 +253,13 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
          done
   cat $outputDir/tmp/cdns.txt | sed '/^$/d' | scopegen -wl | anew -q $outputDir/tmp/.scope 
   #Cleans bad chars
-  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/tmp/.scope
   echo -e "${YELLOW}$(cat $outputDir/tmp/.scope)${NC}\n"
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo -e "${BLUE}Scope is set as:${NC}\n" && mkdir -p $outputDir/tmp
   echo $url_domain | scopegen -in | anew -q $outputDir/tmp/.scope
-  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/tmp/.scope
   echo -e "${GREY}$(cat $outputDir/tmp/.scope)${NC}\n"  
 fi
 echo -e "${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.."
