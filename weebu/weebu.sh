@@ -252,12 +252,14 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
          echo $cdn >> $outputDir/tmp/cdns.txt
          done
   cat $outputDir/tmp/cdns.txt | sed '/^$/d' | scopegen -wl | anew -q $outputDir/tmp/.scope 
-
+  #Cleans bad chars
+  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
   echo -e "${YELLOW}$(cat $outputDir/tmp/.scope)${NC}\n"
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo -e "${BLUE}Scope is set as:${NC}\n" && mkdir -p $outputDir/tmp
   echo $url_domain | scopegen -in | anew -q $outputDir/tmp/.scope
+  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
   echo -e "${GREY}$(cat $outputDir/tmp/.scope)${NC}\n"  
 fi
 echo -e "${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.."
@@ -413,8 +415,6 @@ fi
 ##
 
 #Main Subroutines
-
-
 #INFO: 
 echo -e "➼ INFO: \n" | tee -a $outputDir/Info.txt
 #Whris:
@@ -484,7 +484,6 @@ fi
 ##Ports
 #Nmap
 mkdir -p $outputDir/tmp/nmap
--oX
 if [ "$ipv4_1" == "$ipv4_2" ]; then
   export ipv4="$ipv4_1"
   if [ -n "$tcp_udp" ]; then 
@@ -555,6 +554,7 @@ rm -rf $outputDir/linky 2>/dev/null ; mkdir -p $outputDir/linky
     flags+=("-wl")
   fi
   echo -e "➼ Running ${GREEN}ⓘ Linky${NC} on ${BLUE}$url${NC} with flags: ${YELLOW}${flags[*]}${NC}\n"
+  sleep 50s
   linky -u $linky_url -o $outputDir/linky "${flags[@]}"
 fi
 
