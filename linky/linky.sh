@@ -293,6 +293,12 @@ echo "It's a feature not a bug!"
 echo ""
 
 #Dependency Checks
+#aptitude
+if ! command -v aptitude >/dev/null 2>&1; then
+    echo "➼ aptitude is not installed. Installing..."
+    sudo apt-get install aptitude -y
+    sudo aptitude install bzip2 python3-bz2file libncurses-dev libreadline-dev libcurl4-openssl-dev libssl-dev readline-common sqlite3 tk lzma make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git -y
+fi
 #Chromium webdrivers
 if ! command -v chromium >/dev/null 2>&1; then
     echo "➼ chromium-chromedriver is not installed. Installing..."
@@ -441,13 +447,15 @@ for path in "${paths[@]}"; do
         chmod +x $HOME/Tools/JSA/automation.sh && chmod +x $HOME/Tools/JSA/automation/404_js_wayback.sh
         #xnl-h4ck3r/Urless
         cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/urless.git && cd $HOME/Tools/urless 
-        python3 $HOME/Tools/urless/setup.py install
+        sudo python3 $HOME/Tools/urless/setup.py install
         #xnl-h4ck3r/Waymore
-        cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/waymore.git && cd $HOME/Tools/waymore  && pip3 install -r requirements.txt 
-        cd $HOME/Tools/waymore && python3 $HOME/Tools/waymore/setup.py install
+        cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/waymore.git && cd $HOME/Tools/waymore 
+        python3 -m pip install argparse PyYAML requests setuptools termcolor psutil urlparse3
+        pip3 install -r requirements.txt 
+        cd $HOME/Tools/waymore && sudo python3 $HOME/Tools/waymore/setup.py install
         #xnl-h4ck3r/xnLinkFinder 
         cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/xnLinkFinder.git && cd $HOME/Tools/xnLinkFinder
-        python3 $HOME/Tools/xnLinkFinder/setup.py install        
+        sudo python3 $HOME/Tools/xnLinkFinder/setup.py install        
     fi
 done
 
