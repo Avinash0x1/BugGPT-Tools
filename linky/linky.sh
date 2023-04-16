@@ -279,57 +279,104 @@ echo "It's a feature not a bug!"
 echo ""
 
 #Dependency Checks
+#Chromium webdrivers
 if ! command -v chromium >/dev/null 2>&1; then
     echo "➼ chromium-chromedriver is not installed. Installing..."
     sudo apt-get update && sudo apt-get install chromium chromium-chromedriver chromium-common chromium-driver -y
 fi
+#dos2unix
 if ! command -v dos2unix >/dev/null 2>&1; then
     echo "➼ dos2unix is not installed. Installing..."
     sudo apt-get update && sudo apt-get install dos2unix -y
 fi
+#go
 if ! command -v go &> /dev/null 2>&1; then
     echo "➼ golang is not installed. Installing..."
     cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
     source /etc/profile.d/golang_path.sh
+    sudo su -c "bash <(curl -sL https://git.io/go-installer)"
+
 else
     GO_VERSION=$(go version | awk '{print $3}')
-if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
+    if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
         echo "➼ golang version 1.20.0 or greater is not installed. Installing..."
         cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
         source /etc/profile.d/golang_path.sh
-    else
-        echo ""
+        sudo su -c "bash <(curl -sL https://git.io/go-installer)"
     fi
 fi
+#go updater
 if ! command -v gup >/dev/null 2>&1; then
     echo "➼ gup is not installed. Installing..."
     go install -v github.com/nao1215/gup@latest && clear
     echo "➼ Updating all your go tools..keep patience..."
 fi
+#npm global
 if ! command -v npm &> /dev/null 2>&1; then
     echo "➼ npm is not installed. Installing..."
     sudo apt-get update && sudo apt-get install npm -y
 fi
+#parallel
 if ! command -v parallel >/dev/null 2>&1; then
     echo "➼ parallel is not installed. Installing..."
     sudo apt-get update && sudo apt-get install parallel -y
 fi
+#pip3
 if ! command -v pip3 &> /dev/null; then
    echo "➼ python3-pip is not installed. Installing..." 
    sudo apt-get update && sudo apt-get install python3-pip -y
+   pip install --upgrade pip
 fi
+#pipx
 if ! command -v pipx &> /dev/null; then
    echo "➼ pipx is not installed. Installing..." 
    python3 -m pip install pipx
    python3 -m pipx ensurepath
 fi
+#pyenv
+if ! command -v pipx >/dev/null 2>&1; then
+    curl -skq https://pyenv.run | bash
+    if [ "$SHELL" = "/bin/bash" ]; then
+             echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $HOME/.bashrc
+             echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.bashrc
+             echo 'eval "$(pyenv init -)"' >>  $HOME/.bashrc
+             echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.profile
+             echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.profile
+             echo 'eval "$(pyenv init -)"' >>  $HOME/.profile
+             exec "$SHELL"
+            #set pyenv global vars
+             pyenv install 3.11.2
+             pyenv global 3.11.2  
+     elif [ "$SHELL" = "/bin/zsh" ]; then
+             echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.zshrc
+             echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.zshrc && source  $HOME/.zshrc
+             echo 'eval "$(pyenv init -)"' >>  $HOME/.zshrc
+             source  $HOME/.zshrc
+             exec "$SHELL"
+            #set pyenv global vars
+             pyenv install 3.11.2
+             pyenv global 3.11.2 
+     elif [ "$SHELL" = "/usr/bin/fish" ]; then
+             set -Ux PYENV_ROOT $HOME/.pyenv
+             set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+             echo "pyenv init - | source" >> $HOME/.config/fish/config.fish
+             exec "$SHELL"
+            #set pyenv global vars
+             pyenv install 3.11.2
+             pyenv global 3.11.2              
+     else
+           echo "Unknown shell: $SHELL"
+     fi
+fi
 #Health Check for binaries
-binaries=("anew" "arjun" "fasttld" "fff" "fget" "gau" "godeclutter" "gospider" "hakrawler" "js-beautify" "katana" "nuclei" "roboxtractor" "scopegen" "scopeview" "subjs" "trufflehog" "unfurl" "waybackurls" "yataf")
+binaries=("anew" "ansi2tx" "arjun" "fasttld" "fff" "fget" "gau" "godeclutter" "gospider" "hakrawler" "js-beautify" "katana" "nuclei" "roboxtractor" "scopegen" "scopeview" "subjs" "trufflehog" "unfurl" "waybackurls" "yataf")
 for binary in "${binaries[@]}"; do
     if ! command -v "$binary" &> /dev/null; then
         echo "➼ Error: $binary not found"
         echo "➼ Attempting to Install missing tools"
         go install -v github.com/tomnomnom/anew@latest
+        #ansi2txt
+        pip3 install ansi2txt
         pipx install -f "git+https://github.com/s0md3v/Arjun.git" --include-deps
         go install -v github.com/lc/gau/v2/cmd/gau@latest
         sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/assets/fasttld -O /usr/local/bin/fasttld && sudo chmod +xwr /usr/local/bin/fasttld
@@ -356,7 +403,10 @@ paths=("$HOME/Tools/JSA/automation.sh" "$HOME/Tools/Arjun/arjun/db/large.txt" "$
 for path in "${paths[@]}"; do
     if [ ! -f "$path" ]; then
         echo "➼ Error: $path not found"
-        echo "➼ Attempting to Install missing tools under $HOME/Tools $(mkdir -p $HOME/Tools)"    
+        echo "➼ Attempting to Install missing tools under $HOME/Tools $(mkdir -p $HOME/Tools)"  
+        #set pyenv global vars
+        pyenv install 3.11.2
+        pyenv global 3.11.2  
         #Arjun
         cd $HOME/Tools && git clone https://github.com/s0md3v/Arjun.git   
         #Setup gf-patterns
@@ -377,17 +427,19 @@ for path in "${paths[@]}"; do
         chmod +x $HOME/Tools/JSA/automation.sh && chmod +x $HOME/Tools/JSA/automation/404_js_wayback.sh
         #xnl-h4ck3r/Urless
         cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/urless.git && cd $HOME/Tools/urless 
-        sudo python3 $HOME/Tools/urless/setup.py install
+        python3 $HOME/Tools/urless/setup.py install
         #xnl-h4ck3r/Waymore
         cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/waymore.git && cd $HOME/Tools/waymore  && pip3 install -r requirements.txt 
-        cd $HOME/Tools/waymore && sudo python3 $HOME/Tools/waymore/setup.py install
+        cd $HOME/Tools/waymore && python3 $HOME/Tools/waymore/setup.py install
         #xnl-h4ck3r/xnLinkFinder 
         cd $HOME/Tools && git clone https://github.com/xnl-h4ck3r/xnLinkFinder.git && cd $HOME/Tools/xnLinkFinder
-        sudo python3 $HOME/Tools/xnLinkFinder/setup.py install        
+        python3 $HOME/Tools/xnLinkFinder/setup.py install        
     fi
 done
 
 #Start Tools
+#Set pyenv var again
+pyenv global 3.11.2
 #Gau
 echo -e "➼ ${YELLOW}Running ${BLUE}gau${NC} on: ${GREEN}$url${NC}" && sleep 3s
 echo $url | gau --threads 20 | anew $outputDir/tmp/gau-urls.txt
