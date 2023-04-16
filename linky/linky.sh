@@ -233,6 +233,7 @@ alt_scope_domain=$(fasttld extract $url | grep -E 'domain:|suffix:' | awk '{prin
 domain=$(echo "$url" | unfurl domains)
 #Set .scope 
 echo ""
+#Flex Scope
 if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
   echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
    #CDNS 
@@ -244,13 +245,19 @@ if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
          done
   cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope
   echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
+  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
 else
   echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo $domain | scopegen -in | anew -q $outputDir/.scope
+  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
 fi
+#Wildcard
 if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+  #Extract root domain name 
   wl_scope=$(echo "$url" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+  echo $wl_scope | scopegen -wl | anew -q $outputDir/.scope
+  echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
    #CDNS 
     mkdir -p $outputDir/tmp
     CDNs=(adobedtm akamai alibabacloud aliyun amazonaws appsflyer arubacloud aspnetcdn awsstatic azure bootstrapcdn bdimg cachefly cdn cdnjs cdnsun centurylink cloud cloudflare cloudfront cloudinary cloudsigma d3js fastly firebase fontawesome gcorelabs googleapis googletagmanager incapsula jquery jsdelivr keycdn onapp rackspace rawgit scaleaway section stackpath swarmify unpkg vercel yastatic)
@@ -259,11 +266,12 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
          echo $cdn >> $outputDir/tmp/cdns.txt
          done 
   cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope      
-  echo $wl_scope | scopegen -wl | anew -q $outputDir/.scope
-  echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
+#Cleans bad chars
+  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo $domain | scopegen -in | anew -q $outputDir/.scope
+  sed '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d'
 fi
 echo -e "${BLUE}Scope is set as:${NC} " 
 echo -e "${GREY}$(cat $outputDir/.scope)${NC}\n"
@@ -537,9 +545,9 @@ else
  echo "Extensive Secret Scannig Skipped$(sleep 5s)"
  mkdir -p $outputDir/Secrets/fff-urls
  cat $outputDir/urls.txt | fff --header 'Authorization: Bearer null' --save-status 200 --save-status 405 --save-status 401 --save-status 403 -o $outputDir/Secrets/fff-urls
- find . -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt
- find . -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt
- find . -type f -exec gf truffle {} \; | tee -a $outputDir/Secrets/gf-secrets.txt 
+ find $outputDir -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt
+ find $outputDir -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt
+ find $outputDir -type f -exec gf truffle {} \; | tee -a $outputDir/Secrets/gf-secrets.txt 
  #find $outputDir -type f -exec cat {} + | gf api-keys | tee -a $outputDir/Secrets/gf-api-keys.txt
  trufflehog filesystem --directory=$outputDir/ --concurrency 70 | tee -a $outputDir/Secrets/trufflehog.txt && clear
  echo "" && clear
@@ -554,6 +562,7 @@ comm -23 <(sort $outputDir/tmp/tmp-param.txt) "$TMPPARAM" > $outputDir/tmp/tmp-p
 cat $outputDir/tmp/tmp-parameters_filtered.txt | grep -E '\b\w{10,}\b'| grep  '+' | anew -q $outputDir/tmp/ftmp-param.txt
 comm -23 <(sort $outputDir/tmp/tmp-parameters_filtered.txt) $outputDir/tmp/ftmp-param.txt > $outputDir/tmp/ftmp-parameters_filtered.txt
 mv $outputDir/tmp/ftmp-parameters_filtered.txt $outputDir/parameters.txt && rm -rf $outputDir/tmp/ftmp*.txt $outputDir/tmp/tmp*.txt 
+sed -i '/^waymore\|^tmp$\|^EN$\|^w3c$\|^http[s]\?$\|^DTD$/I d' $outputDir/parameters.txt
 #URLs with params
 cd $HOME/Tools/urless && python3 $HOME/Tools/urless/urless.py --input $outputDir/urls.txt -o $outputDir/tmp/param-urless.txt && cd -
 cat $outputDir/urls.txt | godeclutter | anew -q $outputDir/tmp/param-urless.txt   
