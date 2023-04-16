@@ -66,20 +66,25 @@ fi
 # Update. Github caches take several minutes to reflect globally  
 if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
   echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
-  REMOTE_FILE=$(mktemp)
-  curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -o "$REMOTE_FILE"
-  if ! diff --brief /usr/local/bin/weebu "$REMOTE_FILE" >/dev/null 2>&1; then
-    echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-    dos2unix $REMOTE_FILE > /dev/null 2>&1 
-    sudo mv "$REMOTE_FILE" /usr/local/bin/weebu && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
-    sudo chmod +xwr /usr/local/bin/weebu
-    rm -f "$REMOTE_FILE" 2>/dev/null
-  else
-    echo -e "➼ ${YELLOW}Already UptoDate${NC}"
-    rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-  fi
-  exit 0
+     if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/weebu "$REMOTE_FILE" >/dev/null 2>&1; then
+             echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
+             dos2unix $REMOTE_FILE > /dev/null 2>&1 
+             sudo mv "$REMOTE_FILE" /usr/local/bin/weebu && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
+             sudo chmod +xwr /usr/local/bin/weebu
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             else
+             echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             exit 0
+             fi
+     else
+         echo -e "➼ ${YELLOW}Github.com${NC} is ${RED}unreachable${NC}"
+         echo -e "➼ ${YELLOW}Try again later!${NC} "
+         exit 1
+     fi
 fi
 
 # Parse command line options
