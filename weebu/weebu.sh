@@ -554,8 +554,9 @@ fi
 find $outputDir -type f -exec sudo chmod +xwr {} \; -o -type d -exec chmod +xwr {} \;
 echo -e "\n"
 # Parse Output & Clean Results
+cd $outputDir/tmp/nmap 
 find $outputDir/tmp/nmap -type f -name "*.xml" -print0 | xargs -0 -I {} sh -c 'prefix="$url_domain-"; filename=$(basename "{}" .xml); output_file="${prefix}${filename}.html"; nmap-formatter html "{}" > "$output_file"'
-
+cd -
 
 #linky
 if [ -n "$linky" ]; then 
