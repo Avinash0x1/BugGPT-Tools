@@ -85,6 +85,7 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
          echo -e "➼ ${YELLOW}Try again later!${NC} "
          exit 1
      fi
+  exit 0   
 fi
 
 # Parse command line options
@@ -595,14 +596,16 @@ find $outputDir -type f -size 0 -delete && find $outputDir -type d -empty -delet
 
 
 #Check For Update on Script end
-echo -e "\n"
-REMOTE_FILE=$(mktemp)
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -o "$REMOTE_FILE"
-if ! diff --brief /usr/local/bin/weebu "$REMOTE_FILE" >/dev/null 2>&1; then
-echo ""
-echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(weebu -up)" 
-  else
-  rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-fi
+#Update. Github caches take several minutes to reflect globally  
+   if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/weebu "$REMOTE_FILE" >/dev/null 2>&1; then
+              echo ""
+              echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(weebu -up)" 
+         else
+            rm -f "$REMOTE_FILE" 2>/dev/null
+              exit 0
+         fi
+   fi
 #EOF
