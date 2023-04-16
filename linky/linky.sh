@@ -360,15 +360,17 @@ for path in "${paths[@]}"; do
         #Arjun
         cd $HOME/Tools && git clone https://github.com/s0md3v/Arjun.git   
         #Setup gf-patterns
-         cd /tmp/ && git clone https://github.com/NitinYadav00/gf-patterns ; cd /tmp/gf-patterns && mv *.json ~/.gf
-         cd $HOME/Tools && git clone https://github.com/dwisiswant0/gf-secrets 
-         chmod +x $HOME/Tools/gf-secrets/gf-secrets.sh
+        cd /tmp/ && git clone https://github.com/NitinYadav00/gf-patterns ; cd /tmp/gf-patterns && mv *.json ~/.gf
+        cd $HOME/Tools && git clone https://github.com/dwisiswant0/gf-secrets 
+        chmod +x $HOME/Tools/gf-secrets/gf-secrets.sh
         #Using Secres-DB & secpat2gf
-         pip3 install secpat2gf
-         wget https://raw.githubusercontent.com/mazen160/secrets-patterns-db/master/db/rules-stable.yml -O /tmp/rules.yaml 
-         secpat2gf --save -r /tmp/rules.yaml        
+        pip3 install secpat2gf
+        wget https://raw.githubusercontent.com/mazen160/secrets-patterns-db/master/db/rules-stable.yml -O /tmp/rules.yaml 
+        secpat2gf --save -r /tmp/rules.yaml        
         #gwen001/github-search
         cd $HOME/Tools && git clone https://github.com/gwen001/github-search.git && cd $HOME/Tools/github-search && pip3 install -r requirements.txt
+        pip3 install colored 
+        pip install --upgrade pip
         #w9w/JSA
         cd $HOME/Tools && git clone https://github.com/w9w/JSA.git && cd $HOME/Tools/JSA && pip3 install -r requirements.txt
         wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/linky/assets/JSA_automation.sh -O $HOME/Tools/JSA/automation.sh
