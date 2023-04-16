@@ -380,7 +380,8 @@ for path in "${paths[@]}"; do
         #Humble
          cd $HOME/Tools && git clone https://github.com/rfc-st/humble 
          pyenv global 3.11.2
-         cd $HOME/Tools/humble && pip3 install -r requirements.txt         
+         cd $HOME/Tools/humble && pip3 install -r requirements.txt   
+         pip3 install colored && pip install --upgrade pip      
     fi
 done
 #configure wtfis --> $HOME/.env.wtfis
