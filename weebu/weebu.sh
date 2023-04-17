@@ -68,7 +68,7 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
 fi
 
 # Update. Github caches take several minutes to reflect globally  
-if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
+if [[ $# -gt 0 && ( "$*" == *"update"* || "$*" == *"-up"* || "$*" == *"up "* || "$*" == *" up"* ) ]]; then
   echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
       if ping -c 2 github.com > /dev/null; then
       REMOTE_FILE=$(mktemp)
