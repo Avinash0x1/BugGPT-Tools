@@ -58,7 +58,7 @@ More: https://github.com/Azathothas/BugGPT-Tools/tree/main/cdna
 
 	// uses projectdiscovery endpoint with cached data to avoid ip ban
 	// Use cdncheck.New() if you want to scrape each endpoint (don't do it too often or your ip can be blocked)
-	client, err := cdncheck.NewWithCache()
+	client, err := cdncheck.New()
 	if err != nil {
 		if !*noColorPtr {
 			color.Red("! Error contacting cdn.nuclei.sh")
