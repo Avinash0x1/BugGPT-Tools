@@ -1,3 +1,5 @@
+<img src="https://user-images.githubusercontent.com/58171889/232501093-32a48356-281b-4f16-9dbb-f15b4421edf8.gif" width="400" height="300">
+
 ### About:
 A small utility to ***fetch*** , ***check*** & ***list*** **`CDN IPs`** using [**cdncheck**](https://github.com/projectdiscovery/cdncheck).                                                           
 This is ***different*** than [**ipcdn**](https://github.com/six2dez/ipcdn) as it ***directly communicates*** with [**cdn.nuclei.sh**](https://cdn.nuclei.sh/) and doesn't rely on cached ip-ranges. 
