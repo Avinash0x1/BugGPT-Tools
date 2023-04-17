@@ -10,6 +10,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/projectdiscovery/cdncheck"
+	"github.com/rhysd/go-github-selfupdate/selfupdate"
 )
 
 func main() {
@@ -40,7 +41,24 @@ More: https://github.com/Azathothas/BugGPT-Tools/tree/main/cdna
 	green := color.New(color.FgGreen).SprintFunc()
 	orange := color.New(color.FgHiYellow).SprintFunc()
     //check for updates
-	updates.Check("Azathothas", "BugGPT-Tools", "cdna")
+    updater := &selfupdate.Updater{
+        Repo: "Azathothas/BugGPT-Tools/cdna",
+        BinaryName: "cdna",
+    }
+    latest, err := updater.UpdateSelf()
+    if err != nil {
+        if !*noColorPtr {
+            color.Red("! Failed to update")
+        } else {
+            fmt.Println("! Failed to update")
+        }
+    } else if latest.Version != "" {
+        if !*noColorPtr {
+            color.Green("! Updated to version %s", latest.Version)
+        } else {
+            fmt.Printf("! Updated to version %s\n", latest.Version)
+        }
+    }
 	//main functions
 	var scanner *bufio.Scanner
 	if *inputPtr != "" {
