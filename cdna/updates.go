@@ -7,7 +7,7 @@ import (
 )
 
 // Check for updates and ask the user to update if a new version is available
-func Check(owner, repo, tool string) {
+func Check(Azathothas, BugGPT-Tools, cdna string) {
     out, err := exec.Command("git", "remote", "update").CombinedOutput()
     if err != nil {
         fmt.Printf("! Failed to check for updates: %v\n", err)
