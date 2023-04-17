@@ -42,6 +42,7 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
   echo -e "${BLUE}-o${NC},       ${BLUE}--output${NC}           Specify the ${BLUE}directory${NC} to save the output files (${YELLOW}Required${NC})"
   echo -e "${BLUE}-tu${NC},      ${BLUE}--tcp-udp${NC}          Use ${YELLOW}nmap (${RED}TCP${NC} + ${RED}UDP${NC}) ${YELLOW}super slow${NC}"
   echo -e "${BLUE}-linky${NC},   ${BLUE}--linky${NC}            ${YELLOW}Runs ${GREEN}linky${NC} (${BLUE}https://github.com/Azathothas/BugGPT-Tools/tree/main/linky${NC})"
+  echo -e "${BLUE}-fl${NC},      ${BLUE}--flex-scope${NC}       Normal scope but ${YELLOW}include CDNs${NC}"
   echo -e "${BLUE}-wl${NC},      ${BLUE}--wildcard-scope${NC}   Use ${YELLOW}wildcard (${RED}.*${NC}) ${YELLOW}scope${NC} to not miss anything"
   echo -e "${BLUE}-h${NC},       ${BLUE}--headers${NC}          Specify additional ${BLUE}headers${NC} or ${BLUE}cookies${NC} (use ${YELLOW}\"\"${NC}, optional)"
   echo -e "${BLUE}-up,      ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}weebu${NC}\n"
@@ -164,10 +165,14 @@ do
      run_linky=1
      shift
     ;;  
+    -fl|--flex-scope)
+     flex_scope=1
+     shift
+    ;;      
     -wl|--wildcard-scope) 
      wildcard_scope=1
      shift
-    ;;  
+    ;;    
     -tu|--tcp-udp)
      tcp_udp=1
      shift
@@ -219,6 +224,7 @@ fi
 export optionalHeaders=$optionalHeaders
 export linky=$run_linky
 export deep=$deep
+export flex_scope=$flex_scope
 export wildcard=$wildcard_scope
 export tcp_udp=$tcp_udp
 originalDir=$(pwd)
@@ -248,34 +254,54 @@ if [ -n "$tcp_udp" ] && [ "$tcp_udp" -eq 1 ]; then
 else
   echo -e "${YELLOW}nmap ${GREEN}TCP${NC} + ${RED}UDP${NC} ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
-#Scope
+#Scope 
+#domain names:
+sub_scope=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+wild_scope=$(echo "$url" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+url_scope=$(echo "$url_domain" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')  
+   #CDNS 
 mkdir -p $outputDir/tmp
-if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
-  echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-  #Extract root domain name 
-  wild_scope=$(echo "$url" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
-  url_scope=$(echo "$url_domain" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
-  echo -e "${BLUE}Scope is set as:${NC} "
-  echo $wild_scope | scopegen -wl | anew -q $outputDir/tmp/.scope
-  echo $url_scope | scopegen -wl | anew -q $outputDir/tmp/.scope  
-  CDNs=(adobedtm akamai alibabacloud aliyun amazonaws appsflyer arubacloud aspnetcdn awsstatic azure bootstrapcdn bdimg cachefly cdn cdnjs cdnsun centurylink cloud cloudflare cloudfront cloudinary cloudsigma d3js fastly firebase fontawesome gcorelabs googleapis googletagmanager incapsula jquery jsdelivr keycdn onapp rackspace rawgit scaleaway section stackpath swarmify unpkg vercel yastatic)
+  CDNs=(2o7.net adobedtm.com akamaihd.net akamaized.net aliyuncs.com amazonaws.com appsflyer.com arubacloud.com aspnetcdn.com azureedge.net bdimg.com bootstrapcdn.com cachefly.net cdnjs.com cdnsun.net centurylink.net cloudcdn.net cloudflare.com cloudflareinsights.com cloudfront.net cloudinary.com cloudsigma.com core.windows.net d3js.org demdex.net edgekey.net edgesuite.net everesttech.net fastly.net firebase.com fontawesome.com gcdn.co googleapis.com googletagmanager.com incapsula.com jquery.com jquery.com.ui jsdelivr.net kxcdn.com omtrdc.net onappcdn.com rackspacecloud.com rawgit.com scaleway.com section.io ssl.cf1.rackcdn.com stackpathcdn.com swarmify.com unpkg.com vercel.app yastatic.net)
        for cdn in "${CDNs[@]}"
           do
          echo $cdn >> $outputDir/tmp/cdns.txt
-         done
-  cat $outputDir/tmp/cdns.txt | sed '/^$/d' | scopegen -wl | anew -q $outputDir/tmp/.scope 
-  #Cleans bad chars
+         done   
+#Flex Scope
+if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
+  echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+  cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/tmp/.scope
+  echo $url_domain | scopegen -in | anew -q $outputDir/tmp/.scope
+  echo $sub_scope | scopegen -in | anew -q $outputDir/tmp/.scope  
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/tmp/.scope
+else
+  echo -e "${YELLOW}Use flex scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+  echo -e "${BLUE}Scope is set as:${NC}\n" && mkdir -p $outputDir/tmp
+  echo $url_domain | scopegen -in | anew -q $outputDir/tmp/.scope
+  echo $sub_scope | scopegen -in | anew -q $outputDir/tmp/.scope
+  sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/tmp/.scope
+  echo -e "${GREY}$(cat $outputDir/tmp/.scope)${NC}\n"   
+fi          
+#wildcard         
+if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
+  echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+  #Extract root domain name 
+  echo -e "${BLUE}Scope is set as:${NC} "
+  echo $sub_scope | scopegen -wl | anew -q $outputDir/tmp/.scope  
+  echo $wild_scope | scopegen -wl | anew -q $outputDir/tmp/.scope
+  echo $url_scope | scopegen -wl | anew -q $outputDir/tmp/.scope  
+  cat $outputDir/tmp/cdns.txt | sed '/^$/d' | scopegen -in | anew -q $outputDir/tmp/.scope 
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/tmp/.scope
   echo -e "${YELLOW}$(cat $outputDir/tmp/.scope)${NC}\n"
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo -e "${BLUE}Scope is set as:${NC}\n" && mkdir -p $outputDir/tmp
+  echo $sub_scope | scopegen -in | anew -q $outputDir/tmp/.scope
   echo $url_domain | scopegen -in | anew -q $outputDir/tmp/.scope
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/tmp/.scope
   echo -e "${GREY}$(cat $outputDir/tmp/.scope)${NC}\n"  
 fi
 echo -e "${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.."
-echo -e "It's a feature not a bug!\n"
+echo -e "It's a feature not a bug!\n"  
 
 #Dependency Checks
 #Golang
@@ -568,6 +594,7 @@ echo -e "\n"
 # Parse Output & Clean Results
 cd $outputDir/tmp/nmap 
 find $outputDir/tmp/nmap -type f -name "*.xml" -print0 | xargs -0 -I {} sh -c 'prefix="$url_domain-"; filename=$(basename "{}" .xml); output_file="${prefix}${filename}.html"; nmap-formatter html "{}" > "$output_file"'
+mv $outputDir/tmp/nmap*.html $outputDir
 cd -
 
 #linky
@@ -584,6 +611,9 @@ rm -rf $outputDir/linky 2>/dev/null ; mkdir -p $outputDir/linky
   if [ -n "$wildcard" ]; then
     flags+=("-wl")
   fi
+  if [ -n "$flex_scope" ]; then
+    flags+=("-fl")
+  fi  
   echo -e "➼ Running ${GREEN}ⓘ Linky${NC} on ${BLUE}$url${NC} with flags: ${YELLOW}${flags[*]}${NC}\n"
   linky -u $linky_url -o $outputDir/linky "${flags[@]}"
 fi
