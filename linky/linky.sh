@@ -246,17 +246,17 @@ alt_scope_domain=$(fasttld extract $url | grep -E 'domain:|suffix:' | awk '{prin
 #Extract full domain name
 domain=$(echo "$url" | unfurl domains)
 #Set .scope 
-#Flex Scope
-if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
-  echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
    #CDNS 
     mkdir -p $outputDir/tmp
-    CDNs=(adobedtm akamai alibabacloud aliyun amazonaws appsflyer arubacloud aspnetcdn awsstatic azure bootstrapcdn bdimg cachefly cdn cdnjs cdnsun centurylink cloud cloudflare cloudfront cloudinary cloudsigma d3js fastly firebase fontawesome gcorelabs googleapis googletagmanager incapsula jquery jsdelivr keycdn onapp rackspace rawgit scaleaway section stackpath swarmify unpkg vercel yastatic)
+    CDNs=(2o7.net adobedtm.com akamaihd.net akamaized.net aliyuncs.com amazonaws.com appsflyer.com arubacloud.com aspnetcdn.com azureedge.net bdimg.com bootstrapcdn.com cachefly.net cdnjs.com cdnsun.net centurylink.net cloudcdn.net cloudflare.com cloudflareinsights.com cloudfront.net cloudinary.com cloudsigma.com core.windows.net d3js.org demdex.net edgekey.net edgesuite.net everesttech.net fastly.net firebase.com fontawesome.com gcdn.co googleapis.com googletagmanager.com incapsula.com jquery.com jquery.com.ui jsdelivr.net kxcdn.com omtrdc.net onappcdn.com rackspacecloud.com rawgit.com scaleway.com section.io ssl.cf1.rackcdn.com stackpathcdn.com swarmify.com unpkg.com vercel.app yastatic.net)
        for cdn in "${CDNs[@]}"
           do
          echo $cdn >> $outputDir/tmp/cdns.txt
          done
-  cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope
+#Flex Scope
+if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
+  echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+  cat $outputDir/tmp/cdns.txt | scopegen -in| anew -q $outputDir/.scope
   echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 else
@@ -271,18 +271,13 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
   wl_scope=$(echo "$url" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
   echo $wl_scope | scopegen -wl | anew -q $outputDir/.scope
   echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
-   #CDNS 
-    mkdir -p $outputDir/tmp
-    CDNs=(adobedtm akamai alibabacloud aliyun amazonaws appsflyer arubacloud aspnetcdn awsstatic azure bootstrapcdn bdimg cachefly cdn cdnjs cdnsun centurylink cloud cloudflare cloudfront cloudinary cloudsigma d3js fastly firebase fontawesome gcorelabs googleapis googletagmanager incapsula jquery jsdelivr keycdn onapp rackspace rawgit scaleaway section stackpath swarmify unpkg vercel yastatic)
-       for cdn in "${CDNs[@]}"
-          do
-         echo $cdn >> $outputDir/tmp/cdns.txt
-         done 
-  cat $outputDir/tmp/cdns.txt | scopegen -wl | anew -q $outputDir/.scope      
+  cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/.scope      
 #Cleans bad chars
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 else
   echo -e "${YELLOW}Use wildcard scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+  sub_scope=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
+  echo $sub_scope | scopegen -in | anew -q $outputDir/tmp/.scope
   echo $domain | scopegen -in | anew -q $outputDir/.scope
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 fi
