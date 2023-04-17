@@ -8,7 +8,6 @@
 A Fancy Wrapper around [**ASN**](https://github.com/nitefood/asn) | [**whris**](https://github.com/harakeishi/whris) | [**wtfis**](https://github.com/pirxthepilot/wtfis) | [**Humble**](https://github.com/rfc-st/humble) | [**DNSdumpster**](https://github.com/nmmapper/dnsdumpster) | [**nmap**](https://github.com/nmap/nmap) | [**linky**](https://github.com/Azathothas/BugGPT-Tools/tree/main/linky) & more to find as much Info & Data as possible on a single `$DOMAIN`.
 
 ### **Installation**:
- - **Bash**: 
 ```bash 
 sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/weebu/weebu.sh -O /usr/local/bin/weebu && sudo chmod +xwr /usr/local/bin/weebu && weebu --init
 ``` 
@@ -45,6 +44,7 @@ Extended Help
 -o,       --output           Specify the directory to save the output files (Required)
 -tu,      --tcp-udp          Use nmap (TCP + UDP) super slow
 -linky,   --linky            Runs linky (https://github.com/Azathothas/BugGPT-Tools/tree/main/linky)
+-fl,      --flex-scope       Normal scope but include CDNs
 -wl,      --wildcard-scope   Use wildcard (.*) scope to not miss anything
 -h,       --headers          Specify additional headers or cookies (use "", optional)
 -up,      --update           Update weebu
@@ -73,7 +73,7 @@ Tips:
 ### Afterthoughts:
  - **Weebu** is desgned and coded to be used on a **single** `$URL` | `$Domain` **at one time**.
     > If for some reason (not much point, **you will be hit with rate limits, performance issues and more**) , you want weebu to go brrrr....
-    1. Install [interlace](https://github.com/codingo/Interlace) and then: 
+     - Install [interlace](https://github.com/codingo/Interlace) and then: 
         ```bash
         #create a directory (for convenience)
         mkdir -p /tmp/weebu
