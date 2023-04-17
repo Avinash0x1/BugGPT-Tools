@@ -1,3 +1,13 @@
+[**Auto-GPT**](https://github.com/Significant-Gravitas/Auto-GPT) **`||`** [AgentGPT](https://github.com/reworkd/AgentGPT) **`||`** [**ShellGPT**](https://github.com/TheR1D/shell_gpt) **`||`** [**AiChat**](https://github.com/sigoden/aichat) >> **`....`**
+
+<img src="https://user-images.githubusercontent.com/58171889/232448818-b0ccfabf-7f82-4f10-ae7c-07229f3a1741.gif" width="375" height="250">
+
+# Catalogue:
+
+<img src="https://user-images.githubusercontent.com/58171889/232451972-f644e669-3120-4c80-be1e-8d1366518b9e.gif" width="250" height="250">
+
+---
+
 - [**BurpScope**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original-wordmark.svg" width="30" height="30">](https://github.com/Azathothas/BugGPT-Tools/tree/main/burpscope) **➼** Generate BurpSuite Configuration file **`scope.json`** (based on Edoardottt's [genscope](https://github.com/edoardottt/lit-bb-hack-tools/tree/main/genscope))
 ---
 - [**cdna**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original-wordmark.svg" width="30" height="30">](https://github.com/Azathothas/BugGPT-Tools/tree/main/cdna) **➼** A small utility to ***fetch*** , ***check*** & ***list*** **`CDN IPs`** using [**cdncheck**](https://github.com/projectdiscovery/cdncheck).       
@@ -18,13 +28,16 @@
 ---
 
 ---
-**Credit**: **ChatGPT**<img src="https://raw.githubusercontent.com/lencx/ChatGPT/main/public/logo.png" width="30" height="30"> generated these in barely working conditions. Upon hooman feedback, it also fixed it's own bugs.
- 
-**License**: Do whatever you want
+<img src="https://user-images.githubusercontent.com/58171889/232448068-7b04038b-4d18-4e1a-93e3-3c5d83d8cf42.gif" width="400" height="300">
 
-**Maintenance**: Not guaranteed. Bugs? Fork & Fix them yourself (Pull requests are appreciated). Or have ChatGPT do it. 
+<img src="https://user-images.githubusercontent.com/58171889/232442634-b93dcace-6f05-4965-932b-b24d40f9b8e3.png" width="30" height="30">**Credit** : **ChatGPT**<img src="https://raw.githubusercontent.com/lencx/ChatGPT/main/public/logo.png" width="30" height="30"> generated these in ***barely working conditions***. Upon hooman feedback, it also fixed it's own bugs.
 
-**State** :                                                                                                                                                                                                                                                                                                                           
+<img src="https://user-images.githubusercontent.com/58171889/232443092-832ff515-3047-40b2-943b-4e9b3dc01369.png" width="30" height="30">**License**: Do whatever you want
+
+<img src="https://user-images.githubusercontent.com/58171889/232443668-a5bf92ab-4d6e-49f1-a401-a04f24ee17d9.png" width="30" height="30">**Maintenance**: Not guaranteed. Bugs? Fork & Fix them yourself (Pull requests are appreciated). Or have ChatGPT do it. 
+
+
+<img src="https://user-images.githubusercontent.com/58171889/232444023-13f9496f-2caa-444e-b720-677c7df7bd38.png" width="30" height="30">**State** :                       
            ➼ **`Bash`**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bash/bash-original.svg" width="30" height="30"> : Most Stable & Reliable                                                                                                                                 
            ➼   **`Go`**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original-wordmark.svg" width="30" height="30"> : Work In Progess, Stability & Reliability not Guaranteed                                                                                                
            ➼ **`Rust`** <img src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/rust/rust-plain.svg" width="30" height="30"> : Highly Experimental
