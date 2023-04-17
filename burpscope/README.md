@@ -1,4 +1,6 @@
- ### About:
+<img src="https://user-images.githubusercontent.com/58171889/232513074-c4094d42-2f78-41e2-8f76-02956d969576.gif" width="250" height="250">
+
+### About:
 ➼ Generate BurpSuite Configuration file **`scope.json`** (based on Edoardottt's [genscope](https://github.com/edoardottt/lit-bb-hack-tools/tree/main/genscope))     
 Major ***differences*** being able to specify input (`-t`), output (`-o`) flags and printing to `stdout`  
 
