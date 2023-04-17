@@ -324,7 +324,9 @@ fi
 if ! command -v gup >/dev/null 2>&1; then
     echo "➼ gup is not installed. Installing..."
     go install -v github.com/nao1215/gup@latest && clear
-    echo "➼ Updating all your go tools..keep patience..."
+    gup completion
+    exec "$SHELL"
+    echo "➼ Updating all your go tools..keep patience...$(gup update)"
 fi
 #npm global
 if ! command -v npm &> /dev/null 2>&1; then
