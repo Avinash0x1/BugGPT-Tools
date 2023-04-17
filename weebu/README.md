@@ -1,3 +1,6 @@
+<img src="https://user-images.githubusercontent.com/58171889/232510097-dcce6b03-272f-4184-97ef-4da7e8c9fc34.gif" width="225" height="225">
+
+
  ```bash
         ╭╮
 ╭┳┳┳━┳━┫╰┳┳╮
