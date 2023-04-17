@@ -7,10 +7,10 @@ import (
 	"log"
 	"net"
 	"os"
+    // "os/exec"
 
 	"github.com/fatih/color"
 	"github.com/projectdiscovery/cdncheck"
-	"github.com/rhysd/go-github-selfupdate/selfupdate"
 )
 
 func main() {
@@ -40,25 +40,9 @@ More: https://github.com/Azathothas/BugGPT-Tools/tree/main/cdna
 	blue := color.New(color.FgBlue).SprintFunc()
 	green := color.New(color.FgGreen).SprintFunc()
 	orange := color.New(color.FgHiYellow).SprintFunc()
-    //check for updates
-    updater := &selfupdate.Updater{
-        Repo: "Azathothas/BugGPT-Tools/cdna",
-        BinaryName: "cdna",
-    }
-    latest, err := updater.UpdateSelf()
-    if err != nil {
-        if !*noColorPtr {
-            color.Red("! Failed to update")
-        } else {
-            fmt.Println("! Failed to update")
-        }
-    } else if latest.Version != "" {
-        if !*noColorPtr {
-            color.Green("! Updated to version %s", latest.Version)
-        } else {
-            fmt.Printf("! Updated to version %s\n", latest.Version)
-        }
-    }
+   //gup update function
+   // ensureGupInstalled()
+   // fmt.Println(string(out))
 	//main functions
 	var scanner *bufio.Scanner
 	if *inputPtr != "" {
@@ -152,3 +136,15 @@ More: https://github.com/Azathothas/BugGPT-Tools/tree/main/cdna
         return
     }
 }
+//check for updates
+// func ensureGupInstalled() {
+//     cmd := exec.Command("gup", "version")
+//     if err := cmd.Run(); err != nil {
+//         fmt.Println("gup not found, installing...")
+//         installCmd := exec.Command("go", "install", "-v", "github.com/nao1215/gup@latest")
+//         if err := installCmd.Run(); err != nil {
+//             fmt.Printf("error installing gup: %v\n", err)
+//             os.Exit(1)
+//         }
+//     }
+// }
