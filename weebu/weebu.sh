@@ -237,7 +237,7 @@ export ipv6_2=$(cat /tmp/$ipv4_1-x.txt | sed -n '2p')
 #Recheck Values
 echo -e "${YELLOW}url: ${BLUE}$url${NC}"
 echo -e "${YELLOW}domain: ${BLUE}$url_domain${NC}"
-echo -e "${YELLOW}ipv4: ${BLUE}$ipv4_1${NC} (${YELLOW}cdn${NC}: ${YELLOW}$(echo $ipv4_1|cdna)${NC}) | ${BLUE}$ipv4_2${NC} (${YELLOW}cdn${NC}: ${YELLOW}$(echo $ipv4_1|cdna)${NC})"
+echo -e "${YELLOW}ipv4: ${BLUE}$ipv4_1${NC} (${YELLOW}cdn${NC}: ${YELLOW}$(echo $ipv4_1| cdna | awk -F':' '{print $2}')${NC}) | ${BLUE}$ipv4_2${NC} (${YELLOW}cdn${NC}: ${YELLOW}$(echo $ipv4_1| cdna | awk -F':' '{print $2}')${NC})"
 echo -e "${YELLOW}ipv6: ${BLUE}$ipv6_1${NC} | ${BLUE}$ipv6_2${NC}"
 echo -e "${YELLOW}outputDir: ${BLUE}$outputDir${NC}"
 echo -e "${YELLOW}githubToken: ${BLUE}$githubToken${NC}"
@@ -329,6 +329,14 @@ fi
 if ! command -v dos2unix >/dev/null 2>&1; then
     echo "➼ dos2unix is not installed. Installing..."
     sudo apt-get update && sudo apt-get install dos2unix -y
+fi
+#go updater
+if ! command -v gup >/dev/null 2>&1; then
+    echo "➼ gup is not installed. Installing..."
+    go install -v github.com/nao1215/gup@latest && clear
+    gup completion
+    exec "$SHELL"
+    echo "➼ Updating all your go tools..keep patience...$(gup update)"
 fi
 #linky
 if ! command -v linky >/dev/null 2>&1; then
