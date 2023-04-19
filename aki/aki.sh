@@ -863,7 +863,7 @@ echo -e "${NC}"
                      fi
                           response=$(curl -qski curl -qski "https://networksdb.io/api/ip-info" -d "ip=1.1.1.1" -H  "X-Api-Key: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                      if echo "$response" | grep -q "Inactive"; then  
+                      if echo "$response" | grep -q "API key inactive"; then  
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! Inactive${NC}" 
                       elif echo "$response" | grep -q "wrong API key"; then
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
