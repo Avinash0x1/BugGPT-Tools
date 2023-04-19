@@ -7,7 +7,8 @@
 <img src="https://user-images.githubusercontent.com/58171889/232451972-f644e669-3120-4c80-be1e-8d1366518b9e.gif" width="250" height="250">
 
 ---
-
+- [**Aki**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bash/bash-original.svg" width="30" height="30">](https://github.com/Azathothas/BugGPT-Tools/blob/main/aki) **➼**  `Api Key` | `Token` checker & validator (`Health Monitor`) for [**amass**](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file) | [**subfinder**](https://github.com/projectdiscovery/subfinder#post-installation-instructions) | [**github**](https://github.com/gwen001/github-endpoints) & [**gitlab**](https://github.com/gwen001/gitlab-subdomains)  
+---
 - [**BurpScope**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original-wordmark.svg" width="30" height="30">](https://github.com/Azathothas/BugGPT-Tools/tree/main/burpscope) **➼** Generate BurpSuite Configuration file **`scope.json`** (based on Edoardottt's [genscope](https://github.com/edoardottt/lit-bb-hack-tools/tree/main/genscope))
 ---
 - [**cdna**<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original-wordmark.svg" width="30" height="30">](https://github.com/Azathothas/BugGPT-Tools/tree/main/cdna) **➼** A small utility to ***fetch*** , ***check*** & ***list*** **`CDN IPs`** using [**cdncheck**](https://github.com/projectdiscovery/cdncheck).       
