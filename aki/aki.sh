@@ -1230,7 +1230,7 @@ if [ -n "$subfinder_config" ]; then
         else
            cat $subfinder_config | yq > $subfinder_config_parsed   
          fi
-echo -e "${PURPLE}\n"
+echo -e "${PINK}\n"
 cat << "EOF"         
                      __    _____           __         
    _______  __/ /_  / __(_)___  ____/ /__  _____
