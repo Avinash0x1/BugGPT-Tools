@@ -1740,7 +1740,7 @@ fi
 #############
 
 ##Github -gh
-if [ -n "$github_tokens" ]; then
+if [ -n "$github_tokens" ] && [ -e "$github_tokens" ]; then
 echo -e "${BLUE}\n"
 cat << "EOF"       
    _____ _ _   _    _       _     
@@ -1751,7 +1751,6 @@ cat << "EOF"
   \_____|_|\__|_|  |_|\__,_|_.__/ 
 EOF
 echo -e "${NC}"                                  
-    if [ -e $(echo $github_tokens) ] ; then
         GitHub_api_keys=$(cat $github_tokens)
         invalid_key_found=false
           if [ -n "$GitHub_api_keys" ]; then
@@ -1785,7 +1784,7 @@ fi
 
 
 ##GitLab  
-if [ -n "$gitlab_tokens" ]; then
+if [ -n "$gitlab_tokens" ] && [ -e "$gitlab_tokens" ]; then
 echo -e "${YELLOW}\n"
 cat << "EOF"       
    _____ _ _   _           _     
@@ -1796,7 +1795,6 @@ cat << "EOF"
   \_____|_|\__|______\__,_|_.__/ 
 EOF
 echo -e "${NC}"     
-     if [ -e $(echo $gitlab_tokens) ] ; then
       GitLab_api_keys=$(cat $gitlab_tokens)
        invalid_key_found=false
           if [ -n "$GitLab_api_keys" ]; then
