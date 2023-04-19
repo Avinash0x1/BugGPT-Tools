@@ -236,7 +236,7 @@ else
   echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
 echo -e "\n"
-echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please be ${GREEN}Patience${NC}: ${PURPLE}$gitlab_tokens${NC}\n"
+echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please have ${GREEN}Patience${NC}: ${PURPLE}$gitlab_tokens${NC}\n"
 
 
 
@@ -702,7 +702,7 @@ echo -e "${NC}"
     IntelX_api_keys=$(awk '/data_sources.IntelX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$IntelX_api_keys" ]; then
-              echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so be ${GREEN}Patience${NC}"                   
+              echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"                   
                   i=1
                   while read -r api_key; do
                   var_name="IntelX_api_key_$i"
@@ -962,7 +962,7 @@ echo -e "${NC}"
     Shodan_api_keys=$(awk '/data_sources.Shodan.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$Shodan_api_keys" ]; then
-              echo -e "ⓘ ${VIOLET} Shodan${NC} has ${YELLOW}Rate Limits${NC} so be ${GREEN}Patience${NC}"           
+              echo -e "ⓘ ${VIOLET} Shodan${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"           
                   i=1
                   while read -r api_key; do
                   var_name="Shodan_api_key_$i"
