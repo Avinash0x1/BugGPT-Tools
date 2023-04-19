@@ -391,37 +391,39 @@ echo -e "${NC}"
                   echo -e "ⓘ ${VIOLET} BinaryEdge${NC} : ${GREEN}\u2713${NC}"  
               fi  
          fi
-   #BufferOver  
-    BufferOver_api_keys=$(awk '/data_sources.BufferOver.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
-    invalid_key_found=false
-          if [ -n "$BufferOver_api_keys" ]; then
-                  i=1
-                  while read -r api_key; do
-                  var_name="BufferOver_api_key_$i"
-                  eval "$var_name=\"$api_key\""
-                  i=$((i+1))
-                  done <<< "$BufferOver_api_keys"
-                     #curl
-                    for ((j=1; ; j++)); do
-                          var_name="BufferOver_api_key_$j"
-                          api_key=${!var_name}
-                     if [ -z "$api_key" ]; then
-                       break
-                     fi
-                          response=$(curl -qski "https://tls.bufferover.run/dns?q=.example.com" -H "x-api-key: $api_key")
-                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
-                       echo -e "ⓘ ${VIOLET} BufferOver${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC} or ${RED}Quota Exceeded${NC}"
-                       invalid_key_found=true
-                     elif [ "$status_code" = "500" ]; then
-                        echo -e "ⓘ ${VIOLET} BufferOver${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 500 Server Error${NC}"
-                       invalid_key_found=true
-                     fi
-              done
-              if ! $invalid_key_found; then
-                  echo -e "ⓘ ${VIOLET} BufferOver${NC} : ${GREEN}\u2713${NC}"  
-              fi  
-         fi
+   ##Used to be freee, but became paid via rapidapi: https://rapidapi.com/projectxio/api/bufferover-run-tls/pricing
+   ##Valid Old API Keys == 500 Server Error
+   ##BufferOver  
+    #BufferOver_api_keys=$(awk '/data_sources.BufferOver.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
+    #invalid_key_found=false
+    #      if [ -n "$BufferOver_api_keys" ]; then
+    #              i=1
+    #              while read -r api_key; do
+    #              var_name="BufferOver_api_key_$i"
+    #              eval "$var_name=\"$api_key\""
+    #              i=$((i+1))
+    #              done <<< "$BufferOver_api_keys"
+    #                 #curl
+    #                for ((j=1; ; j++)); do
+    #                      var_name="BufferOver_api_key_$j"
+    #                      api_key=${!var_name}
+    #                 if [ -z "$api_key" ]; then
+    #                   break
+    #                 fi
+    #                      response=$(curl -qski "https://tls.bufferover.run/dns?q=.example.com" -H "x-api-key: $api_key")
+    #                      status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+    #                 if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+    #                   echo -e "ⓘ ${VIOLET} BufferOver${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC} or ${RED}Quota Exceeded${NC}"
+    #                   invalid_key_found=true
+    #                 elif [ "$status_code" = "500" ]; then
+    #                    echo -e "ⓘ ${VIOLET} BufferOver${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 500 Server Error${NC}"
+    #                   invalid_key_found=true
+    #                 fi
+    #          done
+    #          if ! $invalid_key_found; then
+    #              echo -e "ⓘ ${VIOLET} BufferOver${NC} : ${GREEN}\u2713${NC}"  
+    #          fi  
+    #     fi
    #BuiltWith  
     BuiltWith_api_keys=$(awk '/data_sources.BuiltWith.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
@@ -609,7 +611,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
+                          response=$(curl -qski "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -683,6 +685,7 @@ echo -e "${NC}"
     IntelX_api_keys=$(awk '/data_sources.IntelX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$IntelX_api_keys" ]; then
+              echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so be ${GREEN}Patience${NC}"                   
                   i=1
                   while read -r api_key; do
                   var_name="IntelX_api_key_$i"
@@ -696,11 +699,13 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl --ipv4 -qski "https://2.intelx.io/authenticate/info" "x-key:$api_key" && sleep 10s)
+                          response=$(curl -qski "https://2.intelx.io/authenticate/info" "x-key:$api_key" && sleep 62s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                     if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [ "$status_code" = "403" ] ; then
+                       echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Rate Limited${NC}"                      
                      fi
               done
               if ! $invalid_key_found; then
@@ -940,6 +945,7 @@ echo -e "${NC}"
     Shodan_api_keys=$(awk '/data_sources.Shodan.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$Shodan_api_keys" ]; then
+              echo -e "ⓘ ${VIOLET} Shodan${NC} has ${YELLOW}Rate Limits${NC} so be ${GREEN}Patience${NC}"           
                   i=1
                   while read -r api_key; do
                   var_name="Shodan_api_key_$i"
@@ -1177,6 +1183,22 @@ echo -e "${NC}"
       fi
 #EOF amass    
 fi
+#############
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #subfinder parser
@@ -1288,7 +1310,7 @@ echo -e "${NC}"
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} BinaryEdge${NC} : ${GREEN}\u2713${NC}"  
               fi  
-    #     fi
+         fi
      #censys  
      censys_Creds=$(yq eval '.censys[]' $subfinder_config_parsed)
      invalid_key_found=false
@@ -1695,12 +1717,12 @@ echo -e "${NC}"
          if ! $invalid_key_found; then
             echo -e "ⓘ ${VIOLET} ZoomEyeAPI${NC} : ${GREEN}\u2713${NC}"  
          fi  
-      fi      
-#EOF subfnder      
+      fi    
 fi
+#EOF subfnder 
+#############
 
-
-##Gihub -gh
+##Github -gh
 if [ -n "$github_tokens" ]; then
 echo -e "${BLUE}\n"
 cat << "EOF"       
@@ -1787,7 +1809,6 @@ echo -e "${NC}"
               fi  
          fi 
 fi
-
  
 
 #Check For Update on Script end
