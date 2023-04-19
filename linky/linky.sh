@@ -632,29 +632,31 @@ cat $outputDir/tmp/all-endpoint-urls.txt | unfurl paths | sed 's#^/##' | sort -u
         mkdir -p $outputDir/Secrets/fff-urls
         cat $outputDir/urls.txt | fff --header 'Authorization: Bearer null' --save-status 200 --save-status 405 --save-status 401 --save-status 403 -o $outputDir/Secrets/fff-urls
          #gf api-keys
-         find $outputDir -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt &
-            pid=$!
-              while true; do
-              size=$(du -m $outputDir/Secrets/gf-api-keys.txt | awk '{print $1}')
-              if [ $size -gt 20 ]; then
-              kill $pid
-             echo -e "${YELLOW}File size limit exceeded ${RED}20MBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
-             break
-             fi
-             sleep 1
-             done
-             #gf secrets
-              find $outputDir -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt &
-                pid=$!
-                while true; do
-                size=$(du -m $outputDir/Secrets/gf-secrets.txt | awk '{print $1}')
-                if [ $size -gt 20 ]; then
-               kill $pid
-              echo -e "${YELLOW}File size limit exceeded ${RED}20MBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
-               break
-             fi
-            sleep 1
-             done
+         timeout 5m find $outputDir -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt
+         timeout 5m find $outputDir -type f -exec gf gf secrets {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt
+         ##find $outputDir -type f -exec gf api-keys {} \; | tee -a $outputDir/Secrets/gf-api-keys.txt &
+          #  pid=$!
+          #    while true; do
+          #    size=$(du -m $outputDir/Secrets/gf-api-keys.txt | awk '{print $1}')
+          #    if [ $size -gt 20 ]; then
+          #    kill $pid
+          #   echo -e "${YELLOW}File size limit exceeded ${RED}20MBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
+          #   break
+          #   fi
+          #   sleep 1
+          #   done
+          #   #gf secrets
+          #    find $outputDir -type f -exec gf secrets {} \; | tee -a $outputDir/Secrets/gf-secrets.txt &
+          #      pid=$!
+          #      while true; do
+          #      size=$(du -m $outputDir/Secrets/gf-secrets.txt | awk '{print $1}')
+          #      if [ $size -gt 20 ]; then
+          #     kill $pid
+          #    echo -e "${YELLOW}File size limit exceeded ${RED}20MBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
+          #     break
+          #   fi
+          #  sleep 1
+          #   done
         #Trufflehog
         trufflehog filesystem --directory=$outputDir/ --concurrency 70 | tee -a $outputDir/Secrets/trufflehog.txt && clear
         echo "" && clear
