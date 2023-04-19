@@ -110,6 +110,12 @@ if ! command -v dos2unix >/dev/null 2>&1; then
     echo "➼ dos2unix is not installed. Installing..."
     sudo apt-get update && sudo apt-get install dos2unix -y
 fi
+#eget, for binaries
+if ! command -v eget >/dev/null 2>&1; then
+    echo "➼ eget is not installed. Installing..."
+    go install -v github.com/zyedidia/eget@latest
+    sudo su -c "go install -v github.com/zyedidia/eget@latest"
+fi
 #jq, for parsing curl json
 if ! command -v jq >/dev/null 2>&1; then
     echo "➼ jq is not installed. Installing..."
@@ -118,7 +124,7 @@ fi
 #yq, for parsing yaml
 if ! command -v yq >/dev/null 2>&1; then
     echo "➼ yq is not installed. Installing..."
-    go install -v github.com/mikefarah/yq@master
+sudo eget mikefarah/yq --to /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq
 fi
 
 #Defaults
