@@ -628,7 +628,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
+                          response=$(curl -qski "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json" && sleep 20s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -656,7 +656,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://gitlab.com/api/v4/search?scope=blobs&search=azathothas" -H "PRIVATE-TOKEN: $api_key")
+                          response=$(curl -qski "https://gitlab.com/api/v4/projects" -H "PRIVATE-TOKEN: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} GitLab${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -863,7 +863,9 @@ echo -e "${NC}"
                      fi
                           response=$(curl -qski curl -qski "https://networksdb.io/api/ip-info" -d "ip=1.1.1.1" -H  "X-Api-Key: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                     if [ "$status_code" = "400" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                      if echo "$response" | grep -q "Inactive"; then  
+                       echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! Inactive${NC}" 
+                      elif echo "$response" | grep -q "wrong API key"; then
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
                      fi
@@ -1450,7 +1452,7 @@ echo -e "${NC}"
                          if [ -z "$api_key" ]; then
                            break
                          fi
-                              response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
+                              response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                               status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                          if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1569,6 +1571,7 @@ echo -e "${NC}"
     Shodan_api_keys=$(yq eval '.shodan[]' $subfinder_config_parsed)
     invalid_key_found=false
           if [ -n "$Shodan_api_keys" ]; then
+              echo -e "ⓘ ${VIOLET} Shodan${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"           
                   i=1
                   while read -r api_key; do
                   var_name="Shodan_api_key_$i"
@@ -1767,7 +1770,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
+                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1777,8 +1780,7 @@ echo -e "${NC}"
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} GitHub${NC} : ${GREEN}\u2713${NC}"  
               fi  
-         fi 
-     fi    
+         fi     
 fi                               
 
 
@@ -1811,7 +1813,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://gitlab.com/api/v4/search?scope=blobs&search=azathothas" -H "PRIVATE-TOKEN: $api_key")
+                          response=$(curl -qski "https://gitlab.com/api/v4/projects" -H "PRIVATE-TOKEN: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} GitLab${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1824,8 +1826,7 @@ echo -e "${NC}"
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} GitLab${NC} : ${GREEN}\u2713${NC}"  
               fi  
-         fi 
-       fi  
+         fi   
 fi
  
 
