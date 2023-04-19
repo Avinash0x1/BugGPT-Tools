@@ -7,7 +7,8 @@
 
 ```
 ### About:
-`Api Key` | `Token` checker & validator for [**amass**](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file) | [**subfinder**](https://github.com/projectdiscovery/subfinder#post-installation-instructions) | [**github**](https://github.com/gwen001/github-endpoints) & [**gitlab**](https://github.com/gwen001/gitlab-subdomains)
+`Api Key` | `Token` checker & validator for [**amass**](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file) | [**subfinder**](https://github.com/projectdiscovery/subfinder#post-installation-instructions) | [**github**](https://github.com/gwen001/github-endpoints) & [**gitlab**](https://github.com/gwen001/gitlab-subdomains)                                                                                                                           
+This is achieved using [**`curl`**](https://github.com/curl/curl) + [**`jq`**](https://github.com/stedolan/jq) + [**`yq`**](https://github.com/mikefarah/yq) and querying a less resourceful api endpoint for each service.
 
 ### **Installation**:
 ```bash 
@@ -77,10 +78,62 @@ Optional flags :
 ```
 
 ### Currently Checked Keys & Tokens:
+ - Amass : Almost all **free** sources are checked and validated!
 ```yaml
 ASNLookup
+AlienVault
+BeVigil
+BigDataCloud
+BinaryEdge
+BuiltWith
+Censys
+Chaos
+Cloudflare
+CertCentral
+FullHunt
+GitHub
+GitLab
+Hunter
+IntelX
+IPdata
+IPinfo
+LeakIX
+Netlas
+NetworksDB
+ONYPHE
+Pastebin
+PublicWWW
+PassiveTotal
+Shodan
+SecurityTrails
+Spamhaus
+URLScan
+VirusTotal
+WhoisXML
+Yandex
+ZoomEye
 ```
-
+ - Subfinder : Almost all **free** sources are checked and validated!
+```yaml
+alienvault
+bevigil
+binaryedge
+censys
+certspotter
+chaos
+fullhunt
+github
+hunter
+intelx
+passivetotal
+securitytrails
+shodan
+urlscan
+virustotal
+whoisxmlapi
+zoomeye
+zoomeyeapi
+```
 
 
 
