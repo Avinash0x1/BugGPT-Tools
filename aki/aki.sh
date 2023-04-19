@@ -236,7 +236,7 @@ else
   echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
 echo -e "\n"
-echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please have ${GREEN}Patience${NC}: ${PURPLE}$gitlab_tokens${NC}\n"
+echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please have ${GREEN}Patience${NC}\n"
 
 
 
@@ -630,10 +630,13 @@ echo -e "${NC}"
                      fi
                           response=$(curl -qski "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json" && sleep 20s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
-                       echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
-                       invalid_key_found=true
-                     fi
+                          if echo "$response" | grep -q "Bad credentials"; then   
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
+                           invalid_key_found=true                           
+                          elif [ "$status_code" = "403" ]; then
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"  
+                           invalid_key_found=true                           
+                          fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} GitHub${NC} : ${GREEN}\u2713${NC}"  
@@ -865,6 +868,7 @@ echo -e "${NC}"
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                       if echo "$response" | grep -q "API key inactive"; then  
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! Inactive${NC}" 
+                       invalid_key_found=true
                       elif echo "$response" | grep -q "wrong API key"; then
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
@@ -1454,10 +1458,13 @@ echo -e "${NC}"
                          fi
                               response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                               status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                         if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                          if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
-                           invalid_key_found=true
-                         fi
+                           invalid_key_found=true                           
+                          elif [ "$status_code" = "403" ]; then
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"   
+                           invalid_key_found=true                           
+                          fi
                   done
                   if ! $invalid_key_found; then
                       echo -e "ⓘ ${VIOLET} GitHub${NC} : ${GREEN}\u2713${NC}"  
@@ -1771,11 +1778,13 @@ echo -e "${NC}"
                        break
                      fi
                           response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
-                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
-                       echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
-                       invalid_key_found=true
-                     fi
+                          if echo "$response" | grep -q "Bad credentials"; then   
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
+                           invalid_key_found=true                           
+                          elif [ "$status_code" = "403" ]; then
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"     
+                           invalid_key_found=true                                                          
+                          fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} GitHub${NC} : ${GREEN}\u2713${NC}"  
