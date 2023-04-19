@@ -118,7 +118,7 @@ fi
 #yq, for parsing yaml
 if ! command -v yq >/dev/null 2>&1; then
     echo "➼ yq is not installed. Installing..."
-    wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq
+    sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq
 fi
 
 #Defaults
