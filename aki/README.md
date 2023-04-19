@@ -45,9 +45,41 @@ example:
 #Default config file: $HOME/.config/subfinder/provider-config.yaml
 #Note that, it's `provider-config.yaml` & NOT `config.yaml`
 ```
+- **Github Tokens**: Your `.github_tokens` must be properly indentated and formatted (**1** token **per line**). [Default: `$HOME/.config/.github_tokens`]
+```TXT
+ghp_yourtoken_value
+gph_one_token_per_line
+ghp_DO_NOT_include_comments_here
+```
+- **Gitlab Tokens**: Your `.gitlab_tokens` must be properly indentated and formatted (**1** token **per line**). [Default: `$HOME/.config/.gitlab_tokens`]
+```bash
+glpat-yourtoken_value
+glpat_one_token_per_line
+glpat_DO_NOT_include_comments_here
+```
+### Usage:
+`aki --help`
+```bash
+➼ Usage: aki -a <your/amass/config.ini> -s <your/subfinder/provider-config.yaml>
 
+➼ Extended Help :
 
+➼ By default $HOME/.config/amass/config.ini will be used
+  To change it use:
+                   -a,  --amass     <your/amass/config.ini>
 
+➼ By default $HOME/.config/subfinder/provider-config.yaml will be used
+  To change it use:
+                   -s,  --subfinder     <your/subfinder/provider-config.yaml>
+Optional flags :
+ -gh,  --github     <github_tokens_file> (1 per line) [Default: $HOME/.config/.github_tokens]
+ -gl,  --gitlab     <gitlab_tokens_file> (1 per line) [Default: $HOME/.config/.gitlab_tokens]
+```
+
+### Currently Checked Keys & Tokens:
+```yaml
+ASNLookup
+```
 
 
 
