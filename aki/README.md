@@ -14,7 +14,11 @@ This is achieved using [**`curl`**](https://github.com/curl/curl) + [**`jq`**](h
 ```bash 
 sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki.sh -O /usr/local/bin/aki && sudo chmod +xwr /usr/local/bin/aki && aki --help
 ``` 
-
+ - **`aki`** will try to install `jq` & `yq` if they aren't installed. In case it fails, try installing manually:
+ ```YAML
+ JQ : https://github.com/stedolan/jq/wiki/Installation
+ YQ : https://github.com/mikefarah/yq/#install
+ ```
 ### **Considerations**:
  - **Amass**: Your `config.ini` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
  ```ini
@@ -25,9 +29,9 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki
 apikey = example-api-key-notice-there-is-space-between-equal-sign
 apikey = also-notice-everything-is-in-lowercase
 #for usernames, passwords, secrets, follow same rules
-username = same-for-usernames-only-1-space-between-eequals-and-everything-lower-case
-password = same-for-passwords-only-1-space-between-eequals-and-everything-lower-case
-secret = same-for-secret-only-1-space-between-eequals-and-everything-lower-case
+username = same-for-usernames-only-1-space-between-equal-and-everything-lower-case
+password = same-for-passwords-only-1-space-between-equal-and-everything-lower-case
+secret = same-for-secret-only-1-space-between-equal-and-everything-lower-case
 #Please view amass's official config file and follow it: https://github.com/owasp-amass/amass/blob/master/examples/config.ini
 #Uncomment and fill in you details where it's needed
 #By default, amass config.ini will be located at: $HOME/.config/amass/config.ini
