@@ -628,14 +628,13 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json" && sleep 20s)
-                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                            invalid_key_found=true                           
                           elif [ "$status_code" = "403" ]; then
-                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"  
-                           invalid_key_found=true                           
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"     
+                           invalid_key_found=true                                                          
                           fi
               done
               if ! $invalid_key_found; then
@@ -1456,14 +1455,13 @@ echo -e "${NC}"
                          if [ -z "$api_key" ]; then
                            break
                          fi
-                              response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
-                              status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                            invalid_key_found=true                           
                           elif [ "$status_code" = "403" ]; then
-                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"   
-                           invalid_key_found=true                           
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"     
+                           invalid_key_found=true                                                          
                           fi
                   done
                   if ! $invalid_key_found; then
