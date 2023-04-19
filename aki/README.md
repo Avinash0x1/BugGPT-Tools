@@ -14,9 +14,14 @@ This is achieved using [**`curl`**](https://github.com/curl/curl) + [**`jq`**](h
 ```bash 
 sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki.sh -O /usr/local/bin/aki && sudo chmod +xwr /usr/local/bin/aki && aki --help
 ``` 
- - **`aki`** will try to install `jq` & `yq` if they aren't installed. In case it fails, try installing manually:
+ - **`aki`** will try to install `jq` & `yq` if they aren't installed. You will get errors:
+ ```bash
+ ✘ Error: /home/sparrow/.config/subfinder/provider-config.yaml is not a valid YAML
+ ```
+ - In case it fails, try installing manually:
  ```YAML
  JQ : https://github.com/stedolan/jq/wiki/Installation
+ Linux: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq
  YQ : https://github.com/mikefarah/yq/#install
  ```
 ### **Considerations**:
