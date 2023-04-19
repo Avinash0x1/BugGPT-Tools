@@ -16,7 +16,7 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki
 ``` 
 
 ### **Considerations**:
- - **Amass**: Your `config.ni` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
+ - **Amass**: Your `config.ini` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
  ```ini
 [data_sources.Example]
 [data_sources.Example.Credentials]
