@@ -104,6 +104,23 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+#Dependency checks
+#dos2unix, for updates
+if ! command -v dos2unix >/dev/null 2>&1; then
+    echo "➼ dos2unix is not installed. Installing..."
+    sudo apt-get update && sudo apt-get install dos2unix -y
+fi
+#jq, for parsing curl json
+if ! command -v jq >/dev/null 2>&1; then
+    echo "➼ jq is not installed. Installing..."
+    sudo apt-get update && sudo apt-get install jq -y
+fi
+#yq, for parsing yaml
+if ! command -v yq >/dev/null 2>&1; then
+    echo "➼ yq is not installed. Installing..."
+    go install -v github.com/mikefarah/yq@master
+fi
+
 #Defaults
 amass_config_def="$HOME/.config/amass/config.ini"
 subfinder_config_def="$HOME/.config/subfinder/provider-config.yaml"
