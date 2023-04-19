@@ -1230,7 +1230,7 @@ if [ -n "$subfinder_config" ]; then
         else
            cat $subfinder_config | yq > $subfinder_config_parsed   
          fi
-echo -e "${GREEN}\n"
+echo -e "${PURPLE}\n"
 cat << "EOF"         
                      __    _____           __         
    _______  __/ /_  / __(_)___  ____/ /__  _____
@@ -1751,9 +1751,9 @@ cat << "EOF"
   \_____|_|\__|_|  |_|\__,_|_.__/ 
 EOF
 echo -e "${NC}"                                  
-                                  
-    GitHub_api_keys=$(awk '/data_sources.GitHub.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
-    invalid_key_found=false
+    if [ -e $(echo $github_tokens) ] ; then
+        GitHub_api_keys=$(cat $github_tokens)
+        invalid_key_found=false
           if [ -n "$GitHub_api_keys" ]; then
                   i=1
                   while read -r api_key; do
@@ -1779,7 +1779,9 @@ echo -e "${NC}"
                   echo -e "ⓘ ${VIOLET} GitHub${NC} : ${GREEN}\u2713${NC}"  
               fi  
          fi 
-fi
+     fi    
+fi                               
+
 
 
 ##GitLab  
@@ -1794,9 +1796,9 @@ cat << "EOF"
   \_____|_|\__|______\__,_|_.__/ 
 EOF
 echo -e "${NC}"     
-
-    GitLab_api_keys=$(awk '/data_sources.GitLab.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
-    invalid_key_found=false
+     if [ -e $(echo $gitlab_tokens) ] ; then
+      GitLab_api_keys=$(cat $gitlab_tokens)
+       invalid_key_found=false
           if [ -n "$GitLab_api_keys" ]; then
                   i=1
                   while read -r api_key; do
@@ -1825,6 +1827,7 @@ echo -e "${NC}"
                   echo -e "ⓘ ${VIOLET} GitLab${NC} : ${GREEN}\u2713${NC}"  
               fi  
          fi 
+       fi  
 fi
  
 
