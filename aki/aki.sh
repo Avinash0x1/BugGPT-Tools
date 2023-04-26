@@ -583,6 +583,35 @@ echo -e "${NC}"
                   echo -e "ⓘ ${VIOLET} Cloudflare${NC} : ${GREEN}\u2713${NC}"  
               fi  
          fi
+   #FacebookCT  
+    FacebookCT_api_keys=$(awk '/^\[data_sources\.FacebookCT\.app[0-9]+\]$/{flag=1;next} /^\[/{flag=0} flag && /apikey/{apikey=$3} flag && /secret/{print apikey":"$3}' $amass_config_parsed)
+        invalid_key_found=false
+     if [ -n "$FacebookCT_api_keys" ]; then
+              i=1
+              while read -r api_key; do
+              varname="FacebookCT_cred_$i"
+              eval "$varname=\"$api_key\""
+              #echo "$varname=${!varname}"
+               i=$((i+1))
+             done <<< "$FacebookCT_api_keys"
+            # curl
+             for ((j=1; ; j++)); do
+               var_name="FacebookCT_cred_$j"
+               api_key=${!var_name}
+               if [ -z "$api_key" ]; then
+                break
+                fi                
+              response=$(curl -qski "https://graph.facebook.com/oauth/access_token?client_id=${api_key%:*}&client_secret=${api_key#*:}&redirect_uri=&grant_type=client_credentials")
+              status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+              if [ "$status_code" = "400" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                  echo -e "ⓘ ${VIOLET} FacebookCT${NC} ${YELLOW}Username:Password${NC} = ${BLUE}${api_key}${NC} ${RED}\u2717 Invalid${NC}"
+                  invalid_key_found=true
+              fi
+            done
+         if ! $invalid_key_found; then
+            echo -e "ⓘ ${VIOLET} FacebookCT${NC} : ${GREEN}\u2713${NC}"  
+         fi  
+      fi         
    #FullHunt  
     FullHunt_api_keys=$(awk '/data_sources.FullHunt.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
@@ -628,7 +657,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
+                          response=$(curl -qski  "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                            invalid_key_found=true                           
@@ -658,7 +687,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://gitlab.com/api/v4/projects" -H "PRIVATE-TOKEN: $api_key")
+                          response=$(curl -qski "https://gitlab.com/api/v4/user" -H "PRIVATE-TOKEN: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} GitLab${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1053,6 +1082,36 @@ echo -e "${NC}"
             echo -e "ⓘ ${VIOLET} Spamhaus${NC} : ${GREEN}\u2713${NC}"  
          fi  
       fi    
+   #Twitter  
+    Twitter_api_keys=$(awk '/^\[data_sources\.Twitter\.account[0-9]+\]$/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3} flag && /secret/{print $3}' $amass_config_parsed)
+        invalid_key_found=false
+          if [ -n "$Twitter_api_keys" ]; then
+                    i=1
+                    while read -r apikey && read -r secret; do
+                    encoded=$(echo -n "$apikey:$secret" | base64 | tr -d '[:space:]')
+                    varname="Twitter_cred_$i"
+                    eval "$varname=\"$encoded\""
+                    #echo "$varname=${!varname}"
+                    i=$((i+1))
+                  done <<< "$Twitter_api_keys"
+                     #curl
+                    for ((j=1; ; j++)); do
+                          var_name="Twitter_cred_$j"
+                          api_key=${!var_name}
+                     if [ -z "$api_key" ]; then
+                       break
+                     fi
+                          response=$(curl -qski "https://api.twitter.com/oauth2/token" --data 'grant_type=client_credentials' -H "accept: application/json" -H "Authorization: Basic $api_key")
+                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                       echo -e "ⓘ ${VIOLET} Twitter${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$api_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
+                       invalid_key_found=true
+                     fi
+              done
+              if ! $invalid_key_found; then
+                  echo -e "ⓘ ${VIOLET} Twitter${NC} : ${GREEN}\u2713${NC}"  
+              fi  
+         fi     
    #URLScan  
     URLScan_api_keys=$(awk '/data_sources.URLScan.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
@@ -1455,7 +1514,7 @@ echo -e "${NC}"
                          if [ -z "$api_key" ]; then
                            break
                          fi
-                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
+                          response=$(curl -qski  "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                            invalid_key_found=true                           
@@ -1775,7 +1834,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
+                          response=$(curl -qski  "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                            invalid_key_found=true                           
@@ -1820,7 +1879,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://gitlab.com/api/v4/projects" -H "PRIVATE-TOKEN: $api_key")
+                          response=$(curl -qski "https://gitlab.com/api/v4/user" -H "PRIVATE-TOKEN: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} GitLab${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
