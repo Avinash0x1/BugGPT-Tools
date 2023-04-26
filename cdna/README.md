@@ -1,3 +1,6 @@
+### Deprecated: This is now deprecated since the release of [**cdncheck** v1.0.0](https://github.com/projectdiscovery/cdncheck/releases/tag/v1.0.0)
+---
+
 <img src="https://user-images.githubusercontent.com/58171889/232501093-32a48356-281b-4f16-9dbb-f15b4421edf8.gif" width="400" height="300">
 
 ### About:
