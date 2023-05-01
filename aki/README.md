@@ -86,6 +86,20 @@ Optional flags :
  -gl,  --gitlab     <gitlab_tokens_file> (1 per line) [Default: $HOME/.config/.gitlab_tokens]
  -q,   --quota       Shows Usage Quota [https://github.com/the-valluvarsploit/APIkeyBeast] (Limited)
 ```
+- Default :
+> ```console
+> aki
+> ```
+![default01](https://user-images.githubusercontent.com/58171889/235456875-5d5b2601-f26b-4406-860a-ca2bc3d0ef6a.png)
+![default02](https://user-images.githubusercontent.com/58171889/235460893-20611677-18c8-463e-845a-c96aa6ad18b9.png)
+![default03](https://user-images.githubusercontent.com/58171889/235460900-8c53f455-de8a-44ba-8d56-b839865f7b23.png)
+
+- Quota Usage:
+> ```console
+> aki --quota
+> ```
+![usage01](https://user-images.githubusercontent.com/58171889/235455838-efbcaf9f-806f-4112-8830-58b1378c834c.png)
+![usage02](https://user-images.githubusercontent.com/58171889/235455860-7878291c-525c-4fd0-b1d8-dc09c3961d22.png)
 
 ### Currently Checked Keys & Tokens:
  - Amass : Almost all **free** sources are checked and validated!
