@@ -20,58 +20,7 @@ cat << "EOF"
 (_| |< |  : Api Key | Tokens validator 
 EOF
 echo -e "${NC}"
-
-#Help / Usage
-if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
-  echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}aki${NC} ${BLUE}-a${NC} ${GREEN}<your/amass/config.ini>${NC} ${BLUE}-s${NC} ${GREEN}<your/subfinder/provider-config.yaml>${NC}\n"
-  echo -e "➼ ${BLUE}Extended Help${NC} :\n"
-    if [ ! -f "$HOME/.config/amass/config.ini" ]; then
-        echo -e "Your ${YELLOW}$HOME/.config/amass/config.ini${NC} ${RED}does not exist${NC}\nYou ${GREEN}must create${NC} one: ${BLUE}https://github.com/owasp-amass/amass/blob/master/examples/config.ini${NC}\nElse use:"
-        echo -e "        ${BLUE}-a${NC},  ${BLUE}--amass${NC}     ${GREEN}<your/amass/config.ini>${NC} (${YELLOW}Required${NC})\n"
-    else
-        echo -e "➼ By ${BLUE}default ${YELLOW}$HOME/.config/amass/config.ini${NC} will be used\n  To ${BLUE}change${NC} it use:"
-        echo -e "                   ${BLUE}-a${NC},  ${BLUE}--amass${NC}     ${GREEN}<your/amass/config.ini>${NC}\n"
-    fi  
-    if [ ! -f "$HOME/.config/subfinder/provider-config.yaml" ]; then
-        echo -e "Your ${YELLOW}$HOME/.config/subfinder/provider-config.yaml${NC} ${RED}does not exist${NC}\n${GREEN}must create${NC} one: ${BLUE}$HOME/.config/subfinder/provider-config.yaml${NC}\nElse use:"
-        echo -e "        ${BLUE}-s${NC},  ${BLUE}--subfinder${NC}     ${GREEN}<your/subfinder/provider-config.yaml>${NC} (${YELLOW}Required${NC})\n"
-    else
-        echo -e "➼ By ${BLUE}default ${YELLOW}$HOME/.config/subfinder/provider-config.yaml${NC} will be used\n  To ${BLUE}change${NC} it use:"
-        echo -e "                   ${BLUE}-s${NC},  ${BLUE}--subfinder${NC}     ${GREEN}<your/subfinder/provider-config.yaml>${NC}"
-    fi  
-    echo -e "${BLUE}Optional flags${NC} :"
-         echo -e " ${BLUE}-gh${NC},  ${BLUE}--github${NC}     ${GREEN}<github_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.github_tokens${NC}]"
-         echo -e " ${BLUE}-gl${NC},  ${BLUE}--gitlab${NC}     ${GREEN}<gitlab_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.gitlab_tokens${NC}]"           
- exit 0      
-fi   
-
-# Update. Github caches take several minutes to reflect globally  
-if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
-  echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
-      if ping -c 2 github.com > /dev/null; then
-      REMOTE_FILE=$(mktemp)
-      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki.sh -o "$REMOTE_FILE"
-         if ! diff --brief /usr/local/bin/aki "$REMOTE_FILE" >/dev/null 2>&1; then
-             echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-             dos2unix $REMOTE_FILE > /dev/null 2>&1 
-             sudo mv "$REMOTE_FILE" /usr/local/bin/aki && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}\n" 
-             echo -e "➼ ${YELLOW}ChangeLog:${NC} ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.message')${NC}"
-             echo -e "➼ ${YELLOW}Pushed at${NC}: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.author.date')${NC}\n"
-             sudo chmod +xwr /usr/local/bin/aki
-             rm -f "$REMOTE_FILE" 2>/dev/null
-             else
-             echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
-             echo -e "➼ Most ${YELLOW}recent change${NC} was on: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.author.date')${NC} [${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.message')${NC}]\n"             
-             rm -f "$REMOTE_FILE" 2>/dev/null
-             exit 0
-             fi
-     else
-         echo -e "➼ ${YELLOW}Github.com${NC} is ${RED}unreachable${NC}"
-         echo -e "➼ ${YELLOW}Try again later!${NC} "
-         exit 1
-     fi
-  exit 0
-fi
+ 
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -97,6 +46,10 @@ while [[ $# -gt 0 ]]; do
         shift 
         shift 
         ;;
+        -q|--quota)
+        quota=1
+        shift
+        ;;        
         *)    
         echo -e "${RED}Error: Invalid option ${YELLOW}'$key'${NC} , try ${BLUE}--help${NC} for Usage"
         exit 1
@@ -198,6 +151,150 @@ else
               fi        
          fi       
 fi
+
+#Git
+if [ -z "$github_tokens" ]; then
+  github_tokens="$HOME/.config/.github_tokens"
+  echo -e "${GREEN}ⓘ Using default ${BLUE}github_tokens file${NC}: ${PURPLE}$github_tokens${NC}\n"
+fi
+if [ -z "$gitlab_tokens" ]; then
+  gitlab_tokens="$HOME/.config/.gitlab_tokens"
+  echo -e "${GREEN}ⓘ Using default ${BLUE}gitlab_tokens file${NC}: ${PURPLE}$gitlab_tokens${NC}\n"
+fi
+
+
+#Re Check
+#amass
+if [ -n "$amass_config" ] && [ -e "$amass_config" ]; then
+  echo -e "${YELLOW}Check ${GREEN}amass${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+else
+  echo -e "${YELLOW}Check ${GREEN}amass${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+fi
+#subfinder
+if [ -n "$subfinder_config" ] && [ -e "$subfinder_config" ]; then
+  echo -e "${YELLOW}Check ${GREEN}Subfinder${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+else
+  echo -e "${YELLOW}Check ${GREEN}Subfinder${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+fi
+#Github Tokens
+if [ -n "$github_tokens" ] && [ -e "$github_tokens" ]; then
+  echo -e "${YELLOW}Check ${GREEN}Github Tokens${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+else
+  echo -e "${YELLOW}Check ${GREEN}Github Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+fi
+#Gitlab Tokens
+if [ -n "$gitlab_tokens" ] && [ -e "$gitlab_tokens" ]; then
+  echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+else
+  echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+fi
+#whether to show usage quotas     
+if [ -z "$quota" ]; then
+   echo -e "${YELLOW}Show ${BLUE}Quota Usage${YELLOW} ?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+else
+   echo -e "${YELLOW}Show ${BLUE}Quota Usage${YELLOW} ?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"     
+fi 
+echo -e "\n"
+echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please have ${GREEN}Patience${NC}\n"
+
+
+#amass parser
+if [ -n "$amass_config" ]; then
+    amass_config_parsed=$(mktemp)
+    #Parse using regex
+    sed -n '/^\[/,$p' $amass_config | sed '/^$/d' | grep -E '^(apikey|\[|secret|username|password)' > $amass_config_parsed
+    echo -e "${RED}"
+    cat << "EOF"       
+            .+++:.            :                             .+++.
+      +W@@@@@@8        &+W@#               o8W8:      +W@@@@@@#.   oW@@@W#+
+     &@#+   .o@##.    .@@@o@W.o@@o       :@@#&W8o    .@#:  .:oW+  .@#+++&#&
+    +@&        &@&     #@8 +@W@&8@+     :@W.   +@8   +@:          .@8
+    8@          @@     8@o  8@8  WW    .@W      W@+  .@W.          o@#:
+    WW          &@o    &@:  o@+  o@+   #@.      8@o   +W@#+.        +W@8:
+    #@          :@W    &@+  &@+   @8  :@o       o@o     oW@@W+        oW@8
+    o@+          @@&   &@+  &@+   #@  &@.      .W@W       .+#@&         o@W.
+     WW         +@W@8. &@+  :&    o@+ #@      :@W&@&         &@:  ..     :@o
+     :@W:      o@# +Wo &@+        :W: +@W&o++o@W. &@&  8@#o+&@W.  #@:    o@+
+      :W@@WWWW@@8       +              :&W@@@@&    &W  .o#@@W&.   :W@WWW@@&
+        +o&&&&+.                                                    +oooo.
+EOF
+echo -e "${NC}"  
+   #ZoomEye  
+     ZoomEye_api_keys=$(awk '/data_sources.ZoomEye.Credentials/{flag=1;next} /^\[/{flag=0} flag && /username/{user=$3} flag && /password/{print user":"$3}' $amass_config_parsed)
+     invalid_key_found=false
+     if [ -n "$ZoomEye_api_keys" ]; then
+              i=1
+              while read -r api_key; do
+              varname="ZoomEye_cred_$i"
+              eval "$varname=\"$api_key\""
+               i=$((i+1))
+             done <<< "$ZoomEye_api_keys"
+            # curl
+             for ((j=1; ; j++)); do
+               var_name="ZoomEye_cred_$j"
+               api_key=${!var_name}
+               if [ -z "$api_key" ]; then
+                break
+                fi
+              response=$(curl -qski "https://api.zoomeye.org/user/login" -H "Accept: application/json" -H "Content-Type: application/json" -d "{\"username\":\"${api_key%:*}\", \"password\":\"${api_key#*:}\"}")
+              status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+              if [ "$status_code" = "423" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                  echo -e "ⓘ ${VIOLET} ZoomEye${NC} ${YELLOW}Username:Password${NC} = ${BLUE}${api_key}${NC} ${RED}\u2717 Invalid${NC}"
+                  invalid_key_found=true
+              elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} ZoomEye${NC}"
+                           export ZOOMEYE_USERNAME="${api_key%:*}"
+                           export ZOOMEYE_PASSWORD="${api_key#*:}" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s zoomeye   
+                           echo -e "\n"                           
+               fi
+            done
+         if ! $invalid_key_found; then
+            echo -e "ⓘ ${VIOLET} ZoomEye${NC} : ${GREEN}\u2713${NC}"  
+         fi  
+      fi
+   #IntelX          
+    IntelX_api_keys=$(awk '/data_sources.IntelX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
+    invalid_key_found=false
+          if [ -n "$IntelX_api_keys" ]; then
+              echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"                   
+                  i=1
+                  while read -r api_key; do
+                  var_name="IntelX_api_key_$i"
+                  eval "$var_name=\"$api_key\""
+                  i=$((i+1))
+                  done <<< "$IntelX_api_keys"
+                     #curl
+                    for ((j=1; ; j++)); do
+                          var_name="IntelX_api_key_$j"
+                          api_key=${!var_name}
+                     if [ -z "$api_key" ]; then
+                       break
+                     fi
+                          response=$(curl -qski "https://2.intelx.io/authenticate/info" -H "x-key:$api_key" -H "Accept: application/json" && sleep 62s)
+                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+                     if [ "$status_code" = "401" ] ; then
+                       echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
+                       invalid_key_found=true
+                     elif [ "$status_code" = "403" ] ; then
+                       echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Rate Limited${NC}"                      
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} IntelX${NC}"
+                           export INTELX_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s intelx   
+                           sleep 62s   
+                           echo -e "\n"                           
+                     fi
+              done
+              if ! $invalid_key_found; then
+                  echo -e "ⓘ ${VIOLET} IntelX${NC} : ${GREEN}\u2713${NC}"  
+              fi  
+         fi
+fi
+
+
 
 #Git
 if [ -z "$github_tokens" ]; then

@@ -41,7 +41,8 @@ if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; 
     fi  
     echo -e "${BLUE}Optional flags${NC} :"
          echo -e " ${BLUE}-gh${NC},  ${BLUE}--github${NC}     ${GREEN}<github_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.github_tokens${NC}]"
-         echo -e " ${BLUE}-gl${NC},  ${BLUE}--gitlab${NC}     ${GREEN}<gitlab_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.gitlab_tokens${NC}]"           
+         echo -e " ${BLUE}-gl${NC},  ${BLUE}--gitlab${NC}     ${GREEN}<gitlab_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.gitlab_tokens${NC}]"
+         echo -e " ${BLUE}-q${NC},   ${BLUE}--quota${NC}      ${YELLOW}Show ${PURPLE}Usage Quota${NC} (${BLUE}limited${NC})"                    
  exit 0      
 fi   
 
@@ -97,6 +98,10 @@ while [[ $# -gt 0 ]]; do
         shift 
         shift 
         ;;
+        -q|--quota)
+        quota=1
+        shift
+        ;;        
         *)    
         echo -e "${RED}Error: Invalid option ${YELLOW}'$key'${NC} , try ${BLUE}--help${NC} for Usage"
         exit 1
@@ -107,18 +112,59 @@ done
 #Dependency checks
 #dos2unix, for updates
 if ! command -v dos2unix >/dev/null 2>&1; then
-    echo "➼ dos2unix is not installed. Installing..."
-    sudo apt-get update && sudo apt-get install dos2unix -y
+    echo "➼ ${PINK}dos2unix${NC} is ${RED}not installed${NC}. ${GREEN}Installing...${NC}"
+    sudo apt-get update && sudo apt-get install dos2unix -y 
+      if ! command -v dos2unix >/dev/null 2>&1; then
+       echo -e "${PINK}dos2unix${NC} ➼ ${RED}Installation failed${NC}.\n Try manually: ${BLUE}https://www.cyberithub.com/how-to-install-dos2unix-command-on-linux-using-7-easy-steps/${NC}"
+      exit 1
+      fi
 fi
-#jq, for parsing curl json
+#jq, for parsing json
 if ! command -v jq >/dev/null 2>&1; then
-    echo "➼ jq is not installed. Installing..."
-    sudo apt-get update && sudo apt-get install jq -y
+    echo -e "➼ ${PINK}jq${NC} is ${RED}not installed${NC}. ${GREEN}Installing...${NC}"
+    sudo apt-get update && sudo apt-get install jq -y && clear
+      if ! command -v jq >/dev/null 2>&1; then
+        echo -e "${PINK}jq${NC} ➼ ${RED}Installation failed${NC}.\n Try manually: ${BLUE}https://stedolan.github.io/jq/download/${NC}"
+        exit 1
+     fi
+fi
+#pipx, for python
+if ! command -v pipx >/dev/null 2>&1; then
+    echo -e "➼ ${PINK}pipx${NC} is ${RED}not installed${NC}. ${GREEN}Installing...${NC}"
+    python3 -m pip install pipx && python3 -m pipx ensurepath && clear
+      if ! command -v pipx >/dev/null 2>&1; then
+        echo -e "${PINK}pipx${NC} ➼ ${RED}Installation failed${NC}.\n Try manually: ${BLUE}https://pypa.github.io/pipx/installation/${NC}"
+        exit 1
+     fi
 fi
 #yq, for parsing yaml
 if ! command -v yq >/dev/null 2>&1; then
-    echo "➼ yq is not installed. Installing..."
-    sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq
+    echo -e "➼ ${PINK}yq${NC} is ${RED}not installed${NC}. ${GREEN}Installing...${NC}"
+    sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq && clear
+      if ! command -v yq >/dev/null 2>&1; then
+        echo -e "${PINK}yq${NC} ➼ ${RED}Installation failed${NC}.\n Try manually: ${BLUE}https://github.com/mikefarah/yq#install${NC}"
+        exit 1
+     fi
+fi
+#Health Check for Tools
+paths=("$HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py" "$HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt")
+for path in "${paths[@]}"; do
+    if [ ! -f "$path" ]; then
+        echo "➼ Error: $path not found"
+        echo "➼ Attempting to Install missing tools under $HOME/Tools $(mkdir -p $HOME/Tools)"    
+        #APIKEYBEAST
+        mkdir -p $HOME/Tools/AKI/Deps/ && cd $HOME/Tools/AKI/Deps/ && wget ul -O $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py
+        wget url -O $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
+        dos2unix $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py && dos2unix $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
+        pip3 install -r $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
+        cd -
+    fi
+done
+
+#Check Internet
+if ! ping -c 2 google.com > /dev/null; then
+   echo -e "${RED}\u2717 Fatal${NC}: ${YELLOW}No Internet${NC}"
+ exit 1
 fi
 
 #Defaults
@@ -235,6 +281,12 @@ if [ -n "$gitlab_tokens" ] && [ -e "$gitlab_tokens" ]; then
 else
   echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
+#whether to show usage quotas     
+if [ -z "$quota" ]; then
+   echo -e "${YELLOW}Show ${BLUE}Quota Usage${YELLOW} ?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+else
+   echo -e "${YELLOW}Show ${BLUE}Quota Usage${YELLOW} ?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"     
+fi 
 echo -e "\n"
 echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please have ${GREEN}Patience${NC}\n"
 
@@ -307,7 +359,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://otx.alienvault.com/api/v1/user/me" -H "X-OTX-API-KEY: $api_key")
+                         response=$(curl -qski "https://otx.alienvault.com/api/v1/user/me" │  -H "X-OTX-API-KEY: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} AlienVault${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC} or ${RED}Quota Exceeded${NC}"
@@ -335,7 +387,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://osint.bevigil.com/api/example.com/apps/" -H "X-Access-Token: $api_key")
+                          response=$(curl -qski "https://osint.bevigil.com/api/example.com/subdomains/" -H "X-Access-Token: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} BeVigil${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -346,7 +398,7 @@ echo -e "${NC}"
                      fi
               done
               if ! $invalid_key_found; then
-                  echo -e "ⓘ ${VIOLET} AlienVault${NC} : ${GREEN}\u2713${NC}"  
+                  echo -e "ⓘ ${VIOLET} BeVigil${NC} : ${GREEN}\u2713${NC}"  
               fi  
          fi
     #BigDataCloud  
@@ -385,6 +437,7 @@ echo -e "${NC}"
                   while read -r api_key; do
                   var_name="BinaryEdge_api_key_$i"
                   eval "$var_name=\"$api_key\""
+                  #export BINARY_EDGE_API_KEY="$api_key"
                   i=$((i+1))
                   done <<< "$BinaryEdge_api_keys"
                      #curl
@@ -394,21 +447,27 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.binaryedge.io/v2/user/subscription" -H "X-Key: $api_key")
+                          response=$(curl -qski "https://api.binaryedge.io/v2/user/subscription" -H "X-Key: $api_key" -H "Accept":"application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ]; then
                        echo -e "ⓘ ${VIOLET} BinaryEdge${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
                      elif [ "$status_code" = "403" ]; then
-                         echo -e "ⓘ ${VIOLET} BeVigil${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Quota Exceeded${NC}"
+                         echo -e "ⓘ ${VIOLET} BinaryEdge${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Quota Exceeded${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                           echo -e "ⓘ ${VIOLET} BinaryEdge${NC}"
+                           export BINARY_EDGE_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"
+                           python3 $HOME/Tools/APIkeyBeast/apikeybeast.py -s binaryedge     
+                           echo -e "\n"                 
                      fi
               done
               if ! $invalid_key_found; then
-                  echo -e "ⓘ ${VIOLET} BinaryEdge${NC} : ${GREEN}\u2713${NC}"  
+                  echo -e "ⓘ ${VIOLET} BinaryEdge${NC} : ${GREEN}\u2713${NC}" 
               fi  
          fi
-   ##Used to be freee, but became paid via rapidapi: https://rapidapi.com/projectxio/api/bufferover-run-tls/pricing
+   ##Used to be free, but became paid via rapidapi: https://rapidapi.com/projectxio/api/bufferover-run-tls/pricing
    ##Valid Old API Keys == 500 Server Error
    ##BufferOver  
     #BufferOver_api_keys=$(awk '/data_sources.BufferOver.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
@@ -458,15 +517,23 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.builtwith.com/free1/api.json?LOOKUP=example.com&KEY=$api_key")
+                          response=$(curl -qski "https://api.builtwith.com/usagev2/api.json&KEY=$api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if echo "$response" | grep -q "Your key is invalid"; then
                        echo -e "ⓘ ${VIOLET} BuiltWith${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
-                     fi
+                     elif echo "$response" | grep -q "You have used up your API allocation"; then
+                       echo -e "ⓘ ${VIOLET} BuiltWith${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Quota Exceeded${NC}"
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                           echo -e "ⓘ ${VIOLET} BuiltWith${NC}"
+                           export BUILT_WITH_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 $HOME/Tools/APIkeyBeast/apikeybeast.py -s builtwith      
+                           echo -e "\n"                 
+                     fi                                             
               done
               if ! $invalid_key_found; then
-                  echo -e "ⓘ ${VIOLET} BuiltWith${NC} : ${GREEN}\u2713${NC}"  
+                  echo -e "ⓘ ${VIOLET} BuiltWith${NC} : ${GREEN}\u2713${NC}"            
               fi  
          fi
    #Censys  
@@ -493,10 +560,17 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Censys${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$api_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                           echo -e "ⓘ ${VIOLET} Censys${NC}"
+                           export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $api_key" -H "accept: application/json" | jq -r '.login')
+                           export CENSYS_AUTH="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s censys      
+                           echo -e "\n"    
                      fi
               done
               if ! $invalid_key_found; then
-                  echo -e "ⓘ ${VIOLET} Censys${NC} : ${GREEN}\u2713${NC}"  
+                  echo -e "ⓘ ${VIOLET} Censys${NC} : ${GREEN}\u2713${NC}"
               fi  
          fi
    #CertCentral  
@@ -516,7 +590,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://www.digicert.com/services/v2/domain" -H "Content-Type: application/json" -H "X-DC-DEVKEY: $api_key")
+                          response=$(curl -qski "https://www.digicert.com/services/v2/user" -H "Content-Type: application/json" -H "X-DC-DEVKEY: $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} CertCentral${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -629,11 +703,18 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl --ipv4 -qski "https://fullhunt.io/api/v1/domain/example.com/subdomains" -H "X-API-KEY: $api_key")
+                          response=$(curl --ipv4 -qski "https://fullhunt.io/api/v1/auth/status" -H "X-API-KEY: $api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} FullHunt${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} FullHunt${NC}"
+                           export FullHunt_USERNAME=$(curl -qsk "https://fullhunt.io/api/v1/auth/status" -H "X-API-KEY: $api_key" -H "Accept: application/json" | jq -r '.user.first_name')
+                           export FullHunt_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s fullhunt      
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -660,7 +741,7 @@ echo -e "${NC}"
                           response=$(curl -qski  "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
-                           invalid_key_found=true                           
+                           invalid_key_found=true         
                           elif [ "$status_code" = "403" ]; then
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"     
                            invalid_key_found=true                                                          
@@ -687,7 +768,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://gitlab.com/api/v4/user" -H "PRIVATE-TOKEN: $api_key")
+                          response=$(curl -qski "https://gitlab.com/api/v4/user" -H "PRIVATE-TOKEN: $api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} GitLab${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -718,18 +799,25 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.hunter.io/v2/domain-search?domain=example.com&api_key=$api_key")
+                          response=$(curl -qski "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Hunter${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} Hunter${NC}"
+                           export HUNTER_USER=$(curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json" | jq -r '.data.first_name')
+                           export HUNTER_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s fullhunt      
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} Hunter${NC} : ${GREEN}\u2713${NC}"  
               fi  
          fi
-   #IntelX  
+   #IntelX          
     IntelX_api_keys=$(awk '/data_sources.IntelX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$IntelX_api_keys" ]; then
@@ -747,13 +835,20 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://2.intelx.io/authenticate/info" "x-key:$api_key" && sleep 62s)
+                          response=$(curl -qski "https://2.intelx.io/authenticate/info" -H "x-key:$api_key" -H "Accept: application/json" && sleep 62s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
                      elif [ "$status_code" = "403" ] ; then
                        echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Rate Limited${NC}"                      
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} IntelX${NC}"
+                           export INTELX_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s intelx   
+                           sleep 62s   
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -777,7 +872,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.ipdata.co/1.1.1.1/asn?api-key=$api_key")
+                          response=$(curl -qski "https://api.ipdata.co/?api-key=$api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} IPdata${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -805,7 +900,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://ipinfo.io/1.1.1.1?token=$api_key")
+                          response=$(curl -qski "https://ipinfo.io/me?token=$api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} IPinfo${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -813,12 +908,18 @@ echo -e "${NC}"
                      elif [ "$status_code" = "429" ]; then
                           echo -e "ⓘ ${VIOLET} IPinfo${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Quota Exceeded${NC}"
                        invalid_key_found=true
-                    fi
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} IPinfo${NC}"
+                           export IPINFO_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s ipinfo   
+                           echo -e "\n"                                                     
+                     fi                     
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} IPinfo${NC} : ${GREEN}\u2713${NC}"  
               fi  
-         fi
+         fi  
    #LeakIX  
     LeakIX_api_keys=$(awk '/data_sources.LeakIX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
@@ -864,7 +965,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://app.netlas.io/api/domains/?q=example" -H "X-Api-Key: $api_key" -H "Accept: application/json")
+                          response=$(curl -qski  "https://app.netlas.io/api/users/current/" -H "X-Api-Key: $api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [  "$status_code" = "400" ] || [  "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Netlas${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -892,7 +993,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski curl -qski "https://networksdb.io/api/ip-info" -d "ip=1.1.1.1" -H  "X-Api-Key: $api_key")
+                          response=$(curl -qski "https://networksdb.io/api/key" -H "X-Api-Key: $api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                       if echo "$response" | grep -q "API key inactive"; then  
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! Inactive${NC}" 
@@ -900,6 +1001,12 @@ echo -e "${NC}"
                       elif echo "$response" | grep -q "wrong API key"; then
                        echo -e "ⓘ ${VIOLET} NetworksDB${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} NetworksDB${NC}"
+                           export NETWORKS_DB_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s networkdb   
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -925,17 +1032,24 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key")
+                          response=$(curl -qski "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} PassiveTotal${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$api_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} PassiveTotal${NC}"
+                           export PASSIVE_TOTAL_USERNAME=$(curl -qsk "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key" -H "Accept: application/json" | jq -r '.user.owner')
+                           export PASSIVE_TOTAL_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s passivetotal   
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} PassiveTotal${NC} : ${GREEN}\u2713${NC}"  
               fi  
-         fi    
+         fi   
    #Pastebin  
     Pastebin_api_keys=$(awk '/data_sources.Pastebin.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
@@ -996,7 +1110,7 @@ echo -e "${NC}"
     Shodan_api_keys=$(awk '/data_sources.Shodan.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$Shodan_api_keys" ]; then
-              echo -e "ⓘ ${VIOLET} Shodan${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"           
+              #echo -e "ⓘ ${VIOLET} Shodan${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"           
                   i=1
                   while read -r api_key; do
                   var_name="Shodan_api_key_$i"
@@ -1010,7 +1124,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(sleep 90s && curl -qski "https://api.shodan.io/account/profile?key=$api_key")
+                          response=$(curl -qski "https://api.shodan.io/api-info?key=$api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Shodan${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1018,12 +1132,19 @@ echo -e "${NC}"
                      elif [ "$status_code" = "429" ]; then
                        echo -e "ⓘ ${VIOLET} Shodan${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Failed Checks${NC} [${YELLOW}429: Too many requests${NC}]"
                        invalid_key_found=true   
-                     fi                    
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} Shodan${NC}"
+                           export SHODAN_API_KEY="$api_key" 
+                           export SHODAN_USERNAME=$(curl -qsk "https://api.shodan.io/account/profile?key=$api_key" -H "Accept: application/json" | jq -r '.display_name')
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s shodan      
+                           echo -e "\n"                           
+                     fi                   
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} Shodan${NC} : ${GREEN}\u2713${NC}"  
               fi  
-         fi
+         fi 
    #SecurityTrails  
     SecurityTrails_api_keys=$(awk '/data_sources.SecurityTrails.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
@@ -1041,14 +1162,20 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.securitytrails.com/v1/domain/example.com/subdomains" -H "APIKEY:$api_key")
+                          response=$(curl -qski "https://api.securitytrails.com/v1/account/usage" -H "APIKEY:$api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} SecurityTrails${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
                      elif [ "$status_code" = "429" ]; then
                       echo -e "ⓘ ${VIOLET} SecurityTrails${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED} Quota Exceeded${NC}"
-                      fi
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} SecurityTrails${NC}"                          
+                           export SECURITY_TRAILS_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s securitytrails   
+                           echo -e "\n"                           
+                     fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} SecurityTrails${NC} : ${GREEN}\u2713${NC}"  
@@ -1071,7 +1198,7 @@ echo -e "${NC}"
                if [ -z "$api_key" ]; then
                 break
                 fi
-              response=$(curl -qski "https://api.spamhaus.org/api/v1/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"username\":\"${api_key%:*}\", \"password\":\"${api_key#*:}\", \"realm\":\"intel\"}")
+              response=$(curl -qski "https://api.spamhaus.org/api/v1/login" -H "Accept: application/json" -H "Content-Type: application/json" -d "{\"username\":\"${api_key%:*}\", \"password\":\"${api_key#*:}\", \"realm\":\"intel\"}")
               status_code=$(echo "$response" | awk '/HTTP/{print $2}')
               if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                   echo -e "ⓘ ${VIOLET} Spamhaus${NC} ${YELLOW}Username : Password${NC} = ${BLUE}${NC}${api_key} ${RED}\u2717 Invalid${NC}"
@@ -1101,7 +1228,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://api.twitter.com/oauth2/token" --data 'grant_type=client_credentials' -H "accept: application/json" -H "Authorization: Basic $api_key")
+                          response=$(curl -qski "https://api.twitter.com/oauth2/token" --data 'grant_type=client_credentials' -H "Accept: application/json" -H "Authorization: Basic $api_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Twitter${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$api_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
@@ -1129,11 +1256,17 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://urlscan.io/user/quotas/" -H "API-Key: $api_key" -H "Content-Type: application/json")
+                          response=$(curl -qski "https://urlscan.io/user/quotas/" -H "API-Key: $api_key" -H "Content-Type: application/json" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "400" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} URLScan${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                      elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} URLScan${NC}"
+                           export URLSCANIO_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s urlscan   
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -1157,7 +1290,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://www.virustotal.com/api/v3/ip_addresses/1.1.1.1" -H "x-apikey: $api_key" -H "Content-Type: application/json")
+                          response=$(curl -qski "https://www.virustotal.com/api/v3/ip_addresses/1.1.1.1" -H "x-apikey: $api_key" -H "Content-Type: application/json" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} VirusTotal${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1193,7 +1326,17 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} WhoisXML${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
-                     fi
+                     elif echo "$response" | grep -q '"credits": 0'; then
+                       echo -e "ⓘ ${VIOLET} WhoisXML${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Useless${NC} [${PINK}500${NC}/${PURPLE}500 ${RED}USED${NC}]"
+                       echo -e "ⓘ  Create a${YELLOW} new Account${NC} : ${BLUE}https://whois.whoisxmlapi.com/signup?lang=en${NC}"
+                       invalid_key_found=true                        
+                      elif [[ "$status_code" = "200" && -n "$quota" ]]; then                       
+                               echo -e "ⓘ ${VIOLET} WhoisXML${NC}"
+                               export WHOIS_XML_API_KEY="$api_key" 
+                               echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                               python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s whoisxmlapi   
+                               echo -e "\n"                             
+                      fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} WhoisXML${NC} : ${GREEN}\u2713${NC}"  
@@ -1216,7 +1359,7 @@ echo -e "${NC}"
                if [ -z "$api_key" ]; then
                 break
                 fi
-                  response=$(curl --ipv4 -qski  "https://yandex.com/search/xml?user=$(echo $api_key | awk -F ':' '{print $1}')&key=$(echo $api_key | awk -F ':' '{print $2":"$3}')&query=example")
+                  response=$(curl --ipv4 -qski "https://yandex.com/search/xml?user=$(echo $api_key | awk -F ':' '{print $1}')&key=$(echo $api_key | awk -F ':' '{print $2":"$3}')&query=example")
                   status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                  if echo "$response" | grep -q "Request limit reached"; then
                        echo -e "ⓘ ${VIOLET} Yandex${NC} ${YELLOW}Username : apikey${NC} = ${BLUE}${api_key}${NC} ${RED}\u2717 Limit Reached${NC}"
@@ -1251,12 +1394,19 @@ echo -e "${NC}"
                if [ -z "$api_key" ]; then
                 break
                 fi
-              response=$(curl -qski "https://api.zoomeye.org/user/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"username\":\"${api_key%:*}\", \"password\":\"${api_key#*:}\"}")
+              response=$(curl -qski "https://api.zoomeye.org/user/login" -H "Accept: application/json" -H "Content-Type: application/json" -d "{\"username\":\"${api_key%:*}\", \"password\":\"${api_key#*:}\"}")
               status_code=$(echo "$response" | awk '/HTTP/{print $2}')
               if [ "$status_code" = "423" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                   echo -e "ⓘ ${VIOLET} ZoomEye${NC} ${YELLOW}Username:Password${NC} = ${BLUE}${api_key}${NC} ${RED}\u2717 Invalid${NC}"
                   invalid_key_found=true
-              fi
+              elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} ZoomEye${NC}"
+                           export ZOOMEYE_USERNAME="${api_key%:*}"
+                           export ZOOMEYE_PASSWORD="${api_key#*:}" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s zoomeye   
+                           echo -e "\n"                           
+               fi
             done
          if ! $invalid_key_found; then
             echo -e "ⓘ ${VIOLET} ZoomEye${NC} : ${GREEN}\u2713${NC}"  
@@ -1386,6 +1536,12 @@ echo -e "${NC}"
                      elif [ "$status_code" = "403" ]; then
                          echo -e "ⓘ ${VIOLET} BeVigil${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Quota Exceeded${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                           echo -e "ⓘ ${VIOLET} BinaryEdge${NC}"
+                           export BINARY_EDGE_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"
+                           python3 $HOME/Tools/APIkeyBeast/apikeybeast.py -s binaryedge     
+                           echo -e "\n"                 
                      fi
               done
               if ! $invalid_key_found; then
@@ -1404,6 +1560,13 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Censys${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$encoded_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                           echo -e "ⓘ ${VIOLET} Censys${NC}"
+                           export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $api_key" -H "accept: application/json" | jq -r '.login')
+                           export CENSYS_AUTH="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s censys      
+                           echo -e "\n"    
                      fi
             done
          if ! $invalid_key_found; then
@@ -1549,6 +1712,13 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Hunter${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} Hunter${NC}"
+                           export HUNTER_USER=$(curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json" | jq -r '.data.first_name')
+                           export HUNTER_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s fullhunt      
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -1577,6 +1747,13 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} IntelX${NC}"
+                           export INTELX_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s intelx   
+                           sleep 62s   
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -1595,7 +1772,14 @@ echo -e "${NC}"
                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                       echo -e "ⓘ ${VIOLET} PassiveTotal${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$encoded_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
                       invalid_key_found=true
-                    fi
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} PassiveTotal${NC}"
+                           export PASSIVE_TOTAL_USERNAME=$(curl -qsk "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key" -H "Accept: application/json" | jq -r '.user.owner')
+                           export PASSIVE_TOTAL_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s passivetotal   
+                           echo -e "\n"                           
+                     fi
              done
              if ! $invalid_key_found; then
                  echo -e "ⓘ ${VIOLET} PassiveTotal${NC} : ${GREEN}\u2713${NC}"  
@@ -1625,7 +1809,13 @@ echo -e "${NC}"
                        invalid_key_found=true
                      elif [ "$status_code" = "429" ]; then
                       echo -e "ⓘ ${VIOLET} SecurityTrails${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED} Quota Exceeded${NC}"
-                      fi
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} SecurityTrails${NC}"                          
+                           export SECURITY_TRAILS_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s securitytrails   
+                           echo -e "\n"                           
+                     fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} SecurityTrails${NC} : ${GREEN}\u2713${NC}"  
@@ -1649,7 +1839,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl --ipv4 -qski "https://api.shodan.io/account/profile?key=$api_key" && sleep 62s)
+                          response=$(curl -qski "https://api.shodan.io/api-info?key=$api_key" -H "Accept: application/json")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} Shodan${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1657,7 +1847,14 @@ echo -e "${NC}"
                      elif [ "$status_code" = "429" ]; then
                        echo -e "ⓘ ${VIOLET} Shodan${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Failed Checks${NC} [${YELLOW}429: Too many requests${NC}]"
                        invalid_key_found=true   
-                     fi                    
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} Shodan${NC}"
+                           export SHODAN_API_KEY="$api_key" 
+                           export SHODAN_USERNAME=$(curl -qsk "https://api.shodan.io/account/profile?key=$api_key" -H "Accept: application/json" | jq -r '.display_name')
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s shodan      
+                           echo -e "\n"                           
+                     fi                     
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} Shodan${NC} : ${GREEN}\u2713${NC}"  
@@ -1685,6 +1882,12 @@ echo -e "${NC}"
                      if [ "$status_code" = "400" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} URLScan${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                      elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} URLScan${NC}"
+                           export URLSCANIO_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s urlscan   
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -1744,7 +1947,17 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} WhoisXML${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
-                     fi
+                     elif echo "$response" | grep -q '"credits": 0'; then
+                       echo -e "ⓘ ${VIOLET} WhoisXML${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Useless${NC} [${PINK}500${NC}/${PURPLE}500 ${RED}USED${NC}]"
+                       echo -e "ⓘ  Create a${YELLOW} new Account${NC} : ${BLUE}https://whois.whoisxmlapi.com/signup?lang=en${NC}"
+                       invalid_key_found=true                        
+                      elif [[ "$status_code" = "200" && -n "$quota" ]]; then                       
+                               echo -e "ⓘ ${VIOLET} WhoisXML${NC}"
+                               export WHOIS_XML_API_KEY="$api_key" 
+                               echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                               python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s whoisxmlapi   
+                               echo -e "\n"                             
+                      fi
               done
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} WhoisXML${NC} : ${GREEN}\u2713${NC}"  
@@ -1762,7 +1975,14 @@ echo -e "${NC}"
               if [ "$status_code" = "423" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                   echo -e "ⓘ ${VIOLET} ZoomEye${NC} ${YELLOW}Username:Password${NC} = ${BLUE}${api_key}${NC} ${RED}\u2717 Invalid${NC}"
                   invalid_key_found=true
-              fi
+              elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} ZoomEye${NC}"
+                           export ZOOMEYE_USERNAME="${api_key%:*}"
+                           export ZOOMEYE_PASSWORD="${api_key#*:}" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s zoomeye   
+                           echo -e "\n"                           
+               fi
             done
          if ! $invalid_key_found; then
             echo -e "ⓘ ${VIOLET} ZoomEye${NC} : ${GREEN}\u2713${NC}"  
