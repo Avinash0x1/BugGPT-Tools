@@ -104,62 +104,72 @@ Optional flags :
 ### Currently Checked Keys & Tokens:
  - Amass : Almost all **free** sources are checked and validated!
 ```yaml
-ASNLookup
-AlienVault
-BeVigil
-BigDataCloud
-BinaryEdge
-BuiltWith
-Censys
-CertCentral
-Chaos
-Cloudflare
-Facebook
-FullHunt
-GitHub
-GitLab
-Hunter
-IntelX
-IPdata
-IPinfo
-LeakIX
-Netlas
-NetworksDB
-ONYPHE
-PassiveTotal
-Pastebin
-PublicWWW
-Shodan
-SecurityTrails
-Spamhaus
-Twitter
-URLScan
-VirusTotal
-WhoisXML
-Yandex
-ZoomEye
+ASNLookup : ✓
+AlienVault : ✓
+BeVigil : ✓
+BigDataCloud : ✓
+BinaryEdge : ✓
+BuiltWith : ✓
+Censys : ✓
+CertCentral : ✓
+Chaos : ✓
+Cloudflare : ✓
+Facebook : ✓
+FullHunt : ✓
+GitHub : ✓
+GitLab : ✓
+Hunter : ✓
+IntelX : ✓
+IPdata : ✓
+IPinfo : ✓
+LeakIX : ✓
+Netlas : ✓
+NetworksDB : ✓
+ONYPHE : ✓
+PassiveTotal : ✓
+Pastebin : ✓
+PublicWWW : ✓
+Shodan : ✓
+SecurityTrails : ✓
+Spamhaus : ✓
+Twitter : ✓
+URLScan : ✓
+VirusTotal : ✓
+WhoisXML : ✓
+Yandex : ✓
+ZoomEye : ✓
 ```
- - Subfinder : Almost all **free** sources are checked and validated!
+ - [**Subfinder**](https://github.com/projectdiscovery/subfinder/tree/main/v2/pkg/subscraping/sources) : Almost all **free** sources are checked and validated!
+**
 ```yaml
-alienvault
-bevigil
-binaryedge
-censys
-certspotter
-chaos
-fullhunt
-github
-hunter
-intelx
-passivetotal
-securitytrails
-shodan
-urlscan
-virustotal
-whoisxmlapi
-zoomeye
-zoomeyeapi
+anubis - (✘) [Not Available]
+alienvault : ✓
+bevigil : ✓
+binaryedge : ✓
+bufferover - (✘) [💰 --> https://rapidapi.com/projectxio/api/bufferover-run-tls/pricing]
+chinaz - (✘) [Sketchy as F]
+chaos : ✓
+censys : ✓
+certspotter : ✓
+c99 - (✘) [💰 --> http://api.c99.nl/dashboard/shop]
+fofa - ?
+fullhunt : ✓
+github : ✓
+hunter : ✓
+intelx : ✓
+passivetotal : ✓
+quake : ?
+robotext: ?
+securitytrails : ✓
+threatbook  ?
+shodan : ✓
+urlscan : ✓
+virustotal : ✓
+whoisxmlapi : ✓
+zoomeye : ✓
+zoomeyeapi : ✓
 ```
+**
 
 ---
 ### Verification:
@@ -265,6 +275,18 @@ curl -qsk "https://psbdmp.ws/api/v3/dump/KF7hDTp1?key=$api_key"
 ```bash
 curl -qsk "https://publicwww.com/profile/api_status.xml?key=$api_key"
 ```
+- [**Quake**](https://quake.360.net/quake/#/help?id=5e77423bcb9954d2f8a01656&title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
+```bash
+curl -qsk "https://quake.360.net/api/v3/user/info" -H "X-QuakeToken: $api_key" -H "Accept: application/json"
+```
+- [**RoboTex**](https://www.robtex.com/api/)
+```bash
+curl -qsk "https://freeapi.robtex.com/ipquery/1.1.1.1?key=$api_key" -H "Accept: application/json"
+```
+> In case timeouts:
+> ```bash
+> curl -qsk "https://proapi.robtex.com/ipquery/199.19.54.12?key=$api_key" -H "Accept: application/json"
+> ```
 - [**Shodan**](https://developer.shodan.io/api)
 ```bash
 curl -qsk "https://api.shodan.io/account/profile?key=$api_key" -H "Accept: application/json"
