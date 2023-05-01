@@ -153,11 +153,11 @@ for path in "${paths[@]}"; do
         echo "➼ Error: $path not found"
         echo "➼ Attempting to Install missing tools under $HOME/Tools $(mkdir -p $HOME/Tools)"    
         #APIKEYBEAST
-        mkdir -p $HOME/Tools/AKI/Deps/ && cd $HOME/Tools/AKI/Deps/ && wget ul -O $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py
-        wget url -O $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
+        mkdir -p $HOME/Tools/AKI/Deps/ && cd $HOME/Tools/AKI/Deps/ && wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Deps/APIKEYBEAST-forked.py -O $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py
+        wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Deps/APIKEYBEAST-requirements.txt -O $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
         dos2unix $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py && dos2unix $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
         pip3 install -r $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
-        cd -
+        clear && cd -
     fi
 done
 
@@ -565,7 +565,7 @@ echo -e "${NC}"
                            export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $api_key" -H "accept: application/json" | jq -r '.login')
                            export CENSYS_AUTH="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s censys      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s censys      
                            echo -e "\n"    
                      fi
               done
@@ -713,7 +713,7 @@ echo -e "${NC}"
                            export FullHunt_USERNAME=$(curl -qsk "https://fullhunt.io/api/v1/auth/status" -H "X-API-KEY: $api_key" -H "Accept: application/json" | jq -r '.user.first_name')
                            export FullHunt_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s fullhunt      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s fullhunt      
                            echo -e "\n"                           
                      fi
               done
@@ -725,6 +725,7 @@ echo -e "${NC}"
     GitHub_api_keys=$(awk '/data_sources.GitHub.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$GitHub_api_keys" ]; then
+            echo -e "ⓘ ${VIOLET} Github${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
                   i=1
                   while read -r api_key; do
                   var_name="GitHub_api_key_$i"
@@ -809,7 +810,7 @@ echo -e "${NC}"
                            export HUNTER_USER=$(curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json" | jq -r '.data.first_name')
                            export HUNTER_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s fullhunt      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s fullhunt      
                            echo -e "\n"                           
                      fi
               done
@@ -821,7 +822,8 @@ echo -e "${NC}"
     IntelX_api_keys=$(awk '/data_sources.IntelX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$IntelX_api_keys" ]; then
-              echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"                   
+          echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
+          echo -e "If ${RED}too may errors${NC}\n ${YELLOW}Try Manually${NC}: ${BLUE} https://github.com/Azathothas/BugGPT-Tools/tree/main/aki#verification${NC}"                  
                   i=1
                   while read -r api_key; do
                   var_name="IntelX_api_key_$i"
@@ -835,7 +837,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski "https://2.intelx.io/authenticate/info" -H "x-key:$api_key" -H "Accept: application/json" && sleep 62s)
+                          response=$(curl -qski "https://2.intelx.io/authenticate/info" -H "x-key:$api_key" -H "Accept: application/json" && sleep 30s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] ; then
                        echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -846,7 +848,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} IntelX${NC}"
                            export INTELX_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s intelx   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s intelx   
                            sleep 62s   
                            echo -e "\n"                           
                      fi
@@ -912,7 +914,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} IPinfo${NC}"
                            export IPINFO_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s ipinfo   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s ipinfo   
                            echo -e "\n"                                                     
                      fi                     
               done
@@ -924,6 +926,8 @@ echo -e "${NC}"
     LeakIX_api_keys=$(awk '/data_sources.LeakIX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$LeakIX_api_keys" ]; then
+          echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
+          echo -e "If ${RED}too may errors${NC}\n ${YELLOW}Try Manually${NC}: ${BLUE} https://github.com/Azathothas/BugGPT-Tools/tree/main/aki#verification${NC}"
                   i=1
                   while read -r api_key; do
                   var_name="LeakIX_api_key_$i"
@@ -1005,7 +1009,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} NetworksDB${NC}"
                            export NETWORKS_DB_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s networkdb   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s networkdb   
                            echo -e "\n"                           
                      fi
               done
@@ -1042,7 +1046,7 @@ echo -e "${NC}"
                            export PASSIVE_TOTAL_USERNAME=$(curl -qsk "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key" -H "Accept: application/json" | jq -r '.user.owner')
                            export PASSIVE_TOTAL_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s passivetotal   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s passivetotal   
                            echo -e "\n"                           
                      fi
               done
@@ -1137,7 +1141,7 @@ echo -e "${NC}"
                            export SHODAN_API_KEY="$api_key" 
                            export SHODAN_USERNAME=$(curl -qsk "https://api.shodan.io/account/profile?key=$api_key" -H "Accept: application/json" | jq -r '.display_name')
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s shodan      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s shodan      
                            echo -e "\n"                           
                      fi                   
               done
@@ -1173,7 +1177,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} SecurityTrails${NC}"                          
                            export SECURITY_TRAILS_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s securitytrails   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s securitytrails   
                            echo -e "\n"                           
                      fi
               done
@@ -1265,7 +1269,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} URLScan${NC}"
                            export URLSCANIO_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s urlscan   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s urlscan   
                            echo -e "\n"                           
                      fi
               done
@@ -1334,7 +1338,7 @@ echo -e "${NC}"
                                echo -e "ⓘ ${VIOLET} WhoisXML${NC}"
                                export WHOIS_XML_API_KEY="$api_key" 
                                echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                               python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s whoisxmlapi   
+                               python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s whoisxmlapi   
                                echo -e "\n"                             
                       fi
               done
@@ -1404,7 +1408,7 @@ echo -e "${NC}"
                            export ZOOMEYE_USERNAME="${api_key%:*}"
                            export ZOOMEYE_PASSWORD="${api_key#*:}" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s zoomeye   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s zoomeye   
                            echo -e "\n"                           
                fi
             done
@@ -1565,7 +1569,7 @@ echo -e "${NC}"
                            export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $api_key" -H "accept: application/json" | jq -r '.login')
                            export CENSYS_AUTH="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s censys      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s censys      
                            echo -e "\n"    
                      fi
             done
@@ -1717,7 +1721,7 @@ echo -e "${NC}"
                            export HUNTER_USER=$(curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json" | jq -r '.data.first_name')
                            export HUNTER_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s fullhunt      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s fullhunt      
                            echo -e "\n"                           
                      fi
               done
@@ -1729,6 +1733,8 @@ echo -e "${NC}"
     IntelX_api_keys=$(yq eval '.intelx[]' $subfinder_config_parsed)
     invalid_key_found=false
           if [ -n "$IntelX_api_keys" ]; then
+          echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
+          echo -e "If ${RED}too may errors${NC}\n ${YELLOW}Try Manually${NC}: ${BLUE} https://github.com/Azathothas/BugGPT-Tools/tree/main/aki#verification${NC}" 
                   i=1
                   while read -r api_key; do
                   var_name="IntelX_api_key_$i"
@@ -1742,7 +1748,7 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl --ipv4 -qski "https://2.intelx.io/authenticate/info" "x-key:$api_key" && sleep 10s)
+                          response=$(curl --ipv4 -qski "https://2.intelx.io/authenticate/info" "x-key:$api_key" && sleep 30s)
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
@@ -1751,7 +1757,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} IntelX${NC}"
                            export INTELX_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s intelx   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s intelx   
                            sleep 62s   
                            echo -e "\n"                           
                      fi
@@ -1777,7 +1783,7 @@ echo -e "${NC}"
                            export PASSIVE_TOTAL_USERNAME=$(curl -qsk "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key" -H "Accept: application/json" | jq -r '.user.owner')
                            export PASSIVE_TOTAL_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s passivetotal   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s passivetotal   
                            echo -e "\n"                           
                      fi
              done
@@ -1813,7 +1819,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} SecurityTrails${NC}"                          
                            export SECURITY_TRAILS_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s securitytrails   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s securitytrails   
                            echo -e "\n"                           
                      fi
               done
@@ -1852,7 +1858,7 @@ echo -e "${NC}"
                            export SHODAN_API_KEY="$api_key" 
                            export SHODAN_USERNAME=$(curl -qsk "https://api.shodan.io/account/profile?key=$api_key" -H "Accept: application/json" | jq -r '.display_name')
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s shodan      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s shodan      
                            echo -e "\n"                           
                      fi                     
               done
@@ -1886,7 +1892,7 @@ echo -e "${NC}"
                           echo -e "ⓘ ${VIOLET} URLScan${NC}"
                            export URLSCANIO_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s urlscan   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s urlscan   
                            echo -e "\n"                           
                      fi
               done
@@ -1955,7 +1961,7 @@ echo -e "${NC}"
                                echo -e "ⓘ ${VIOLET} WhoisXML${NC}"
                                export WHOIS_XML_API_KEY="$api_key" 
                                echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                               python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s whoisxmlapi   
+                               python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s whoisxmlapi   
                                echo -e "\n"                             
                       fi
               done
@@ -1980,7 +1986,7 @@ echo -e "${NC}"
                            export ZOOMEYE_USERNAME="${api_key%:*}"
                            export ZOOMEYE_PASSWORD="${api_key#*:}" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s zoomeye   
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s zoomeye   
                            echo -e "\n"                           
                fi
             done
@@ -2041,6 +2047,7 @@ echo -e "${NC}"
         GitHub_api_keys=$(cat $github_tokens)
         invalid_key_found=false
           if [ -n "$GitHub_api_keys" ]; then
+          echo -e "ⓘ ${VIOLET} Github${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
                   i=1
                   while read -r api_key; do
                   var_name="GitHub_api_key_$i"
