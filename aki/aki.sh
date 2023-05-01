@@ -810,7 +810,7 @@ echo -e "${NC}"
                            export HUNTER_USER=$(curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json" | jq -r '.data.first_name')
                            export HUNTER_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s fullhunt      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s hunterio      
                            echo -e "\n"                           
                      fi
               done
@@ -1674,6 +1674,13 @@ echo -e "${NC}"
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
                        echo -e "ⓘ ${VIOLET} FullHunt${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                        invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                          echo -e "ⓘ ${VIOLET} FullHunt${NC}"
+                           export FullHunt_USERNAME=$(curl -qsk "https://fullhunt.io/api/v1/auth/status" -H "X-API-KEY: $api_key" -H "Accept: application/json" | jq -r '.user.first_name')
+                           export FullHunt_API_KEY="$api_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s fullhunt      
+                           echo -e "\n"                           
                      fi
               done
               if ! $invalid_key_found; then
@@ -1738,7 +1745,7 @@ echo -e "${NC}"
                            export HUNTER_USER=$(curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: application/json" | jq -r '.data.first_name')
                            export HUNTER_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s fullhunt      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s hunterio      
                            echo -e "\n"                           
                      fi
               done
