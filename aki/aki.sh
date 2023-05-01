@@ -1417,22 +1417,40 @@ echo -e "${NC}"
 #EOF amass    
 fi
 #############
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#Cleanup Vars for subfinder's Quota
+unset_variables() {
+                     unset CENSYS_USERNAME
+                     unset unset CENSYS_AUTH
+                     unset BINARY_EDGE_USERNAME
+                     unset BINARY_EDGE_API_KEY
+                     unset BUILT_WITH_USERNAME
+                     unset BUILT_WITH_API_KEY
+                     unset FullHunt_USERNAME
+                     unset FullHunt_API_KEY
+                     unset HUNTER_USER
+                     unset HUNTER_API_KEY
+                     unset INTELX_USERNAME
+                     unset INTELX_API_KEY
+                     unset IPINFO_USERNAME
+                     unset IPINFO_API_KEY
+                     unset NETWORKS_DB_USERNAME
+                     unset NETWORKS_DB_API_KEY
+                     unset ONYPHE_USERNAME
+                     unset ONYPHE_API_KEY
+                     unset PASSIVE_TOTAL_USERNAME
+                     unset PASSIVE_TOTAL_API_KEY
+                     unset SECURITY_TRAILS_USERNAME
+                     unset SECURITY_TRAILS_API_KEY
+                     unset SHODAN_USERNAME
+                     unset SHODAN_API_KEY
+                     unset URLSCANIO_USERNAME
+                     unset URLSCANIO_API_KEY
+                     unset WHOIS_XML_API_USERNAME
+                     unset WHOIS_XML_API_KEY
+                     unset ZOOMEYE_USERNAME
+                     unset ZOOMEYE_PASSWORD
+}
+unset_variables
 
 #subfinder parser
 if [ -n "$subfinder_config" ]; then
@@ -1556,7 +1574,7 @@ echo -e "${NC}"
      if [ -n "$censys_Creds" ]; then
             for api_key in $censys_Creds
             do
-                encoded_key=$(printf $api_key | tr -d '[:space:]' | base64 | tr -d '[:space:]')
+                export encoded_key=$(printf $api_key | tr -d '[:space:]' | base64 | tr -d '[:space:]')
                           response=$(curl -qski "https://search.censys.io/api/v1/account" -H "accept: application/json" -H "Authorization: Basic $encoded_key")
                           status_code=$(echo "$response" | awk '/HTTP/{print $2}')
                      if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
@@ -1564,8 +1582,8 @@ echo -e "${NC}"
                        invalid_key_found=true
                      elif [[ "$status_code" = "200" && -n "$quota" ]]; then
                            echo -e "ⓘ ${VIOLET} Censys${NC}"
-                           export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $api_key" -H "accept: application/json" | jq -r '.login')
-                           export CENSYS_AUTH="$api_key" 
+                           export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $encoded_key" -H "Accept: application/json" | jq -r '.login')                           
+                           export CENSYS_AUTH="$encoded_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
                            python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s censys      
                            echo -e "\n"    
@@ -1778,8 +1796,8 @@ echo -e "${NC}"
                       invalid_key_found=true
                      elif [[ "$status_code" = "200" && -n "$quota" ]]; then
                           echo -e "ⓘ ${VIOLET} PassiveTotal${NC}"
-                           export PASSIVE_TOTAL_USERNAME=$(curl -qsk "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $api_key" -H "Accept: application/json" | jq -r '.user.owner')
-                           export PASSIVE_TOTAL_API_KEY="$api_key" 
+                           export PASSIVE_TOTAL_USERNAME=$(curl -qsk "https://api.riskiq.net/pt/v2/account/quota" -H "Authorization: Basic $encoded_key" -H "Accept: application/json" | jq -r '.user.owner')
+                           export PASSIVE_TOTAL_API_KEY="$encoded_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
                            python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s passivetotal   
                            echo -e "\n"                           
@@ -2120,7 +2138,8 @@ echo -e "${NC}"
          fi   
 fi
  
-
+#Clean ENV:Cluterrs 
+unset_variables
 #Check For Update on Script end
 #Update. Github caches take several minutes to reflect globally  
    if ping -c 2 github.com > /dev/null; then

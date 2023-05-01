@@ -219,82 +219,57 @@ if [ -n "$amass_config" ]; then
         +o&&&&+.                                                    +oooo.
 EOF
 echo -e "${NC}"  
-   #ZoomEye  
-     ZoomEye_api_keys=$(awk '/data_sources.ZoomEye.Credentials/{flag=1;next} /^\[/{flag=0} flag && /username/{user=$3} flag && /password/{print user":"$3}' $amass_config_parsed)
-     invalid_key_found=false
-     if [ -n "$ZoomEye_api_keys" ]; then
-              i=1
-              while read -r api_key; do
-              varname="ZoomEye_cred_$i"
-              eval "$varname=\"$api_key\""
-               i=$((i+1))
-             done <<< "$ZoomEye_api_keys"
-            # curl
-             for ((j=1; ; j++)); do
-               var_name="ZoomEye_cred_$j"
-               api_key=${!var_name}
-               if [ -z "$api_key" ]; then
-                break
-                fi
-              response=$(curl -qski "https://api.zoomeye.org/user/login" -H "Accept: application/json" -H "Content-Type: application/json" -d "{\"username\":\"${api_key%:*}\", \"password\":\"${api_key#*:}\"}")
-              status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-              if [ "$status_code" = "423" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
-                  echo -e "ⓘ ${VIOLET} ZoomEye${NC} ${YELLOW}Username:Password${NC} = ${BLUE}${api_key}${NC} ${RED}\u2717 Invalid${NC}"
-                  invalid_key_found=true
-              elif [[ "$status_code" = "200" && -n "$quota" ]]; then
-                          echo -e "ⓘ ${VIOLET} ZoomEye${NC}"
-                           export ZOOMEYE_USERNAME="${api_key%:*}"
-                           export ZOOMEYE_PASSWORD="${api_key#*:}" 
-                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s zoomeye   
-                           echo -e "\n"                           
-               fi
-            done
-         if ! $invalid_key_found; then
-            echo -e "ⓘ ${VIOLET} ZoomEye${NC} : ${GREEN}\u2713${NC}"  
-         fi  
-      fi
-   #IntelX          
-    IntelX_api_keys=$(awk '/data_sources.IntelX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
-    invalid_key_found=false
-          if [ -n "$IntelX_api_keys" ]; then
-              echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"                   
-                  i=1
-                  while read -r api_key; do
-                  var_name="IntelX_api_key_$i"
-                  eval "$var_name=\"$api_key\""
-                  i=$((i+1))
-                  done <<< "$IntelX_api_keys"
-                     #curl
-                    for ((j=1; ; j++)); do
-                          var_name="IntelX_api_key_$j"
-                          api_key=${!var_name}
-                     if [ -z "$api_key" ]; then
-                       break
-                     fi
-                          response=$(curl -qski "https://2.intelx.io/authenticate/info" -H "x-key:$api_key" -H "Accept: application/json" && sleep 62s)
-                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
-                     if [ "$status_code" = "401" ] ; then
-                       echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
-                       invalid_key_found=true
-                     elif [ "$status_code" = "403" ] ; then
-                       echo -e "ⓘ ${VIOLET} IntelX${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Rate Limited${NC}"                      
-                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
-                          echo -e "ⓘ ${VIOLET} IntelX${NC}"
-                           export INTELX_API_KEY="$api_key" 
-                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 /media/sf_Parrot-Nexus/Github/Public/BugGPT-Tools/aki/APIKEYBEAST-forked.py -s intelx   
-                           sleep 62s   
-                           echo -e "\n"                           
-                     fi
-              done
-              if ! $invalid_key_found; then
-                  echo -e "ⓘ ${VIOLET} IntelX${NC} : ${GREEN}\u2713${NC}"  
-              fi  
-         fi
 fi
 
 
+
+#subfinder parser
+if [ -n "$subfinder_config" ]; then
+    subfinder_config_parsed=$(mktemp)
+        #Parse using yq
+        if ! yq e .$subfinder_config > /dev/null 2>&1; then
+              echo -e "${RED}✘ Error${NC}: ${BLUE}$subfinder_config${NC} is not a valid ${YELLOW}YAML${NC}"
+              echo -e "Please ${YELLOW}double check${NC} your ${BLUE}$subfinder_config${NC}"
+              echo -e "${YELLOW}Validate${NC} using : ${BLUE}https://www.yamllint.com/${NC}"              
+              exit 1
+        else
+           cat $subfinder_config | yq > $subfinder_config_parsed   
+         fi
+echo -e "${PINK}\n"
+cat << "EOF"         
+                     __    _____           __         
+   _______  __/ /_  / __(_)___  ____/ /__  _____
+  / ___/ / / / __ \/ /_/ / __ \/ __  / _ \/ ___/
+ (__  ) /_/ / /_/ / __/ / / / / /_/ /  __/ /    
+/____/\__,_/_.___/_/ /_/_/ /_/\__,_/\___/_/   
+EOF
+echo -e "${NC}"
+     #censys  
+     censys_Creds=$(yq eval '.censys[]' $subfinder_config_parsed)
+     invalid_key_found=false
+     if [ -n "$censys_Creds" ]; then
+            for api_key in $censys_Creds
+            do
+                export encoded_key=$(printf $api_key | tr -d '[:space:]' | base64 | tr -d '[:space:]')
+                          response=$(curl -qski "https://search.censys.io/api/v1/account" -H "accept: application/json" -H "Authorization: Basic $encoded_key")
+                          status_code=$(echo "$response" | awk '/HTTP/{print $2}')
+                     if [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+                       echo -e "ⓘ ${VIOLET} Censys${NC} ${YELLOW}API key : Secret${NC} = ${BLUE}$(echo -n "$encoded_key" | base64 -d)${NC} ${RED}\u2717 Invalid${NC}"
+                       invalid_key_found=true
+                     elif [[ "$status_code" = "200" && -n "$quota" ]]; then
+                           echo -e "ⓘ ${VIOLET} Censys${NC}"
+                           export CENSYS_USERNAME=$(curl -qsk "https://search.censys.io/api/v1/account" -H "Authorization: Basic $encoded_key" -H "Accept: application/json" | jq -r '.login')                           
+                           export CENSYS_AUTH="$encoded_key" 
+                           echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s censys      
+                           echo -e "\n"    
+                     fi
+            done
+         if ! $invalid_key_found; then
+            echo -e "ⓘ ${VIOLET} censys${NC} : ${GREEN}\u2713${NC}"  
+         fi  
+      fi 
+fi
 
 #Git
 if [ -z "$github_tokens" ]; then

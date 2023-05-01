@@ -263,29 +263,29 @@ def get_ipinfo_credits(table):
     except Exception as e:
         print(f"[-] An error occurred while fetching {api_name} credits: {e}")
 
-def get_ipinfo_credits(table):
-    api_name = "IPinfo"
-    userName = os.environ.get("IPINFO_USERNAME")
-    apiKey = os.environ.get("IPINFO_API_KEY")
-    try:
-        response = requests.get("https://ipinfo.io/me", params={"token":apiKey}, headers={"Accept":"application/json"})
-        response_json = response.json()
-
-        if response.status_code == 200 and "token" in response_json:
-            tier = "Free"
-            credits_total = response_json['requests']['limit']
-            credits_used = response_json['requests']['month']
-            credits_left = response_json['requests']['remaining']
-            credits_reset_date = "Monthly"
-            product = ""
-
-            table.add_row(
-                api_name, product, tier, str(credits_used),str(credits_left), f"{credits_total} cpm",str(credits_reset_date), userName
-                )
-        else:
-            print(f"[-] An error occurred while authenticating {api_name}!")
-    except Exception as e:
-        print(f"[-] An error occurred while fetching {api_name} credits: {e}")
+#def get_ipinfo_credits(table):
+#    api_name = "IPinfo"
+#    userName = os.environ.get("IPINFO_USERNAME")
+#    apiKey = os.environ.get("IPINFO_API_KEY")
+#    try:
+#        response = requests.get("https://ipinfo.io/me", params={"token":apiKey}, headers={"Accept":"application/json"})
+#        response_json = response.json()
+#
+#        if response.status_code == 200 and "token" in response_json:
+#            tier = "Free"
+#            credits_total = response_json['requests']['limit']
+#            credits_used = response_json['requests']['month']
+#            credits_left = response_json['requests']['remaining']
+#            credits_reset_date = "Monthly"
+#            product = ""
+#
+#            table.add_row(
+#                api_name, product, tier, str(credits_used),str(credits_left), f"{credits_total} cpm",str(credits_reset_date), userName
+#                )
+#        else:
+#            print(f"[-] An error occurred while authenticating {api_name}!")
+#    except Exception as e:
+#        print(f"[-] An error occurred while fetching {api_name} credits: {e}")
 
 def get_newtworkdb_credits(table):
     api_name = "Networks DB"
