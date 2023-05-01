@@ -926,8 +926,6 @@ echo -e "${NC}"
     LeakIX_api_keys=$(awk '/data_sources.LeakIX.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' $amass_config_parsed)
     invalid_key_found=false
           if [ -n "$LeakIX_api_keys" ]; then
-          echo -e "ⓘ ${VIOLET} IntelX${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
-          echo -e "If ${RED}too may errors${NC}\n ${YELLOW}Try Manually${NC}: ${BLUE} https://github.com/Azathothas/BugGPT-Tools/tree/main/aki#verification${NC}"
                   i=1
                   while read -r api_key; do
                   var_name="LeakIX_api_key_$i"
@@ -2027,9 +2025,9 @@ echo -e "${NC}"
          if ! $invalid_key_found; then
             echo -e "ⓘ ${VIOLET} ZoomEyeAPI${NC} : ${GREEN}\u2713${NC}"  
          fi  
-      fi    
+      fi  
+#EOF subfnder         
 fi
-#EOF subfnder 
 #############
 
 ##Github -gh
