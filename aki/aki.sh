@@ -1684,6 +1684,7 @@ echo -e "${NC}"
         GitHub_api_keys=$(yq eval '.github[]' $subfinder_config_parsed)
         invalid_key_found=false
               if [ -n "$GitHub_api_keys" ]; then
+                echo -e "ⓘ ${VIOLET} Github${NC} has ${YELLOW}Rate Limits${NC} so have ${GREEN}Patience${NC}"
                       i=1
                       while read -r api_key; do
                       var_name="GitHub_api_key_$i"
