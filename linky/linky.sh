@@ -38,14 +38,15 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
   echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}linky${NC} ${BLUE}-u${NC} <url> ${BLUE}-o${NC} /path/to/outputdir ${BLUE}-gh${NC} <github_token> <other-options, see ${BLUE}--help${NC}\n"
   echo -e "${YELLOW}Extended Help${NC}"
   echo -e "${BLUE}-u${NC},       ${BLUE}--url${NC}              Specify the ${BLUE}URL${NC}  to scrape (${YELLOW}Required${NC} )"
-  echo -e "${BLUE}-o${NC},       ${BLUE}--output_dir${NC}       Specify the ${BLUE}directory${NC} to save the output files (${YELLOW}Required${NC})"
+  echo -e "${BLUE}-o${NC},       ${BLUE}--output_dir${NC}       Specify the ${BLUE}directory${NC} to save the ${BLUE}output files${NC} (${YELLOW}Required${NC})"
   echo -e "${BLUE}-h${NC},       ${BLUE}--headers${NC}          Specify additional ${BLUE}headers${NC} or ${BLUE}cookies${NC} (use ${YELLOW}\"\"${NC}, optional)"
   echo -e "${BLUE}-d${NC},       ${BLUE}--deep${NC}             Specify if ${YELLOW}Gospider Hakrawler Katana${NC} & ${YELLOW}XnLinkfinder${NC} should run with ${RED}depth 5${NC}.(${YELLOW}Slow${NC})"
-  echo -e "${BLUE}-ctmp${NC},    ${BLUE}--clean-tmp${NC}        Cleans /tmp/ files after run"
+  echo -e "${BLUE}-cdns${NC},    ${BLUE}--cdns${NC}             Use ${YELLOW}CDNs${NC} with ${GREEN}any ${BLUE}scope${NC}"   
+  echo -e "${BLUE}-ctmp${NC},    ${BLUE}--clean-tmp${NC}        Cleans ${YELLOW}/tmp/${NC} files after run"
   echo -e "${BLUE}-curls${NC},   ${BLUE}--clean-urls${NC}       Removes noisy junk urls (${YELLOW}godeclutter | urless${NC})"
   echo -e "${BLUE}-params${NC},  ${BLUE}--discover-params${NC}  Runs ${YELLOW}Arjun${NC} for parameter discovery (${YELLOW}Basic & Slow${NC})"
-  echo -e "${BLUE}-fl${NC},      ${BLUE}--flex-scope${NC}       Run linky with normal scope but ${YELLOW}include CDNs${NC}" 
-  echo -e "${BLUE}-wl${NC},      ${BLUE}--wildcard${NC}         Run linky with wildcard (${RED}.*${NC}) scope"
+  echo -e "${BLUE}-fl${NC},      ${BLUE}--flex-scope${NC}       Run linky with ${BLUE}normal scope${NC} but ${YELLOW}include CDNs${NC}" 
+  echo -e "${BLUE}-wl${NC},      ${BLUE}--wildcard${NC}         Run linky with ${PINK}wildcard${NC} (${RED}.*${NC}) scope"
   echo -e "${BLUE}-up,      ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}linky${NC}\n"
   echo -e "(${YELLOW}Not Required${NC} if ${BLUE}$HOME/.config/.github_tokens ${GREEN}exists${NC})"
   echo -e "${BLUE}-gh${NC},      ${BLUE}--github_token${NC}     Specify manually: ${YELLOW}ghp_xxx${NC}\n"
@@ -53,7 +54,6 @@ if [[ "$*" == *"-help"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]]
   echo -e "${BLUE}-secrets${NC}, ${BLUE}--scan-secrets${NC}     Runs ${YELLOW}gf-secrets + TruffleHog${NC}\n"
   echo -e "(${YELLOW}Only run on a fresh Install${NC})"
   echo -e "${BLUE}-init${NC},    ${BLUE}--init${NC}             ${GREEN}Initialize${NC} ➼ ${PURPLE}linky${NC} by dry-running it against example.com\n"
-  echo -e ""
   echo -e "${YELLOW}Example Usage${NC}: "
   echo -e "${BLUE}Basic${NC}: "
   echo -e "${PURPLE}linky${NC} ${BLUE}--url${NC} ${YELLOW}https://example.com${NC} ${BLUE}--output_dir${NC} ${YELLOW}/path/to/outputdir${NC} ${BLUE}--github_token${NC} ${YELLOW}ghp_xyz${NC}\n"
@@ -172,7 +172,11 @@ do
     -fl|--flex-scope)
      flex_scope=1
      shift
-    ;;      
+    ;;
+    -cdns|--cdns)
+     cdn_scope=1
+     shift
+    ;;              
     -wl|--wildcard)
      wildcard_scope=1
      shift
@@ -190,6 +194,12 @@ done
 
 #Setup Vars & default values
 export url=$url
+url=${url:=$URL}
+if [ -z "$url" ]; then
+  echo -e "${RED}Error: ${YELLOW}URL is missing${NC} for option ${BLUE}'-u | --url'${NC}"
+  rm -rf $outputDir/tmp $outputDir/.scope
+  exit 1  
+fi
 export outputDir=$outputDir
 #Select Random token if !ghp
 if [ -z "$githubToken" ]; then
@@ -200,11 +210,12 @@ if [ -z "$githubToken" ]; then
   fi
 fi
 #Others
-export optionalHeaders=$optionalHeaders
-export deep=$deep
+export cdn_scope=$cdn_scope
 export clean_tmp=$clean_tmp
+export deep=$deep
 export discover_params=$discover_params
 export flex_scope=$flex_scope
+export optionalHeaders=$optionalHeaders
 export wildcard=$wildcard_scope
 export scan_secrets=$scan_secrets
 originalDir=$(pwd)
@@ -256,12 +267,18 @@ domain=$(echo "$url" | unfurl domains)
 #Flex Scope
 if [ -n "$flex_scope" ] && [ "$flex_scope" -eq 1 ]; then
   echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-  cat $outputDir/tmp/cdns.txt | scopegen -in| anew -q $outputDir/.scope
+  cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/.scope 
   echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 else
   echo -e "${YELLOW}Use Flexible scope${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
   echo $domain | scopegen -in | anew -q $outputDir/.scope
+      if [ -n "$cdn_scope" ] && [ "$cdn_scope" -eq 1 ]; then
+         cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/.scope 
+         echo -e "${YELLOW}CDNs${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+      else
+         echo -e "${YELLOW}CDNs${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+      fi  
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 fi
 #Wildcard
@@ -271,7 +288,12 @@ if [ -n "$wildcard" ] && [ "$wildcard" -eq 1 ]; then
   wl_scope=$(echo "$url" | subxtract | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
   echo $wl_scope | scopegen -wl | anew -q $outputDir/.scope
   echo $alt_scope_domain | scopegen -in | anew -q $outputDir/.scope
-  cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/.scope      
+      if [ -n "$cdn_scope" ] && [ "$cdn_scope" -eq 1 ]; then
+         cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/.scope 
+         echo -e "${YELLOW}CDNs${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+      else
+         echo -e "${YELLOW}CDNs${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+      fi       
 #Cleans bad chars
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 else
@@ -279,9 +301,15 @@ else
   sub_scope=$(echo "$url_domain" | subxtract -s | sed '/^$/d' | sed '/public[s ]*suffix[s ]*list[s ]*updated/Id')
   echo $sub_scope | scopegen -in | anew -q $outputDir/tmp/.scope
   echo $domain | scopegen -in | anew -q $outputDir/.scope
+      if [ -n "$cdn_scope" ] && [ "$cdn_scope" -eq 1 ]; then
+         cat $outputDir/tmp/cdns.txt | scopegen -in | anew -q $outputDir/.scope 
+         echo -e "${YELLOW}CDNs${NC} (${RED}.*${NC}) ? : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
+      else
+         echo -e "${YELLOW}CDNs${NC} (${RED}.*${NC}) ? : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+      fi    
   sed -i '/^\s*$/d; /^\.\*\.\*$/d; /^\.\*\\\.\$$/d' $outputDir/.scope
 fi
-echo -e "${BLUE}Scope is set as:${NC} " 
+echo -e "${BLUE}Scope is set as:${NC}$(sort -u $outputDir/.scope -o $outputDir/.scope) " 
 echo -e "${GREY}$(cat $outputDir/.scope)${NC}\n"
 echo -e "${YELLOW}Don't Worry${NC} if your ${RED}Terminal Hangs${NC} for a bit.."
 echo "It's a feature not a bug!"
@@ -618,7 +646,7 @@ cat $outputDir/tmp/all-endpoint-urls.txt | unfurl paths | sed 's#^/##' | sort -u
           size=$(du -m $outputDir/Secrets/gf-secrets.txt | awk '{print $1}')
            if [ $size -gt 7000 ]; then
          kill $pid
-         echo -e "${YELLOW}File size limit exceeded ${RED}7GBs${NC} ...\n ${Blue}Exiting${NC}$(sleep 10s)"
+         echo -e "${YELLOW}File size limit exceeded ${RED}7GBs${NC} ...\n ${BLUE}Exiting${NC}$(sleep 10s)"
          break
        fi
        sleep 1
