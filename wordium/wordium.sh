@@ -141,8 +141,8 @@ count=0
 # Check if the directory or its parent directories have a .git folder
 while [[ "$dir_to_check" != "/" ]]; do
   if [[ -d "$dir_to_check/.git" ]]; then
-    echo -e "Git ${YELLOW}(.git)${NC} detected in ${YELLOW}$dir_to_check${NC}"
-    echo -e "Proceeding with ${BLUE}Submodules${NC}"
+    echo -e "ⓘ  ${PINK}Git ${YELLOW}(.git)${NC} detected in ${YELLOW}$dir_to_check${NC}"
+    echo -e "ⓘ  ${BLUE}Proceeding${NC} with ${PINK}Submodules${NC}"
     echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
     echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
     echo -e "${BLUE}Just let your terminal be!${NC}"  
