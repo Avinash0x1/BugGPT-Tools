@@ -319,6 +319,14 @@ curl -qsk "https://www.virustotal.com/api/v3/ip_addresses/1.1.1.1" -H "x-apikey:
 ```bash
 curl -qsk "https://user.whoisxmlapi.com/user-service/account-balance?apiKey=$api_key" -H "Accept: application/json"
 ```
+- [**WPScan**](https://wpscan.com/docs/api/v3)
+```bash
+curl -qsk "https://wpscan.com/api/v3/status" -H "Authorization: Token token=$WPSCAN_API_TOKEN" -H "Accept: application/json"
+```
+> You can use **`jq`** to directly convert the unix time
+> ```bash
+> curl -qsk "https://wpscan.com/api/v3/status" -H "Authorization: Token token=$WPSCAN_API_TOKEN" -H "Accept: application/json" | jq '. + { requests_reset: ( .requests_reset + (5*3600+45*60) ) | strftime("%Y-%m-%d||Time:%H:%M:%S") }'
+> ```
 - [**Yandex**](https://yandex.com/dev/xml/doc/dg/concepts/get-request.html)
 ```bash
 curl -qsk "https://yandex.com/search/xml?user=$email_lowercase&key=$apikey&query=example"
