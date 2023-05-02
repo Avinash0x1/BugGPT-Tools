@@ -32,19 +32,28 @@ fi
 # Update. Github caches take several minutes to reflect globally  
 if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
   echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
-  REMOTE_FILE=$(mktemp)
-  curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/subxtract/subxtract.sh -o "$REMOTE_FILE"
-  if ! diff --brief /usr/local/bin/subxtract "$REMOTE_FILE" >/dev/null 2>&1; then
-    echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-    dos2unix $REMOTE_FILE > /dev/null 2>&1 
-    sudo mv "$REMOTE_FILE" /usr/local/bin/subxtract && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}" 
-    sudo chmod +xwr /usr/local/bin/subxtract
-    rm -f "$REMOTE_FILE" 2>/dev/null
-  else
-    echo -e "➼ ${GREEN}Already UptoDate${NC}"
-    rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-  fi
+      if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/subxtract/subxtract.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/subxtract "$REMOTE_FILE" >/dev/null 2>&1; then
+             echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
+             dos2unix $REMOTE_FILE > /dev/null 2>&1 
+             sudo mv "$REMOTE_FILE" /usr/local/bin/subxtract && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}\n" 
+             echo -e "➼ ${YELLOW}ChangeLog:${NC} ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=subxtract/subxtract.sh | jq -r '.[0].commit.message')${NC}"
+             echo -e "➼ ${YELLOW}Pushed at${NC}: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=subxtract/subxtract.sh | jq -r '.[0].commit.author.date')${NC}\n"
+             sudo chmod +xwr /usr/local/bin/subxtract
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             else
+             echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
+             echo -e "➼ Most ${YELLOW}recent change${NC} was on: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=subxtract/subxtract.sh | jq -r '.[0].commit.author.date')${NC} [${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=subxtract/subxtract.sh | jq -r '.[0].commit.message')${NC}]\n"             
+             rm -f "$REMOTE_FILE" 2>/dev/null
+             exit 0
+             fi
+     else
+         echo -e "➼ ${YELLOW}Github.com${NC} is ${RED}unreachable${NC}"
+         echo -e "➼ ${YELLOW}Try again later!${NC} "
+         exit 1
+     fi
   exit 0
 fi
 
@@ -158,14 +167,16 @@ else
 fi
 
 #Check For Update on Script end
-echo ""
-REMOTE_FILE=$(mktemp)
-curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/subxtract/subxtract.sh -o "$REMOTE_FILE"
-if ! diff --brief /usr/local/bin/subxtract "$REMOTE_FILE" >/dev/null 2>&1; then
-echo ""
-echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(subxtract -up)" 
-  else
-  rm -f "$REMOTE_FILE" 2>/dev/null
-    exit 0
-fi
+#Update. Github caches take several minutes to reflect globally  
+   if ping -c 2 github.com > /dev/null; then
+      REMOTE_FILE=$(mktemp)
+      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/subxtract/subxtract.sh -o "$REMOTE_FILE"
+         if ! diff --brief /usr/local/bin/subxtract "$REMOTE_FILE" >/dev/null 2>&1; then
+              echo ""
+              echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(subxtract -up)" 
+         else
+            rm -f "$REMOTE_FILE" 2>/dev/null
+              exit 0
+         fi
+   fi
 #EOF
