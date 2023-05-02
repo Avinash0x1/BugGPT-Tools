@@ -159,6 +159,7 @@ while [[ "$dir_to_check" != "/" ]]; do
     git submodule add https://github.com/six2dez/OneListForAll 2>/dev/null
     git submodule add https://github.com/rix4uni/WordList 2>/dev/null
     #Clones
+    cd $WORDLIST
     git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
     git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
     git clone https://github.com/thehlopster/hfuzz 2>/dev/null
@@ -178,6 +179,7 @@ while [[ "$dir_to_check" != "/" ]]; do
     echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
     echo -e "${BLUE}Just let your terminal be!${NC}" 
     #Rood's base for lhf wordlists
+    cd $WORDLIST
     wordium_rood_lhf=$(mktemp)
     wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
     cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
@@ -266,7 +268,7 @@ tmp_wordium_nokovo=$(mktemp)
 wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/dns-sub-permutate.txt" -O $tmp_wordium_dns
 cat $tmp_wordium_dns | anew -q $WORDLIST/x-dns-tiny.txt
 #n0kovo_subdomains tiny
-wget --quiet "https://github.com/n0kovo/n0kovo_subdomains/blob/main/n0kovo_subdomains_tiny.txt" -O $tmp_wordium_nokovo
+wget --quiet "https://raw.githubusercontent.com/n0kovo/n0kovo_subdomains/main/n0kovo_subdomains_tiny.txt" -O $tmp_wordium_nokovo
 #Separate by dots & dashes
 cat $tmp_wordium_nokovo | tr -s '\n' | grep '^[[:alpha:]]\+$' | sort -u | anew -q $tmp_wordium_dns
 sort -u $tmp_wordium_dns -o $tmp_wordium_dns
@@ -284,8 +286,8 @@ echo -e "➼ ${YELLOW}Newly added${NC}: ${GREEN}$(cat $tmp_wordium_mini | anew $
 
 #WordCount After each run:
 echo -e "➼${YELLOW}Updated Wordlists${NC}:" 
-echo -e "➼ ${BLUE}x-api.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-api.txt)${NC}" 
-echo -e "➼ ${BLUE}x-dns.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-dns.txt)${NC}"
+echo -e "➼ ${BLUE}x-api.txt${NC}       : ${GREEN}$(wc -l $WORDLIST/x-api.txt)${NC}" 
+echo -e "➼ ${BLUE}x-dns.txt${NC}       : ${GREEN}$(wc -l $WORDLIST/x-dns.txt)${NC}"
 echo -e "➼ ${BLUE}x-mini.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-mini.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(wc -l $WORDLIST/x-lhf-mini.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-lhf-mid.txt)${NC}" 
