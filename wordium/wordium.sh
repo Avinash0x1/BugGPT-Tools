@@ -38,7 +38,11 @@ echo -e "${NC}"
 #Help / Usage
 if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
   echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}wordium${NC} ${BLUE}-w${NC} ${GREEN}</path/to/your/wordlist/directory> ${NC}"
-  echo ""
+       if [ -z "$WORDLIST" ]; then
+         echo -e "${BLUE}Current Default${NC}: ${GREEN}$(echo $HOME/.wordlist)${NC}\n"  
+       else
+         echo -e "${BLUE}Current Default${NC}: ${GREEN}$(echo $WORDLIST)${NC}\n"
+       fi
   echo -e "${YELLOW}Extended Help${NC}"
   echo -e "${BLUE}-w${NC},  ${BLUE}--wordlist-dir${NC}     Specify where to create your wordlists (${YELLOW}Required${NC}, else specify as ${GREEN}\$WORDLIST${NC} in ${RED}\$ENV:VAR)${NC}\n"
   echo -e "${BLUE}-up${NC}, ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}wordium${NC}\n"
@@ -92,7 +96,7 @@ if [ -z "$WORDLIST" ]; then
   echo -e "Path for ${BLUE}WORDLIST${NC} is ${RED}not set in the environment or specified as an option.${NC}" >&2
   echo -e "➼ Will choose ${BLUE}$HOME/Wordlist${NC} as default directory"
   echo -e "➼ ${YELLOW}If You don't want that, hit ${RED}ctrl + c${NC} now!"
-  echo -e "➼ ${YELLOW}Waiting 10 Seconds${NC} ${GREEJ}before continuing${NC} in ${BLUE}$HOME/Wordlist${NC}" && sleep 15s
+  echo -e "➼ ${YELLOW}Waiting 10 Seconds${NC} ${GREEN}before continuing${NC} in ${BLUE}$HOME/Wordlist${NC}" && sleep 15s
   mkdir -p $HOME/Wordlist
   export WORDLIST=$HOME/Wordlist 
   cd "$WORDLIST"
