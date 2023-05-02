@@ -167,7 +167,7 @@ while [[ "$dir_to_check" != "/" ]]; do
     git clone https://github.com/six2dez/OneListForAll 2>/dev/null
     git clone https://github.com/rix4uni/WordList 2>/dev/null
     #Mark Safe
-    find $dir_to_check -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \;
+    find $dir_to_check -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
     break
   fi
   dir_to_check=$(dirname "$dir_to_check")
@@ -193,8 +193,10 @@ while [[ "$dir_to_check" != "/" ]]; do
   fi
 done
 #Sync Repos to @latest
-find $WORDLIST -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \;
+find $WORDLIST -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
+echo -e "\n"
 find $WORDLIST -maxdepth 1 -type d -exec sh -c '(cd {} && echo "Updating {} to @latest" && git pull 2>/dev/null )' \;
+echo -e "\n"
 #Begins
 #echo -e "➼${YELLOW}Fetching & Updating${NC} from ${BLUE}WORDLIST/WORDLIST${NC} \n" 
 #echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : $()${NC}" 
@@ -287,7 +289,9 @@ echo -e "➼ ${YELLOW}Newly added${NC}: ${GREEN}$(cat $tmp_wordium_mini | anew $
 #WordCount After each run:
 echo -e "➼${YELLOW}Updated Wordlists${NC}:" 
 echo -e "➼ ${BLUE}x-api.txt${NC}       : ${GREEN}$(wc -l $WORDLIST/x-api.txt)${NC}" 
+echo -e "➼ ${BLUE}x-api-tiny.txt${NC}  : ${GREEN}$(wc -l $WORDLIST/x-api-tiny.txt)${NC}"
 echo -e "➼ ${BLUE}x-dns.txt${NC}       : ${GREEN}$(wc -l $WORDLIST/x-dns.txt)${NC}"
+echo -e "➼ ${BLUE}x-dns-tiny.txt${NC}  : ${GREEN}$(wc -l $WORDLIST/x-dns-tiny.txt)${NC}"
 echo -e "➼ ${BLUE}x-mini.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-mini.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(wc -l $WORDLIST/x-lhf-mini.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-lhf-mid.txt)${NC}" 
