@@ -41,11 +41,16 @@ Extended Help
 ```
 ### Optimal Goal
 ```bash
- x-mini.txt      --> ~ <  15K 
- x-lhf-mini.txt  --> ~ <  50K
- x-lhf-mid.txt   --> ~ < 100K
- x-lhf-large.txt --> ~ < 500K
- x-massive.txt   --> ~ <   2M
+
+ x-api.txt       --> ~ < 100K [Everything API]
+ x-api-tiny.txt  --> ~ <  20K [Top Paths || Objects || Verbs]
+ x-dns.txt       --> ~ < 100K [Fuzz || Permutate Subdomains]
+ x-dns-tiny.txt  --> ~ <  20K [Most Common Subdomains]
+ x-mini.txt      --> ~ <  15K [Juicy || Leaky Paths]
+ x-lhf-mini.txt  --> ~ <  50K [Top Low Hanging Fruits]
+ x-lhf-mid.txt   --> ~ < 100K [Low Hanging Fruits Medium]
+ x-lhf-large.txt --> ~ < 500K [Low Hanging Fruits Comprehensive]
+ x-massive.txt   --> ~ <   1M [Low Hanging Fruits All]
 ```
 ### Some Tips:
 1. You want to add a new word to the wordlist? [Example: /api/v1/graphql]
