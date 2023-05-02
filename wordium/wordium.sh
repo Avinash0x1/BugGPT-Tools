@@ -268,7 +268,7 @@ tmp_wordium_nokovo=$(mktemp)
 wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/dns-sub-permutate.txt" -O $tmp_wordium_dns
 cat $tmp_wordium_dns | anew -q $WORDLIST/x-dns-tiny.txt
 #n0kovo_subdomains tiny
-wget --quiet "https://raw.githubusercontent.com/n0kovo/n0kovo_subdomains/main/n0kovo_subdomains_tiny.txt" -O $tmp_wordium_nokovo
+wget --quiet "https://raw.githubusercontent.com/n0kovo/n0kovo_subdomains/main/n0kovo_subdomains_small.txt" -O $tmp_wordium_nokovo
 #Separate by dots & dashes
 cat $tmp_wordium_nokovo | tr -s '\n' | grep '^[[:alpha:]]\+$' | sort -u | anew -q $tmp_wordium_dns
 sort -u $tmp_wordium_dns -o $tmp_wordium_dns
