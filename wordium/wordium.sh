@@ -33,7 +33,7 @@ echo -e "${NC}"
 # x-lhf-mini.txt  --> ~ <  50K
 # x-lhf-mid.txt   --> ~ < 100K
 # x-lhf-large.txt --> ~ < 500K
-# x-massive.txt   --> ~ <   2M
+# x-massive.txt   --> ~ <   1M
 
 #Help / Usage
 if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
@@ -105,13 +105,14 @@ fi
 #Golang
 if ! command -v go &> /dev/null 2>&1; then
     echo "➼ golang is not installed. Installing..."
-    cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
+    cd $update_golang && git clone https://github.com/udhos/update-golang  && cd $update_golang/update-golang && sudo ./update-golang.sh
     source /etc/profile.d/golang_path.sh
 else
     GO_VERSION=$(go version | awk '{print $3}')
 if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
         echo "➼ golang version 1.20.0 or greater is not installed. Installing..."
-        cd /tmp && git clone https://github.com/udhos/update-golang  && cd /tmp/update-golang && sudo ./update-golang.sh
+        update_golang=$(mktemp)
+        cd $update_golang && git clone https://github.com/udhos/update-golang  && cd $update_golang/update-golang && sudo ./update-golang.sh
         source /etc/profile.d/golang_path.sh
     else
         echo ""
@@ -143,8 +144,9 @@ while [[ "$dir_to_check" != "/" ]]; do
     echo -e "${BLUE}Just let your terminal be!${NC}"  
     git config --global --add safe.directory $(pwd)
     #Rood's base for lhf wordlists
-    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O /tmp/wordium-rood-lhf.txt
-    cat /tmp/wordium-rood-lhf.txt | anew -q $WORDLIST/x-lhf-mini.txt
+    wordium_rood_lhf=$(mktemp)
+    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+    cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
     #Submodules
     git submodule add https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
     git submodule add https://github.com/Bo0oM/fuzz.txt 2>/dev/null
@@ -172,8 +174,9 @@ while [[ "$dir_to_check" != "/" ]]; do
     echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
     echo -e "${BLUE}Just let your terminal be!${NC}" 
     #Rood's base for lhf wordlists
-    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O /tmp/rood-lhf.txt
-    cat /tmp/rood-lhf.txt | anew -q $WORDLIST/x-lhf-mini.txt
+    wordium_rood_lhf=$(mktemp)
+    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+    cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
     git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
     git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
     git clone https://github.com/thehlopster/hfuzz 2>/dev/null
@@ -239,21 +242,54 @@ echo -e "➼ ${BLUE}x-massive.txt${NC}   : ${GREEN}$(cat $WORDLIST/x-lhf-large.t
 #Sort -u -o everything 
 find $WORDLIST -maxdepth 1 -type f -name "*.txt" -not -name ".*" -exec sort -u {} -o {} \;  
 
+#x-api.txt
+echo -e "➼ ${YELLOW}Generating ${BLUE}x-api.txt${NC} " 
+#Prefetch base for x-mini.txt
+tmp_wordium_api=$(mktemp)
+#Base
+wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/g-api.txt" -O $tmp_wordium_api
+cat $tmp_wordium_api | anew -q $WORDLIST/x-api-tiny.txt
+#Trim space, remove /
+cat $WORDLIST/x-massive.txt | sed '/^[[:space:]]*$/d' | sed 's#^/##' |  grep -Ei 'api|api2|api3|graph|json|rest|soap|swagger|v1|v2|v3|v4|xml|wadl|wsdl' | anew -q $tmp_wordium_api
+sort -u $tmp_wordium_api -o $tmp_wordium_api
+echo -e "➼ ${YELLOW}Newly added${NC}: ${GREEN}$(cat $tmp_wordium_api | anew $WORDLIST/x-api.txt | wc -l)${NC}\n"
+
+#x-dns.txt
+echo -e "➼ ${YELLOW}Generating ${BLUE}x-dns.txt${NC} " 
+tmp_wordium_dns=$(mktemp)
+tmp_wordium_nokovo=$(mktemp)
+#Base
+wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/dns-sub-permutate.txt" -O $tmp_wordium_dns
+cat $tmp_wordium_dns | anew -q $WORDLIST/x-dns-tiny.txt
+#n0kovo_subdomains tiny
+wget --quiet "https://github.com/n0kovo/n0kovo_subdomains/blob/main/n0kovo_subdomains_tiny.txt" -O $tmp_wordium_nokovo
+#Separate by dots & dashes
+cat $tmp_wordium_nokovo | tr -s '\n' | grep '^[[:alpha:]]\+$' | sort -u | anew -q $tmp_wordium_dns
+sort -u $tmp_wordium_dns -o $tmp_wordium_dns
+echo -e "➼ ${YELLOW}Newly added${NC}: ${GREEN}$(cat $tmp_wordium_dns | anew $WORDLIST/x-dns.txt | wc -l)${NC}\n"
+
+#x-mini.txt
 echo -e "➼ ${YELLOW}Generating ${BLUE}x-mini.txt${NC} " 
 #Prefetch base for x-mini.txt
-wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/fuzz-mini.txt" -O /tmp/wordium-mini.txt
-cat $WORDLIST/fuzz.txt/fuzz.txt $WORDLIST/leaky-paths/leaky-paths.txt | sed 's#^/##' | anew -q /tmp/wordium-mini.txt
-grep -E '^\.' $WORDLIST/x-lhf-large.txt | anew -q /tmp/wordium-mini.txt
-sort -u /tmp/wordium-mini.txt -o /tmp/wordium-mini.txt 
-echo -e "➼ ${YELLOW}Newly added${NC}: ${GREEN}$(cat /tmp/wordium-mini.txt | anew $WORDLIST/x-mini.txt | wc -l)${NC}\n"
+tmp_wordium_mini=$(mktemp)
+wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/fuzz-mini.txt" -O $tmp_wordium_mini
+cat $WORDLIST/fuzz.txt/fuzz.txt $WORDLIST/leaky-paths/leaky-paths.txt | sed 's#^/##' | anew -q $tmp_wordium_mini
+grep -E '^\.' $WORDLIST/x-lhf-large.txt | anew -q $tmp_wordium_mini
+sort -u $tmp_wordium_mini -o $tmp_wordium_mini
+echo -e "➼ ${YELLOW}Newly added${NC}: ${GREEN}$(cat $tmp_wordium_mini | anew $WORDLIST/x-mini.txt | wc -l)${NC}\n"
 
 #WordCount After each run:
 echo -e "➼${YELLOW}Updated Wordlists${NC}:" 
+echo -e "➼ ${BLUE}x-api.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-api.txt)${NC}" 
+echo -e "➼ ${BLUE}x-dns.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-dns.txt)${NC}"
 echo -e "➼ ${BLUE}x-mini.txt${NC}      : ${GREEN}$(wc -l $WORDLIST/x-mini.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(wc -l $WORDLIST/x-lhf-mini.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-lhf-mid.txt)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.txt${NC} : ${GREEN}$(wc -l $WORDLIST/x-lhf-large.txt)${NC}"
 echo -e "➼ ${BLUE}x-massive.txt${NC}   : ${GREEN}$(wc -l $WORDLIST/x-massive.txt)${NC}\n" 
+
+#Sort -u -o everything , again
+find $WORDLIST -maxdepth 1 -type f -name "*.txt" -not -name ".*" -exec sort -u {} -o {} \;  
 
 #Check For Update on Script end
 #Update. Github caches take several minutes to reflect globally  
