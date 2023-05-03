@@ -2,4 +2,5 @@
 
 
 
-- **➼** [**`Wordlists`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/misc/wordlists) : Custom or Stolen `{git cloned}` Fuzziing Wordlists
+- **➼** [**`Wordlists`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/misc/wordlists) : Custom or Stolen `{git cloned}` Fuzzing Wordlists
+- **➼** [**`Deps`**](https://github.com/Azathothas/BugGPT-Tools/tree/main/misc/deps) : `{git cloned}` Repositories serving as backup for Internal || External Dependency
