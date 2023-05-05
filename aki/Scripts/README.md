@@ -42,7 +42,7 @@
 > - Prompt for GiHub tokens, verify and auto save:
 > ```bash
 > export github_file=/your/github/file
-> grep -v -f <(gitty -gh $github_file | ansi2txt | grep glpat | awk '{print $6}' | sort -u) $github_file | tee $github_file-valid
+> grep -v -f <(gitty -gh $github_file | ansi2txt | grep ghp | awk '{print $6}' | sort -u) $github_file | tee $github_file-valid
 > !# Bit Fancy 
 > grep -v -f <(gitty -gh $github_file | ansi2txt | grep ghp | awk '{print $6}' | sort -u) $github_file | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^glpat" | tee $github_file-valid && codium $github_file-valid
 > ```
