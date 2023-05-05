@@ -150,7 +150,7 @@ fi
 paths=("$HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py" "$HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt")
 for path in "${paths[@]}"; do
     if [ ! -f "$path" ]; then
-        echo "➼ Error: $path not found"
+        echo -e "➼ ${RED}Error${NC}: ${PINK}$path${NC} not found"
         echo "➼ Attempting to Install missing tools under $HOME/Tools $(mkdir -p $HOME/Tools)"    
         #APIKEYBEAST
         mkdir -p $HOME/Tools/AKI/Deps/ && cd $HOME/Tools/AKI/Deps/ && wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Deps/APIKEYBEAST-forked.py -O $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py
@@ -2114,7 +2114,7 @@ cat << "EOF"
   \_____|_|\__|______\__,_|_.__/ 
 EOF
 echo -e "${NC}"     
-      GitLab_api_keys=$(cat $gitlab_tokens)
+      GitLab_api_keys=$(cat $gitlab_tokens | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^glpat"| sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^glpat")
        invalid_key_found=false
           if [ -n "$GitLab_api_keys" ]; then
                   i=1
