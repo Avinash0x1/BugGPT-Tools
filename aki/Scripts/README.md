@@ -33,7 +33,7 @@
 > -gl,  --gitlab           File containing Gitlab Tokens [1 per line]
 > -o,   --output           Output dir/file
 > -r,   --remove           Removes Invalid tokens & rewrite original
-> Examples: 
+> !#Examples: 
 >gitty -gh /your/github/tokens/file
 >gitty -gl /your/gitlab/tokens/file
 >```
@@ -60,7 +60,11 @@
 > > ```
 > - **Usage**: 
 > ```bash
->Vshodan /your/shodan/apikeys/file
-># -q --> Show Quota
->Vshodan -s /your/shodan/apikeys/file -q
+> -s,  --shodan           File containing Shodan API Keys [1 per line]
+> -q,  --quota            Check Quota || Usage
+>
+> !#Examples:
+> Vshodan /your/shodan/apikeys/file
+> !# -q --> Show Quota
+> Vshodan -s /your/shodan/apikeys/file -q
 >```
