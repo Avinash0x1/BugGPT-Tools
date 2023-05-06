@@ -13,6 +13,16 @@ VIOLET='\033[0;35m'
 RESET='\033[0m'
 NC='\033[0m'
 
+#Help / Usage
+if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
+  echo -e "${YELLOW}➼ Usage${NC}:"
+  echo -e "${BLUE}-s${NC},  ${BLUE}--shodan${NC}           ${BLUE}File containing ${PURPLE}Shodan API Keys${NC} [${YELLOW}1 per line${NC}]"
+  echo -e "${BLUE}-q${NC},  ${BLUE}--quota${NC}            ${BLUE}Check ${YELLOW}Quota${NC} || ${YELLOW}Usage${NC}\n"
+  exit 0
+fi
+
+#Default
+quota=
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -23,8 +33,7 @@ while [[ $# -gt 0 ]]; do
         shift 
         ;;
         -q|--quota)
-        quota="$2"
-        shift 
+        quota=1
         shift 
         ;;
         *)    
@@ -34,8 +43,9 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-shodan_keys=$shodan_keys
-quota=$shodan_keys
+#Exp Values
+export shodan_keys=$shodan_keys
+export quota=$quota
 #Dependency checks
 #ansi2txt
 if ! command -v ansi2txt >/dev/null 2>&1; then
