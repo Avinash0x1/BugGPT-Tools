@@ -29,23 +29,14 @@
 > > ```
 > - **Usage**: 
 > ```bash
+> -gh,  --github           File containing Github Tokens [1 per line]
+> -gl,  --gitlab           File containing Gitlab Tokens [1 per line]
+> -o,   --output           Output dir/file
+> -r,   --remove           Removes Invalid tokens & rewrite original
+> Examples: 
 >gitty -gh /your/github/tokens/file
 >gitty -gl /your/gitlab/tokens/file
 >```
-> - AutoVerify Gitlab tokens & Save:
-> ```bash
-> export gitlab_file=/your/gitlab/file
-> grep -v -f <(gitty -gl $gitlab_file | ansi2txt | grep glpat | awk '{print $6}' | sort -u) $gitlab_file | tee $gitlab_file-valid
-> !# Bit Fancy
-> grep -v -f <(gitty -gl $gitlab_file | ansi2txt | grep glpat | awk '{print $6}' | sort -u) $gitlab_file | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^glpat" | tee $gitlab_file-valid && codium $gitlab_file-valid
-> ```
-> - Prompt for GiHub tokens, verify and auto save:
-> ```bash
-> export github_file=/your/github/file
-> grep -v -f <(gitty -gh $github_file | ansi2txt | grep ghp | awk '{print $6}' | sort -u) $github_file | tee $github_file-valid
-> !# Bit Fancy 
-> grep -v -f <(gitty -gh $github_file | ansi2txt | grep ghp | awk '{print $6}' | sort -u) $github_file | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^glpat" | tee $github_file-valid && codium $github_file-valid
-> ```
 ---
 - [**Vshodan**](https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Scripts/vshodan.sh) : Verify & Print **Quota usage** for **Shodan** **`API Keys`**
 > - **Install**: 
