@@ -103,8 +103,8 @@ cat << "EOF"
   \_____|_|\__|_|  |_|\__,_|_.__/ 
 EOF
 echo -e "${NC}"
-        sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' -i "$github_tokens" ; sed '/^$/d' -i "$github_tokens"
-        sort -u "$github_tokens" -o "$github_tokens"
+        sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' -i "$github_tokens" 2>/dev/null ; sed '/^$/d' -i "$github_tokens" 2>/dev/null
+        sort -u "$github_tokens" -o "$github_tokens" 2>/dev/null
         GitHub_api_keys=$(cat $github_tokens | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^ghp")
         invalid_key_found=false
           if [ -n "$GitHub_api_keys" ]; then
@@ -173,8 +173,8 @@ cat << "EOF"
 EOF
 echo -e "${NC}"     
       GitLab_api_keys=$(cat $gitlab_tokens | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | sed '/^$/d' | grep "^glpat")
-      sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' -i "$gitlab_tokens" ; sed '/^$/d' -i "$gitlab_tokens"
-      sort -u "$gitlab_tokens" -o "$gitlab_tokens"
+      sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' -i "$gitlab_tokens" 2>/dev/null ; sed '/^$/d' -i "$gitlab_tokens" 2>/dev/null
+      sort -u "$gitlab_tokens" -o "$gitlab_tokens" 2>/dev/null
        invalid_key_found=false
           if [ -n "$GitLab_api_keys" ]; then
                   i=1
