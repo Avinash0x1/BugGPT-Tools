@@ -10,16 +10,17 @@
 > > ```bash
 > > !## Direct from $HOME/.config/amass/config.ini
 > > !#Github
-> > awk '/data_sources.GitHub.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' "$HOME/.config/amass/config.ini"
+> > tmpfile=$(mktemp /tmp/github.XXXXXX) && awk '/data_sources.GitHub.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' "$HOME/.config/amass/config.ini" > "$tmpfile" && gitty -gh "$tmpfile" && rm "$tmpfile"
 > > !#Gitlab
-> > awk '/data_sources.GitLab.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' "$HOME/.config/amass/config.ini"
+> > tmpfile=$(mktemp /tmp/gitlab.XXXXXX) && awk '/data_sources.GitLab.accountname/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' "$HOME/.config/amass/config.ini" > "$tmpfile" && gitty -gl "$tmpfile" && rm "$tmpfile"
 > > !##Or from $HOME/.config/subfinder/provider-config.yaml
 > > !#Github
-> > yq eval '.github[]' "$HOME/.config/subfinder/provider-config.yaml"
+> > tmpfile=$(mktemp /tmp/github.XXXXXX) && yq eval '.github[]' "$HOME/.config/subfinder/provider-config.yaml" > "$tmpfile" && gitty -gh "$tmpfile" && rm "$tmpfile"
 > > !#Gitlab
-> > yq eval '.gitlab[]' "$HOME/.config/subfinder/provider-config.yaml"
+> > tmpfile=$(mktemp /tmp/gitlab.XXXXXX) && yq eval '.gitlab[]' "$HOME/.config/subfinder/provider-config.yaml" > "$tmpfile" && gitty -gh "$tmpfile" && rm "$tmpfile"
 > > !#Or from a file:
-> > cat github.tokens
+> > gitty -gh github.tokens
+> > !# cat github.tokens [1 per line]
 > > ghp_072322d5fdfdfsaojdwqpdf0wefcsfafaffp
 > > ghp_P4cWroYWsfasferoiefosN6pPIj4f73T2SOv
 > > ghp_Y0ACjgJac0cF8a1WWsfde698edfsdafefeb7
@@ -47,11 +48,12 @@
 > > - (1 per line) : Example
 > > ```bash
 > > !##Direct from $HOME/.config/amass/config.ini
-> > awk '/data_sources.Shodan.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' "$HOME/.config/amass/config.ini"
+> > Vshodan -s <(awk '/data_sources.Shodan.Credentials/{flag=1;next} /^\[/{flag=0} flag && /apikey/{print $3}' "$HOME/.config/amass/config.ini")
 > > !##Or from $HOME/.config/subfinder/provider-config.yaml
-> > yq eval '.shodan[]' "$HOME/.config/subfinder/provider-config.yaml"
+> > Vshodan -s <(yq eval '.shodan[]' "$HOME/.config/subfinder/provider-config.yaml")
 > > !##Or from a file:
-> > cat shodan.keys
+> > Vshodan -s shodan.keys
+> > !# cat shodan.keys [1 per line]
 > > GIbxsdsdd9d496dwede9wedsdasdaWSd
 > > gvmasewRJHe1337SdWew69sdsGtp3aS8
 > > vmTqewsadsadweqwdsadsadsaftp3aS8
