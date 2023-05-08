@@ -459,7 +459,7 @@ echo -e "${NC}"
                            echo -e "ⓘ ${VIOLET} BinaryEdge${NC}"
                            export BINARY_EDGE_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"
-                           python3 $HOME/Tools/APIkeyBeast/apikeybeast.py -s binaryedge     
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s binaryedge     
                            echo -e "\n"                 
                      fi
               done
@@ -528,7 +528,7 @@ echo -e "${NC}"
                            echo -e "ⓘ ${VIOLET} BuiltWith${NC}"
                            export BUILT_WITH_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"                            
-                           python3 $HOME/Tools/APIkeyBeast/apikeybeast.py -s builtwith      
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s builtwith      
                            echo -e "\n"                 
                      fi                                             
               done
@@ -1560,7 +1560,7 @@ echo -e "${NC}"
                            echo -e "ⓘ ${VIOLET} BinaryEdge${NC}"
                            export BINARY_EDGE_API_KEY="$api_key" 
                            echo -e "${YELLOW}API key${NC} : ${PURPLE}$api_key${NC}"
-                           python3 $HOME/Tools/APIkeyBeast/apikeybeast.py -s binaryedge     
+                           python3 $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py -s binaryedge     
                            echo -e "\n"                 
                      fi
               done
