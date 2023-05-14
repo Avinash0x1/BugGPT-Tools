@@ -45,6 +45,7 @@ if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; 
        fi
   echo -e "${YELLOW}Extended Help${NC}"
   echo -e "${BLUE}-w${NC},  ${BLUE}--wordlist-dir${NC}     Specify where to create your wordlists (${YELLOW}Required${NC}, else specify as ${GREEN}\$WORDLIST${NC} in ${RED}\$ENV:VAR)${NC}\n"
+  echo -e "${BLUE}-q${NC},  ${BLUE}--quick${NC}            ${GREEN}Quick Mode${NC} [${YELLOW}Only Use if ${RED}not first time${NC}]"
   echo -e "${BLUE}-up${NC}, ${BLUE}--update${NC}           ${GREEN}Update ${PURPLE}wordium${NC}\n"
   echo -e "${YELLOW}Example Usage${NC}: "
   echo -e "${PURPLE}wordium${NC} -w ${BLUE}/tmp/wordlists${NC}\n"  
@@ -80,17 +81,32 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
   exit 0
 fi
 
-# Accepts wildcard options ( -w*)
-while getopts ":w:-:" opt; do
-  case $opt in
-    w ) WORDLIST="$OPTARG" ;;
-    - ) case "${OPTARG}" in
-          wordlist-dir=* ) WORDLIST="${OPTARG#*=}" ;;
-        esac;;
-    : ) echo -e "${RED}Option ${BLUE}-$OPTARG${NC} requires you specify your ${BLUE}Wordlists directory${NC}" >&2; exit 1 ;;
-    \? ) echo -e "${RED}Invalid option: -$OPTARG${NC} , use ${BLUE}-w${NC} or ${BLUE}--wordlist-dir${NC}" >&2; exit 1 ;;
-  esac
+#Exports
+quick=
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -w|--wordlist-dir)
+         if [ -z "$2" ]; then
+             echo -e "${RED}Error: ${YELLOW}Wordlist Directory${NC} is missing for option ${BLUE}'-w | --wordlist-dir'${NC}"
+             exit 1
+         fi        
+        WORDLIST="$2"
+        shift 
+        shift 
+        ;;
+        -q|--quick)
+        quick=1
+        shift
+        ;;                                                         
+        *)    
+        echo -e "${RED}Error: Invalid option ${YELLOW}'$key'${NC} , see ${BLUE}--help${NC} for Usage"
+        exit 1
+        ;;
+    esac
 done
+
 # Check if WORDLIST is already set in the environment
 if [ -z "$WORDLIST" ]; then
   echo -e "Path for ${BLUE}WORDLIST${NC} is ${RED}not set in the environment or specified as an option.${NC}" >&2
@@ -104,6 +120,18 @@ else
   echo -e "➼ ${YELLOW}Specified Wordlist Directory${NC}: ${BLUE}$(echo $WORDLIST)${NC}\n" && sleep 5s
   mkdir -p $WORDLIST && cd $WORDLIST
 fi
+
+if [[ -v quick && -n "$quick" ]]; then
+   #check if dir's already exist
+   paths=("$WORDLIST/bbFuzzing.txt/bbFuzzing.txt" "$WORDLIST/fuzz.txt/fuzz.txt" "$WORDLIST/hfuzz/hfuzz.txt" "$WORDLIST/leaky-paths/leaky-paths.txt" "$WORDLIST/OneListForAll/onelistforallmicro.txt" "$WORDLIST/WordList/onelistforall.txt")
+  for path in "${paths[@]}"; do
+    if [ ! -f "$path" ]; then
+        echo -e "${RED}\u2717 Error${NC}: ${BLUE}$path${RED} not found${NC}"
+        echo -e "${PURPLE}Recommend you run ${RED}without ${BLUE}-q${NC} | ${BLUE}--quick${PINK} at least once${NC}\n"
+        exit 1
+    fi
+  done
+fi  
 
 #Dependency Checks
 #Golang
@@ -143,52 +171,68 @@ while [[ "$dir_to_check" != "/" ]]; do
   if [[ -d "$dir_to_check/.git" ]]; then
     echo -e "ⓘ  ${PINK}Git ${YELLOW}(.git)${NC} detected in ${YELLOW}$dir_to_check${NC}"
     echo -e "ⓘ  ${BLUE}Proceeding${NC} with ${PINK}Submodules${NC}"
-    echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
-    echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
-    echo -e "${BLUE}Just let your terminal be!${NC}"  
-    git config --global --add safe.directory $(pwd)
-    #Rood's base for lhf wordlists
-    wordium_rood_lhf=$(mktemp)
-    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
-    cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
-    #Submodules
-    git submodule add https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
-    git submodule add https://github.com/Bo0oM/fuzz.txt 2>/dev/null
-    git submodule add https://github.com/thehlopster/hfuzz 2>/dev/null
-    git submodule add https://github.com/ayoubfathi/leaky-paths 2>/dev/null
-    git submodule add https://github.com/six2dez/OneListForAll 2>/dev/null
-    git submodule add https://github.com/rix4uni/WordList 2>/dev/null
-    #Clones
-    cd $WORDLIST
-    git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
-    git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
-    git clone https://github.com/thehlopster/hfuzz 2>/dev/null
-    git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
-    git clone https://github.com/six2dez/OneListForAll 2>/dev/null
-    git clone https://github.com/rix4uni/WordList 2>/dev/null
-    #Mark Safe
-    find $dir_to_check -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
+    if [[ -v quick && -n "$quick" ]]; then
+       echo -e "Using ${GREEN}Quick Mode${NC}" 
+       #Rood's base for lhf wordlists
+       wordium_rood_lhf=$(mktemp)
+       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt       
+    else
+       echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
+       echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
+       echo -e "${BLUE}Just let your terminal be!${NC}"  
+       git config --global --add safe.directory $(pwd)
+       #Rood's base for lhf wordlists
+       wordium_rood_lhf=$(mktemp)
+       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
+       #Submodules
+       git submodule add https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
+       git submodule add https://github.com/Bo0oM/fuzz.txt 2>/dev/null
+       git submodule add https://github.com/thehlopster/hfuzz 2>/dev/null
+       git submodule add https://github.com/ayoubfathi/leaky-paths 2>/dev/null
+       git submodule add https://github.com/six2dez/OneListForAll 2>/dev/null
+       git submodule add https://github.com/rix4uni/WordList 2>/dev/null
+       #Clones
+       cd $WORDLIST
+       git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
+       git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
+       git clone https://github.com/thehlopster/hfuzz 2>/dev/null
+       git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
+       git clone https://github.com/six2dez/OneListForAll 2>/dev/null
+       git clone https://github.com/rix4uni/WordList 2>/dev/null
+       #Mark Safe
+       find $dir_to_check -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
+    fi   
     break
   fi
   dir_to_check=$(dirname "$dir_to_check")
   count=$((count+1))
   if [[ $count -eq $max_parents ]]; then
-    echo -e "No Git ${YELLOW}(.git)${NC} folder found in $dir_to_check or its parent directories!"
-    echo -e "Proceeding with ${BLUE}git clone${NC}\n"
-    echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
-    echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
-    echo -e "${BLUE}Just let your terminal be!${NC}" 
-    #Rood's base for lhf wordlists
-    cd $WORDLIST
-    wordium_rood_lhf=$(mktemp)
-    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
-    cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
-    git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
-    git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
-    git clone https://github.com/thehlopster/hfuzz 2>/dev/null
-    git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
-    git clone https://github.com/six2dez/OneListForAll 2>/dev/null
-    git clone https://github.com/rix4uni/WordList 2>/dev/null 
+    if [[ -v quick && -n "$quick" ]]; then
+       #Rood's base for lhf wordlists
+       cd $WORDLIST
+       wordium_rood_lhf=$(mktemp)
+       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt        
+    else
+       echo -e "No Git ${YELLOW}(.git)${NC} folder found in $dir_to_check or its parent directories!"
+       echo -e "Proceeding with ${BLUE}git clone${NC}\n"
+       echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
+       echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
+       echo -e "${BLUE}Just let your terminal be!${NC}" 
+       #Rood's base for lhf wordlists
+       cd $WORDLIST
+       wordium_rood_lhf=$(mktemp)
+       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
+       git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
+       git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
+       git clone https://github.com/thehlopster/hfuzz 2>/dev/null
+       git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
+       git clone https://github.com/six2dez/OneListForAll 2>/dev/null
+       git clone https://github.com/rix4uni/WordList 2>/dev/null 
+    fi   
     break
   fi
 done
