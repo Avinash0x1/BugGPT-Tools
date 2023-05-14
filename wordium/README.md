@@ -27,7 +27,7 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium
 
 Extended Help
 -w,  --wordlist-dir     Specify where to create your wordlists (Required, else specify as $WORDLIST in $ENV:VAR)
-
+-q,  --quick            Quick Mode [Only Use if not first time]
 -up, --update           Update wordium
 ```
 ### Currently Tracked Wordlists:
