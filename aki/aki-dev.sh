@@ -21,7 +21,9 @@ cat << "EOF"
 EOF
 echo -e "${NC}"
  
-
+#Defaults
+proxy=
+quota=
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -46,6 +48,10 @@ while [[ $# -gt 0 ]]; do
         shift 
         shift 
         ;;
+        -p|--proxy)
+        proxy=1
+        shift
+        ;;         
         -q|--quota)
         quota=1
         shift
@@ -78,6 +84,24 @@ fi
 amass_config_def="$HOME/.config/amass/config.ini"
 subfinder_config_def="$HOME/.config/subfinder/provider-config.yaml"
 
+
+proxy_mubeng(){
+  echo -e "➼ ${BLUE}Fetching${NC} || ${GREEN}Verifying ${PURPLE}Proxies${NC}"
+  raw_proxies=$(mktemp)
+  http_proxies=$(mktemp)
+  mubeng_proxies=$(mktemp)
+  wget --quiet https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt -O $raw_proxies
+  awk '{print "http://"$0}' "$raw_proxies" > $http_proxies
+  #mubeng -f $http_proxies -c -g 100 -o $mubeng_proxies && sleep 5s && clear
+  echo -e "➼ ${BLUE}Proxy Server ${NC} || ${PURPLE}localhost${NC}:${PURPLE}9997${NC}\n"
+  #mubeng -a localhost:9997 -f $mubeng_proxies -r 1 -m random 
+  mubeng -a localhost:9997 -f $http_proxies -r 1 -m random -t 2s > /dev/null 2>&1 &
+  export bg_pid=$!
+}
+kill_mubeng(){
+  wait
+  kill $bg_pid
+}
 #if no input passed to -a or --amass 
 if [ -z "$amass_config" ]; then
         # Check if default amass config file exists
@@ -188,6 +212,12 @@ if [ -n "$gitlab_tokens" ] && [ -e "$gitlab_tokens" ]; then
 else
   echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
+#whether to use proxy     
+if [ -z "$proxy" ]; then
+   echo -e "${YELLOW}Use ${BLUE}Proxy${YELLOW} ?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
+else
+   echo -e "${YELLOW}Use ${BLUE}Proxy${YELLOW} ?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"     
+fi 
 #whether to show usage quotas     
 if [ -z "$quota" ]; then
    echo -e "${YELLOW}Show ${BLUE}Quota Usage${YELLOW} ?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
@@ -271,47 +301,6 @@ echo -e "${NC}"
       fi 
 fi
 
-#Git
-if [ -z "$github_tokens" ]; then
-  github_tokens="$HOME/.config/.github_tokens"
-  echo -e "${GREEN}ⓘ Using default ${BLUE}github_tokens file${NC}: ${PURPLE}$github_tokens${NC}\n"
-fi
-if [ -z "$gitlab_tokens" ]; then
-  gitlab_tokens="$HOME/.config/.gitlab_tokens"
-  echo -e "${GREEN}ⓘ Using default ${BLUE}gitlab_tokens file${NC}: ${PURPLE}$gitlab_tokens${NC}\n"
-fi
-
-
-#Re Check
-#amass
-if [ -n "$amass_config" ] && [ -e "$amass_config" ]; then
-  echo -e "${YELLOW}Check ${GREEN}amass${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}amass${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
-#subfinder
-if [ -n "$subfinder_config" ] && [ -e "$subfinder_config" ]; then
-  echo -e "${YELLOW}Check ${GREEN}Subfinder${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}Subfinder${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
-#Github Tokens
-if [ -n "$github_tokens" ] && [ -e "$github_tokens" ]; then
-  echo -e "${YELLOW}Check ${GREEN}Github Tokens${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}Github Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
-#Gitlab Tokens
-if [ -n "$gitlab_tokens" ] && [ -e "$gitlab_tokens" ]; then
-  echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
-echo -e "\n"
-echo -e "${YELLOW}ⓘ Some API Checks will take${RED} longer${NC} to avoid ${GREEN}rate limits${NC} (Shodan, etc)\n ${BLUE}Please have ${GREEN}Patience${NC}\n"
-
-
-
 
 ##Github -gh
 if [ -n "$github_tokens" ] && [ -e "$github_tokens" ]; then
@@ -341,7 +330,17 @@ echo -e "${NC}"
                      if [ -z "$api_key" ]; then
                        break
                      fi
-                          response=$(curl -qski  "https://api.github.com/repos/Azathothas/BugGPT-Tools/stats/code_frequency" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 20s)
+                      if [ -n "$proxy" ] && [ "$proxy" -eq 1 ]; then
+                          proxy_mubeng
+                          while true; do
+                             proxy_response=$(curl -x http://localhost:9997 -qski "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
+                             echo $proxy_response
+                            if ! echo "$proxy_response" | grep -q "Proxy Server error"; then
+                                response=$(echo "proxy_response" | sed '1d')
+                               echo  $response
+                            fi
+                          done  
+                          #response=$(curl -x http://localhost:9997 -qski "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json")
                           if echo "$response" | grep -q "Bad credentials"; then   
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
                            invalid_key_found=true                           
@@ -349,7 +348,20 @@ echo -e "${NC}"
                            echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"     
                            invalid_key_found=true                                                          
                           fi
+                      else
+                          response=$(curl -qski  "https://api.github.com/user" -H "Authorization: Bearer $api_key" -H "Accept: application/vnd.github+json"  && sleep 30s)
+                          if echo "$response" | grep -q "Bad credentials"; then   
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}\u2717 Invalid${NC}"
+                           invalid_key_found=true                           
+                          elif [ "$status_code" = "403" ]; then
+                           echo -e "ⓘ ${VIOLET} GitHub${NC} ${YELLOW}API key${NC} = ${BLUE}$api_key${NC} ${RED}! 403 Forbidden${NC}"     
+                           invalid_key_found=true                                                          
+                          fi
+                      fi    
               done
+              if [ -n "$proxy" ] && [ "$proxy" -eq 1 ]; then
+               kill_mubeng
+              fi
               if ! $invalid_key_found; then
                   echo -e "ⓘ ${VIOLET} GitHub${NC} : ${GREEN}\u2713${NC}"  
               fi  
