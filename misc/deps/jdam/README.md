@@ -11,9 +11,9 @@ sudo wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main
 - **`Windows 64`**
 ```powershell
 !# Base
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-win64" -OutFile "$env:USERPROFILE\go\bin\jdam"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-win64" -OutFile "$env:USERPROFILE\go\bin\jdam.exe"
 !# Also Fuzz Objects from an array: https://gitlab.com/michenriksen/jdam/-/issues/3
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-array-win64" -OutFile "$env:USERPROFILE\go\bin\jdam-array" 
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-array-win64" -OutFile "$env:USERPROFILE\go\bin\jdam-array.exe" 
 !#Refresh ENV:VARS
 refreshenv
 ```
