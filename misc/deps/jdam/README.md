@@ -1,7 +1,14 @@
+### Forked From: https://gitlab.com/michenriksen/jdam
+
+### Installation:
+```
+
+```
+---
+
 # jdam - Structure-aware JSON fuzzing
 
-![jdam](.gitlab/jdam.gif)
-
+![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ee56f05e-15c5-47dc-9e6d-d322c658cbbf)
 jdam is a [Radamsa] inspired tool for fuzzing arbitrary JSON objects in a structure-aware fashion, which ensures that fuzzing results will always be valid JSON.
 
 Many existing fuzzing tools will blindly alter the input and will often cause the result to be invalid JSON. This means that fuzz testing will only exercise the target application's JSON parser and the fuzz testing will never reach the underlying application code because the requests are invalid. Jdam is an attempt at solving this problem.
@@ -22,8 +29,7 @@ To see a full list of available mutators, use `jdam -list`.
 ### Note
 jdam is still pretty rough and errors should be expected. It is however stable enough to be released for the adventurous people out there, but treat it as alpha software for now!
 
-## Installation
-Download a pre-built [release] for your operating system or clone the repository and compile with `go build -o jdam cmd/jdam/*`.
+
 
 ## Usage
 
