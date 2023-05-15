@@ -1,8 +1,21 @@
 ### Forked From: https://gitlab.com/michenriksen/jdam
 
 ### Installation:
+- **`Linux x64`**
 ```
-
+!# Base
+sudo wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam -O /usr/local/bin/jdam && sudo chmod +xwr /usr/local/bin/jdam 
+!# Also Fuzz Objects from an array: https://gitlab.com/michenriksen/jdam/-/issues/3
+sudo wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-array -O /usr/local/bin/jdam && sudo chmod +xwr /usr/local/bin/jdam-array 
+```
+- **`Windows 64`**
+```powershell
+!# Base
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-win64" -OutFile "$env:USERPROFILE\go\bin\jdam"
+!# Also Fuzz Objects from an array: https://gitlab.com/michenriksen/jdam/-/issues/3
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/deps/jdam/Releases/jdam-array-win64" -OutFile "$env:USERPROFILE\go\bin\jdam-array" 
+!#Refresh ENV:VARS
+refreshenv
 ```
 ---
 
