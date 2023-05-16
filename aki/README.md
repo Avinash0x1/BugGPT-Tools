@@ -138,7 +138,6 @@ Yandex : ✓
 ZoomEye : ✓
 ```
  - [**BBot**](https://github.com/blacklanternsecurity/bbot/tree/stable/bbot/modules)
-**
 ```yaml
 AlienVault: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/otx.py
 AnubisDB(jldc.me) : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/anubisdb.py
@@ -170,9 +169,7 @@ VirusTotal : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/m
 WaybackArchive: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/wayback.py
 ZoomeEyeApi : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/zoomeye.py
 ```
-**
  - [**Subfinder**](https://github.com/projectdiscovery/subfinder/tree/main/v2/pkg/subscraping/sources) : Almost all **free** sources are checked and validated!
-**
 ```yaml
 anubis - (✘) [Not Available]
 alienvault : ✓
@@ -201,7 +198,6 @@ whoisxmlapi : ✓
 zoomeye : ✓
 zoomeyeapi : ✓
 ```
-**
 
 ---
 ### Verification:
@@ -282,6 +278,10 @@ curl -qsk "https://api.ipdata.co/?api-key=$api_key" -H "Accept: application/json
 - [**IPinfo**](https://ipinfo.io/developers)
 ```bash
 curl -qsk "https://ipinfo.io/me?token=$api_key" -H "Accept: application/json"
+```
+- [**Ipstack**](https://ipstack.com/documentation)
+```bash
+curl -qsk "http://api.ipstack.com/check?access_key=$api_access_key"
 ```
 - [**LeakIX**](https://docs.leakix.net/docs/api/authentication/)
 ```bash
