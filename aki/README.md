@@ -8,6 +8,7 @@
 `Api Key` | `Token` checker & validator for [**amass**](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file) | [**subfinder**](https://github.com/projectdiscovery/subfinder#post-installation-instructions) | [**github**](https://github.com/gwen001/github-endpoints) & [**gitlab**](https://github.com/gwen001/gitlab-subdomains)                                                                                                                           
 This is achieved using [**`curl`**](https://github.com/curl/curl) + [**`jq`**](https://github.com/stedolan/jq) + [**`yq`**](https://github.com/mikefarah/yq) and querying a less resourceful api endpoint for each service.
 
+---
 ### **Installation**:
 ```bash 
 sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki.sh -O /usr/local/bin/aki && sudo chmod +xwr /usr/local/bin/aki && aki --help
@@ -22,6 +23,8 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki
  Linux: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +xwr /usr/local/bin/yq
  YQ : https://github.com/mikefarah/yq/#install
  ```
+---
+
 ### **Considerations**:
  - **Amass**: Your `config.ini` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
  > ***Example*** : https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Examples/.config/amass/config.ini
@@ -67,6 +70,8 @@ glpat-yourtoken_value
 glpat_one_token_per_line
 glpat_DO_NOT_include_comments_here
 ```
+---
+
 ### Usage:
 `aki --help`
 ```bash
@@ -100,6 +105,7 @@ Optional flags :
 > ```
 ![usage01](https://user-images.githubusercontent.com/58171889/235455838-efbcaf9f-806f-4112-8830-58b1378c834c.png)
 ![usage02](https://user-images.githubusercontent.com/58171889/235455860-7878291c-525c-4fd0-b1d8-dc09c3961d22.png)
+---
 
 ### Currently Checked Keys & Tokens:
  - [**Amass**](https://github.com/owasp-amass/amass/tree/master/resources/scripts/api) : Almost all **free** sources are checked and validated!
