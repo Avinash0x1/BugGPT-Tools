@@ -24,6 +24,7 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki
  ```
 ### **Considerations**:
  - **Amass**: Your `config.ini` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
+ > ***Example*** : https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Examples/.config/amass/config.ini
  ```ini
 [data_sources.Example]
 [data_sources.Example.Credentials]
@@ -40,6 +41,7 @@ secret = same-for-secret-only-1-space-between-equal-and-everything-lower-case
 #By default, amass config.ini will be located at: $HOME/.config/amass/config.ini
 ```
 - **Subfinder**: Your `provider-config.yaml` must be properly indentated and formatted. [Default: `$HOME/.config/subfinder/provider-config.yaml`]
+> ***Example*** : https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Examples/.config/subfinder/provider-config.yaml
 ```YAML
 #Comments will be ignored. And valid root element line must have no spaces at beginning or ending, and must end with : 
 example:
