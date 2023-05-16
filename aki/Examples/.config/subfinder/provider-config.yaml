@@ -1,0 +1,88 @@
+alienvault:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key
+    # Keep as many as you want
+  bevigil:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key
+  binaryedge:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key
+  bufferover: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  c99: []
+  censys:
+    - your_first_api_key:your_api_secret
+    - your_second_api_key:your_api_secret
+    - your_third_api_key:your_api_secret
+  certspotter: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  chaos: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  chinaz: []
+  dnsdb: []
+  dnsrepo: []
+  fullhunt:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  github:
+    - ghp_your_token
+    - ghp_your_second_token
+    - ghp_your_third_token
+  hunter: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  intelx: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  passivetotal:
+    - your_email_in_lowercase:your_api_key
+    - your_second_email_in_lowercase:your_api_key
+  quake: []
+  robtex: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  securitytrails: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  shodan:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  threatbook:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  urlscan:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  virustotal:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  whoisxmlapi:
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
+  zoomeye: 
+    - your_email_in_lowercase:your_login_password
+    - your_second_email_in_lowercase:your_login_password
+  zoomeyeapi: 
+    - your_first_api_key
+    - your_second_api_key
+    - your_third_api_key 
