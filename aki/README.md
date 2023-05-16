@@ -139,6 +139,40 @@ WhoisXML : ✓
 Yandex : ✓
 ZoomEye : ✓
 ```
+ - [BBot]()
+**
+```yaml
+AlienVault: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/otx.py
+AnubisDB(jldc.me) : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/anubisdb.py
+BeVigil : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/bevigil.py
+BinaryEdge : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/binaryedge.py
+BuiltWith : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/builtwith.py
+Censys.io : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/censys.py
+CertSpotter.com : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/certspotter.py
+Crobat : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/crobat.py
+Crt.sh : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/crt.py
+DnsDumpster.com : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/dnsdumpster.py
+C99.nl - (✘) [💰 --> http://api.c99.nl/dashboard/shop] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/c99.py
+FullHunt.io : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/fullhunt.py
+GitHub : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/github.py
+HackerTarget : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/hackertarget.py
+Hunter.io : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/hunterio.py
+IpStack.com : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/ipstack.py
+LeakIX : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/leakix.py
+PassiveTotal : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/passivetotal.py
+RapidDNS.io : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/rapiddns.py
+Riddler.io : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/riddler.py
+SecurityTrails : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/securitytrails.py 
+Shodan : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/shodan_dns.py
+Skymem.info : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/skymem.py
+ThreatMiner.org : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/threatminer.py
+UrlScan.io : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/urlscan.py
+ViewDNS.info : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/viewdns.py
+VirusTotal : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/virustotal.py)
+WaybackArchive: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/wayback.py
+ZoomeEyeApi : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/zoomeye.py
+**
+```
  - [**Subfinder**](https://github.com/projectdiscovery/subfinder/tree/main/v2/pkg/subscraping/sources) : Almost all **free** sources are checked and validated!
 **
 ```yaml
