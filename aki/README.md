@@ -174,8 +174,54 @@ ThreatMiner.org : + [api_key NOT Required] # https://github.com/blacklanternsecu
 UrlScan.io : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/urlscan.py
 ViewDNS.info : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/viewdns.py
 VirusTotal : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/virustotal.py)
-WaybackArchive: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/wayback.py
+WaybackArchive : + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/wayback.py
 ZoomeEyeApi : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/zoomeye.py
+```
+ - [**OneForAll**](https://github.com/shmilylty/OneForAll/blob/master/config/api.py)
+```yaml
+AlienVault : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/intelligence/alienvault.py
+Ask.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/ask.py
+AnubisDB - (✘) [Not Available] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/anubis.py
+Baidu : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/cebaidu.py
+BeVigil : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/bevigil.py
+BinaryEdge : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/binaryedge_api.py
+Bing : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/bing_api.py
+Chinaz : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/chinaz.py
+Circl.lu : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/circl_api.py
+CloudFlare : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/cloudflare_api.py
+CommonCrawl.org : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/crawl/commoncrawl.py
+DNSDB : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/dnsdb_api.py
+DnsDumpster : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/dnsdumpster.py
+DnsGrep.cn : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/dnsgrep.py
+DnsScan.cn(QianXun) : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/qianxun.py
+Fofa.info : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/fofa_api.py
+FullHunt : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/fullhunt.py
+GitHub : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/github_api.py
+Gitee.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/gitee.py
+Google : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/google_api.py
+HackerTarget : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/hackertarget.py 
+Hunter (Qianxin.com) : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/hunter_api.py
+ip138 : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/ip138.py
+IpV4info : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/ipv4info_api.py
+Netcraft : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/netcraft.py
+PassiveDNS.cn : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/passivedns_api.py
+Quake (quake.360.net) : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/quake_api.py
+RapidDNS.io : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/rapiddns.py
+Riddler.io : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/riddler.py
+RiskIQ (PassiveTotal) : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/intelligence/riskiq_api.py
+RoboTex.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/robtex.py
+SecurityTrails.com : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/securitytrails_api.py
+Shodan : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/shodan_api.py
+SiteDossier.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/sitedossier.py
+So.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/so.py
+Sogou.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/sogou.py
+Spyse.com ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/spyse_api.py
+Sublist3r.com : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/sublist3r.py
+ThreatBook.cn : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/intelligence/threatbook_api.py
+ThreatMiner.org : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/intelligence/threatminer.py
+UrlScan.io : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/urlscan.py
+VirusTotal : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/intelligence/virustotal_api.py
+WaybackArchive : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/crawl/archivecrawl.py
 ```
  - [**Subfinder**](https://github.com/projectdiscovery/subfinder/tree/main/v2/pkg/subscraping/sources) : Almost all **free** sources are checked and validated!
 ```yaml
