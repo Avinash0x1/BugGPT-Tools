@@ -1,10 +1,8 @@
 <img src="https://user-images.githubusercontent.com/58171889/233020776-156788d9-de04-40c9-a1b2-87e264373298.gif" width="250" height="150">
 
  ```bash
- 
   _  |  o 
 (_| |< |  : Api Key | Tokens validator 
-
 ```
 ### About:
 `Api Key` | `Token` checker & validator for [**amass**](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file) | [**subfinder**](https://github.com/projectdiscovery/subfinder#post-installation-instructions) | [**github**](https://github.com/gwen001/github-endpoints) & [**gitlab**](https://github.com/gwen001/gitlab-subdomains)                                                                                                                           
@@ -56,13 +54,13 @@ example:
 #Note that, it's `provider-config.yaml` & NOT `config.yaml`
 ```
 - **Github Tokens**: Your `.github_tokens` must be properly indentated and formatted (**1** token **per line**). [Default: `$HOME/.config/.github_tokens`]
-```TXT
+```console
 ghp_yourtoken_value
 gph_one_token_per_line
 ghp_DO_NOT_include_comments_here
 ```
 - **Gitlab Tokens**: Your `.gitlab_tokens` must be properly indentated and formatted (**1** token **per line**). [Default: `$HOME/.config/.gitlab_tokens`]
-```bash
+```console
 glpat-yourtoken_value
 glpat_one_token_per_line
 glpat_DO_NOT_include_comments_here
@@ -102,7 +100,7 @@ Optional flags :
 ![usage02](https://user-images.githubusercontent.com/58171889/235455860-7878291c-525c-4fd0-b1d8-dc09c3961d22.png)
 
 ### Currently Checked Keys & Tokens:
- - Amass : Almost all **free** sources are checked and validated!
+ - [**Amass**](https://github.com/owasp-amass/amass/tree/master/resources/scripts/api) : Almost all **free** sources are checked and validated!
 ```yaml
 ASNLookup : ✓
 AlienVault : ✓
@@ -139,7 +137,7 @@ WhoisXML : ✓
 Yandex : ✓
 ZoomEye : ✓
 ```
- - [BBot]()
+ - [**BBot**](https://github.com/blacklanternsecurity/bbot/tree/stable/bbot/modules)
 **
 ```yaml
 AlienVault: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/otx.py
@@ -171,8 +169,8 @@ ViewDNS.info : + [api_key NOT Required] # https://github.com/blacklanternsecurit
 VirusTotal : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/virustotal.py)
 WaybackArchive: + [api_key NOT Required] # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/wayback.py
 ZoomeEyeApi : ? # https://github.com/blacklanternsecurity/bbot/blob/stable/bbot/modules/zoomeye.py
-**
 ```
+**
  - [**Subfinder**](https://github.com/projectdiscovery/subfinder/tree/main/v2/pkg/subscraping/sources) : Almost all **free** sources are checked and validated!
 **
 ```yaml
