@@ -26,7 +26,7 @@ sudo wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki
 ---
 
 ### **Considerations**:
- - **Amass**(https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file): Your `config.ini` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
+ - [**Amass**](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-configuration-file): Your `config.ini` must be properly indentated and formatted. [Default: `$HOME/.config/amass/config.ini`]
  > ***Example*** : https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Examples/.config/amass/config.ini
  ```ini
 [data_sources.Example]
@@ -55,7 +55,7 @@ Use : https://www.yamllint.com to verify
 Default Location: $HOME/Tools/OneForAll/config/api.py #Assuming you gitcloned there
 Format : https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Examples/.config/OneForAll/config/api.py #Just input your keys between ' '
 ```
-- **Subfinder**(https://github.com/projectdiscovery/subfinder#post-installation-instructions): Your `provider-config.yaml` must be properly indentated and formatted. [Default: `$HOME/.config/subfinder/provider-config.yaml`]
+- [**Subfinder**](https://github.com/projectdiscovery/subfinder#post-installation-instructions): Your `provider-config.yaml` must be properly indentated and formatted. [Default: `$HOME/.config/subfinder/provider-config.yaml`]
 > ***Example*** : https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Examples/.config/subfinder/provider-config.yaml
 ```YAML
 #Comments will be ignored. And valid root element line must have no spaces at beginning or ending, and must end with : 
