@@ -193,7 +193,7 @@ CommonCrawl.org : + [api_key NOT Required] # https://github.com/shmilylty/OneFor
 DNSDB : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/dnsdb_api.py
 DnsDumpster : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/dnsdumpster.py
 DnsGrep.cn : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/dnsgrep.py
-DnsScan.cn(QianXun) : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/qianxun.py
+DnsScan.cn (QianXun) : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/qianxun.py
 Fofa.info : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/fofa_api.py
 FullHunt : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/fullhunt.py
 GitHub : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/github_api.py
@@ -222,6 +222,10 @@ ThreatMiner.org : + [api_key NOT Required] # https://github.com/shmilylty/OneFor
 UrlScan.io : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/datasets/urlscan.py
 VirusTotal : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/intelligence/virustotal_api.py
 WaybackArchive : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/crawl/archivecrawl.py
+WzSearch (wuzhuiso.com) : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/wzsearch.py
+Yahoo : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/yahoo.py
+Yandex : + [api_key NOT Required] # https://github.com/shmilylty/OneForAll/blob/master/modules/search/yandex.py
+ZoomEyeAPI : ? # https://github.com/shmilylty/OneForAll/blob/master/modules/search/zoomeye_api.py
 ```
  - [**Subfinder**](https://github.com/projectdiscovery/subfinder/tree/main/v2/pkg/subscraping/sources) : Almost all **free** sources are checked and validated!
 ```yaml
