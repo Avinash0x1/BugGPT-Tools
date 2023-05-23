@@ -81,8 +81,6 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
   exit 0
 fi
 
-#Exports
-quick=
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -92,20 +90,21 @@ while [[ $# -gt 0 ]]; do
              echo -e "${RED}Error: ${YELLOW}Wordlist Directory${NC} is missing for option ${BLUE}'-w | --wordlist-dir'${NC}"
              exit 1
          fi        
-        WORDLIST="$2"
+        WORDLIST="$(realpath "$2")"
         shift 
         shift 
-        ;;
-        -q|--quick)
-        quick=1
-        shift
-        ;;                                                         
+        ;;                                                        
         *)    
         echo -e "${RED}Error: Invalid option ${YELLOW}'$key'${NC} , see ${BLUE}--help${NC} for Usage"
         exit 1
         ;;
     esac
 done
+#Check Net
+if ! ping -c 5 github.com > /dev/null; then
+   echo -e "${RED}\u2717 Fatal${NC}: ${YELLOW}No Internet${NC}\n"
+ exit 1
+fi
 
 # Check if WORDLIST is already set in the environment
 if [ -z "$WORDLIST" ]; then
@@ -114,24 +113,12 @@ if [ -z "$WORDLIST" ]; then
   echo -e "➼ ${YELLOW}If You don't want that, hit ${RED}ctrl + c${NC} now!"
   echo -e "➼ ${YELLOW}Waiting 10 Seconds${NC} ${GREEN}before continuing${NC} in ${BLUE}$HOME/Wordlist${NC}" && sleep 15s
   mkdir -p $HOME/Wordlist
-  export WORDLIST=$HOME/Wordlist 
+  export WORDLIST="$HOME/Wordlist" 
   cd "$WORDLIST"
 else
   echo -e "➼ ${YELLOW}Specified Wordlist Directory${NC}: ${BLUE}$(echo $WORDLIST)${NC}\n" && sleep 5s
-  mkdir -p $WORDLIST && cd $WORDLIST
+  mkdir -p "$WORDLIST" && cd "$WORDLIST"
 fi
-
-if [[ -v quick && -n "$quick" ]]; then
-   #check if dir's already exist
-   paths=("$WORDLIST/bbFuzzing.txt/bbFuzzing.txt" "$WORDLIST/fuzz.txt/fuzz.txt" "$WORDLIST/hfuzz/hfuzz.txt" "$WORDLIST/leaky-paths/leaky-paths.txt" "$WORDLIST/OneListForAll/onelistforallmicro.txt" "$WORDLIST/WordList/onelistforall.txt")
-  for path in "${paths[@]}"; do
-    if [ ! -f "$path" ]; then
-        echo -e "${RED}\u2717 Error${NC}: ${BLUE}$path${RED} not found${NC}"
-        echo -e "${PURPLE}Recommend you run ${RED}without ${BLUE}-q${NC} | ${BLUE}--quick${PINK} at least once${NC}\n"
-        exit 1
-    fi
-  done
-fi  
 
 #Dependency Checks
 #Golang
@@ -160,87 +147,110 @@ if ! command -v dos2unix >/dev/null 2>&1; then
     echo "➼ dos2unix is not installed. Installing..."
     sudo apt-get update && sudo apt-get install dos2unix -y
 fi
-##Check if it's a git dir
-dir_to_check="$(pwd)"
-# Set the maximum number of parent directories to check
-max_parents=2
-# Initialize a counter variable
-count=0
-# Check if the directory or its parent directories have a .git folder
-while [[ "$dir_to_check" != "/" ]]; do
-  if [[ -d "$dir_to_check/.git" ]]; then
-    echo -e "ⓘ  ${PINK}Git ${YELLOW}(.git)${NC} detected in ${YELLOW}$dir_to_check${NC}"
+
+#Dirs
+dirs=("$WORDLIST/bbFuzzing.txt" "$WORDLIST/fuzz.txt" "$WORDLIST/hfuzz" "$WORDLIST/leaky-paths" "$WORDLIST/OneListForAll" "$WORDLIST/WordList")
+#paths for redundancy 
+paths=("$WORDLIST/bbFuzzing.txt/bbFuzzing.txt" "$WORDLIST/fuzz.txt/fuzz.txt" "$WORDLIST/hfuzz/hfuzz.txt" "$WORDLIST/leaky-paths/leaky-paths.txt" "$WORDLIST/OneListForAll/onelistforallmicro.txt" "$WORDLIST/WordList/onelistforall.txt")   
+#funcs
+setup_dirs_base(){
+    echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
+    echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
+    echo -e "${BLUE}Just let your terminal be!${NC}"  
+    git config --global --add safe.directory $(pwd)
+    #Rood's base for lhf wordlists
+    wordium_rood_lhf=$(mktemp)
+    wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
+    cat "$wordium_rood_lhf" | anew -q "$WORDLIST/x-lhf-mini.txt"
+}
+setup_dirs_submodules(){
     echo -e "ⓘ  ${BLUE}Proceeding${NC} with ${PINK}Submodules${NC}"
-    if [[ -v quick && -n "$quick" ]]; then
-       echo -e "Using ${GREEN}Quick Mode${NC}" 
-       #Rood's base for lhf wordlists
-       wordium_rood_lhf=$(mktemp)
-       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
-       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt       
-    else
-       echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
-       echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
-       echo -e "${BLUE}Just let your terminal be!${NC}"  
-       git config --global --add safe.directory $(pwd)
-       #Rood's base for lhf wordlists
-       wordium_rood_lhf=$(mktemp)
-       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
-       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
-       #Submodules
-       git submodule add https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
-       git submodule add https://github.com/Bo0oM/fuzz.txt 2>/dev/null
-       git submodule add https://github.com/thehlopster/hfuzz 2>/dev/null
-       git submodule add https://github.com/ayoubfathi/leaky-paths 2>/dev/null
-       git submodule add https://github.com/six2dez/OneListForAll 2>/dev/null
-       git submodule add https://github.com/rix4uni/WordList 2>/dev/null
-       #Clones
-       cd $WORDLIST
-       git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
-       git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
-       git clone https://github.com/thehlopster/hfuzz 2>/dev/null
-       git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
-       git clone https://github.com/six2dez/OneListForAll 2>/dev/null
-       git clone https://github.com/rix4uni/WordList 2>/dev/null
-       #Mark Safe
-       find $dir_to_check -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
-    fi   
-    break
-  fi
-  dir_to_check=$(dirname "$dir_to_check")
-  count=$((count+1))
-  if [[ $count -eq $max_parents ]]; then
-    if [[ -v quick && -n "$quick" ]]; then
-       #Rood's base for lhf wordlists
-       cd $WORDLIST
-       wordium_rood_lhf=$(mktemp)
-       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
-       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt        
-    else
-       echo -e "No Git ${YELLOW}(.git)${NC} folder found in $dir_to_check or its parent directories!"
-       echo -e "Proceeding with ${BLUE}git clone${NC}\n"
-       echo -e "${YELLOW}This will take quite some time${NC} (If first run)" 
-       echo -e "Depending on your ${YELLOW}internet${NC}, it ${RED}may take upto 1 hr${NC}" 
-       echo -e "${BLUE}Just let your terminal be!${NC}" 
-       #Rood's base for lhf wordlists
-       cd $WORDLIST
-       wordium_rood_lhf=$(mktemp)
-       wget --quiet https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/misc/wordlists/rood-lhf.txt -O $wordium_rood_lhf
-       cat $wordium_rood_lhf | anew -q $WORDLIST/x-lhf-mini.txt
-       git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
-       git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
-       git clone https://github.com/thehlopster/hfuzz 2>/dev/null
-       git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
-       git clone https://github.com/six2dez/OneListForAll 2>/dev/null
-       git clone https://github.com/rix4uni/WordList 2>/dev/null 
-    fi   
-    break
-  fi
+    #Submodules
+    git submodule add https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
+    git submodule add https://github.com/Bo0oM/fuzz.txt 2>/dev/null
+    git submodule add https://github.com/thehlopster/hfuzz 2>/dev/null
+    git submodule add https://github.com/ayoubfathi/leaky-paths 2>/dev/null
+    git submodule add https://github.com/six2dez/OneListForAll 2>/dev/null
+    git submodule add https://github.com/rix4uni/WordList 2>/dev/null
+}   
+setup_dirs_clones(){
+   echo -e "No Git ${YELLOW}(.git)${NC} folder found in "$WORDLIST" or its parent directories!"
+   echo -e "Proceeding with ${BLUE}git clone${NC}\n"
+    #Clones
+    cd "$WORDLIST"
+    git clone https://github.com/reewardius/bbFuzzing.txt 2>/dev/null
+    git clone https://github.com/Bo0oM/fuzz.txt 2>/dev/null
+    git clone https://github.com/thehlopster/hfuzz 2>/dev/null
+    git clone https://github.com/ayoubfathi/leaky-paths 2>/dev/null
+    git clone https://github.com/six2dez/OneListForAll 2>/dev/null
+    git clone https://github.com/rix4uni/WordList 2>/dev/null
+}
+#main check
+setup_wordlist(){
+   for dir in "${dirs[@]}"; do
+      if [ ! -d "$dir" ]; then 
+       echo -e "${RED}\u2717 Error${NC}: ${BLUE}"$dir"${RED} not found${NC}"   
+        if [ -d "../$dir/.git" ]; then
+           echo -e "ⓘ  ${PINK}Git ${YELLOW}(.git)${NC} detected in ${YELLOW}"../$dir/.git"${NC}"
+           setup_dirs_base && setup_dirs_submodules
+        elif [ -d "../../$dir/.git" ]; then
+           echo -e "ⓘ  ${PINK}Git ${YELLOW}(.git)${NC} detected in ${YELLOW}"../../$dir/.git"${NC}"
+           setup_dirs_base && setup_dirs_submodules  
+        elif [ -d "../../../$dir/.git" ]; then
+           echo -e "ⓘ  ${PINK}Git ${YELLOW}(.git)${NC} detected in ${YELLOW}"../../../$dir/.git"${NC}"
+           setup_dirs_base && setup_dirs_submodules
+        else
+           setup_dirs_base && setup_dirs_clones
+        fi
+        #Mark Safe
+        find "$WORDLIST" -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
+      fi      
+   done
+}
+
+#Git Pull
+for path in "${paths[@]}"; do
+  if [ ! -f "$path" ]; then
+      echo -e "${RED}\u2717 Error${NC}: ${BLUE}$path${RED} not found${NC}"
+      echo -e "${PURPLE}Reinstalling....${NC}\n"
+      setup_wordlist
+  else #update git deps
+  updates_made=false
+    for dir in "${dirs[@]}"; do  
+       if [ -d "$dir" ]; then 
+          echo -e "${BLUE}Updating ${PURPLE}"$dir" ${YELLOW}to ${DGREEN}@latest${NC}"
+          if cd "$dir" && git config --global --add safe.directory "$(pwd)" 2>/dev/null; then
+             if [[ $(git pull) == *"Already up to date."* ]]; then
+               echo -e "${YELLOW}ⓘ Already ${DGREEN}@latest${NC}" 
+             else
+               echo -e "${GREEN}\u2713 Fetched${DGREEN} <----> ${PURPLE}Synced ${NC}"
+               updates_made=true
+             fi  
+          else #reset & resolve conflict
+             cd "$dir" && git config --global --add safe.directory "$(pwd)" 2>/dev/null && git fetch --all 2>/dev/null && git reset --hard origin/main 2>/dev/null && git clean -fd 2>/dev/null  
+             if [[ $(git pull) == *"Already up to date."* ]]; then
+               echo -e "${YELLOW}ⓘ Already ${DGREEN}@latest${NC}" 
+               updates_made=true
+             else
+               echo -e "${GREEN}\u2713 Fetched${DGREEN} <----> ${PURPLE}Synced ${NC}"
+               updates_made=true
+             fi 
+          fi          
+       fi
+    done  
+    if ! "$updates_made"; then
+      break  # Exit the loop if no updates were made
+    fi    
+  fi  
 done
-#Sync Repos to @latest
-find $WORDLIST -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
-echo -e "\n"
-find $WORDLIST -maxdepth 1 -type d -exec sh -c '(cd {} && echo "Updating {} to @latest" && git pull 2>/dev/null )' \;
-echo -e "\n"
+
+
+# #Sync Repos to @latest
+# find "$WORDLIST" -type d -exec sh -c 'cd "$0" && git config --global --add safe.directory "$(pwd)"' {} \; 2>/dev/null
+# echo -e "\n"
+# find "$WORDLIST" -maxdepth 1 -type d -exec sh -c '(cd {} && echo "Updating {} to @latest" && git pull 2>/dev/null )' \;
+# echo -e "\n"
+
 #Begins
 #echo -e "➼${YELLOW}Fetching & Updating${NC} from ${BLUE}WORDLIST/WORDLIST${NC} \n" 
 #echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : $()${NC}" 
@@ -248,38 +258,38 @@ echo -e "\n"
 #grep -E '^\.' file.txt
 ## Removes lines with digits, and removes slashes from beginning of each line 
 #sed '/[0-9]/d' file.txt | sed '/^[[:space:]]*$/d' | sed 's#^/##'
-#ENV VARS
+#Init
 echo "test" | anew -q $WORDLIST/x-lhf-mini.txt
 lhf_mini_lines=$(wc -l < $WORDLIST/x-lhf-mini.txt)
 ## --> Bo0oM/fuzz.txt
 echo ""
-echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}Bo0oM/fuzz.txt${NC}" 
+echo -e "➼ ${YELLOW}Fetching & Updating${NC} ${DGREEN}<-- ${BLUE}Bo0oM/fuzz.txt${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(grep -E '^\.' $WORDLIST/fuzz.txt/fuzz.txt | anew $WORDLIST/x-lhf-mini.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}  : ${GREEN}$(cat $WORDLIST/fuzz.txt/fuzz.txt | anew $WORDLIST/x-lhf-mid.txt | wc -l)${NC}\n" 
 
 ## --> reewardius/bbFuzzing.txt
-echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}reewardius/bbFuzzing.txt${NC}"
+echo -e "➼ ${YELLOW}Fetching & Updating${NC} ${DGREEN}<-- ${BLUE}reewardius/bbFuzzing.txt${NC}"
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(grep -E '^\.' $WORDLIST/bbFuzzing.txt/bbFuzzing.txt | anew $WORDLIST/x-lhf-mini.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt ${NC}  : ${GREEN}$(cat $WORDLIST/bbFuzzing.txt/bbFuzzing.txt | grep -Ei 'api|build|conf|dev|env|git|graph|helm|json|kube|k8|sql|swagger|xml|yaml|yml|wadl|wsdl' | anew $WORDLIST/x-lhf-mid.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.txt${NC}  : ${GREEN}$(cat $WORDLIST/bbFuzzing.txt/bbFuzzing.txt | anew $WORDLIST/x-lhf-large.txt | wc -l)${NC}\n" 
 
 ## --> thehlopster/hfuzz
-echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}thehlopster/hfuzz${NC}" 
+echo -e "➼ ${YELLOW}Fetching & Updating${NC} ${DGREEN}<-- ${BLUE}thehlopster/hfuzz${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(grep -E '^\.' $WORDLIST/hfuzz/hfuzz.txt | anew $WORDLIST/x-lhf-mini.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.tx${NC}  : ${GREEN}$(sed '/[0-9]/d' $WORDLIST/hfuzz/hfuzz.txt | sed '/^[[:space:]]*$/d' | sed 's#^/##' |  grep -Ei 'api|build|conf|dev|env|git|graph|helm|json|kube|k8|sql|swagger|xml|yaml|yml|wadl|wsdl' | anew $WORDLIST/x-lhf-large.txt | wc -l)${NC}\n" 
 
 ## --> ayoubfathi/leaky-paths
-echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}ayoubfathi/leaky-paths${NC}" 
+echo -e "➼ ${YELLOW}Fetching & Updating${NC} ${DGREEN}<-- ${BLUE}ayoubfathi/leaky-paths${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(sed '/[0-9]/d' $WORDLIST/leaky-paths/leaky-paths.txt | sed '/^[[:space:]]*$/d' | anew $WORDLIST/x-lhf-mini.txt | wc -l)${NC}\n" 
 
 ## --> Six2dez/OneListForAll
-echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}Six2dez/OneListForAll${NC}" 
+echo -e "➼ ${YELLOW}Fetching & Updating${NC} ${DGREEN}<-- ${BLUE}Six2dez/OneListForAll${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(grep -E '^\.' $WORDLIST/OneListForAll/onelistforallmicro.txt | anew $WORDLIST/x-lhf-mini.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.txt${NC}  : ${GREEN}$(cat $WORDLIST/OneListForAll/onelistforallshort.txt | grep -Ei 'api|build|conf|dev|env|git|graph|helm|json|kube|k8|sql|swagger|xml|yaml|yml|wadl|wsdl' | anew $WORDLIST/x-lhf-large.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-massive.txt${NC}  : ${GREEN}$(cat $WORDLIST/OneListForAll/onelistforallshort.txt | anew $WORDLIST/x-massive.txt | wc -l)${NC}\n" 
 
 ## --> rix4uni/WordList
-echo -e "➼ ${YELLOW}Fetching & Updating${NC} from ${BLUE}rix4uni/WordList${NC}" 
+echo -e "➼ ${YELLOW}Fetching & Updating${NC} ${DGREEN}<-- ${BLUE}rix4uni/WordList${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(grep -E '^\.' $WORDLIST/WordList/onelistforall.txt | anew $WORDLIST/x-lhf-mini.txt | wc -l) , $(grep -E '^\.' $WORDLIST/WordList/onelistforshort.txt | anew $WORDLIST/x-lhf-mini.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}  : ${GREEN}$(cat $WORDLIST/WordList/admin-panel-paths.txt | anew $WORDLIST/x-lhf-mid.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.txt${NC}  : ${GREEN}$(cat $WORDLIST/WordList/onelistforshort.txt | sed 's#^/##' | anew $WORDLIST/x-lhf-large.txt | wc -l)${NC}" 
@@ -287,7 +297,8 @@ echo -e "➼ ${BLUE}x-massive.txt${NC}  : ${GREEN}$(sed '/[0-9]/d' $WORDLIST/Wor
 
 #Anew & CleanUP
 echo -e "➼ ${YELLOW}New Additions${NC} "
-echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(($(wc -l < x-lhf-mini.txt) - $lhf_mini_lines))${NC}" 
+x_lhf_mini_lines=$(wc -l < "$WORDLIST/x-lhf-mini.txt")
+echo -e "➼ ${BLUE}x-lhf-mini.txt${NC}  : ${GREEN}$(( $x_lhf_mini_lines - $lhf_mini_lines ))${NC}" 
 echo -e "➼ ${BLUE}x-lhf-mid.txt${NC}   : ${GREEN}$(cat $WORDLIST/x-lhf-mini.txt | anew $WORDLIST/x-lhf-mid.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-lhf-large.txt${NC} : ${GREEN}$(cat $WORDLIST/x-lhf-mid.txt | anew $WORDLIST/x-lhf-large.txt | wc -l)${NC}" 
 echo -e "➼ ${BLUE}x-massive.txt${NC}   : ${GREEN}$(cat $WORDLIST/x-lhf-large.txt | anew $WORDLIST/x-massive.txt | wc -l)${NC}\n" 
@@ -349,7 +360,7 @@ find $WORDLIST -maxdepth 1 -type f -name "*.txt" -not -name ".*" -exec sort -u {
 #Update. Github caches take several minutes to reflect globally  
    if ping -c 2 github.com > /dev/null; then
       REMOTE_FILE=$(mktemp)
-      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh -o "$REMOTE_FILE"
+      curl -qfksSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/wordium/wordium.sh" -H "Cache-Control: no-cache" -o "$REMOTE_FILE"
          if ! diff --brief /usr/local/bin/wordium "$REMOTE_FILE" >/dev/null 2>&1; then
               echo ""
               echo -e "➼ ${YELLOW}Update Found!${NC} ${BLUE}updating ..${NC} $(wordium -up)" 
