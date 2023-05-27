@@ -8,7 +8,7 @@
     #and so on
 --- 
   bbot: #service/source name as it is in main $HOME/.config/bbot/secrets.yml
-    bevigil: #bbot doesn't accept multiple ap_keys, so in main file, they are commented_out
+    bevigil: #bbot doesn't accept multiple api_keys, so in main file, they are commented_out
       - example_api_key_1 # Here include all keys
       - example_api_key_2 
     source_2:
@@ -16,7 +16,7 @@
     #and so on  
 ---  
   oneforall: #service/source name as it is in main '$HOME/Tools/OneForAll/config/api.py'
-    bevigil_api: #one_for_all doesn't accept multiple ap_keys, so in main file, they are commented_out
+    bevigil_api: #one_for_all doesn't accept multiple api_keys, so in main file, they are commented_out
       - example_api_key_1 # Here include all keys
       - example_api_key_2 
     source_2:
