@@ -1,0 +1,52 @@
+--- # Read https://github.com/Azathothas/OmniRecon/tree/main/SubOmnium#-api-keys carefully (Be Very Careful about Identaton [SPACES])
+  amass: #service/source name as it is in main `$HOME/.config/amass/config.ini`, [data_sources.Source]
+    ASNLookup: #Use exactly as it is [casing matters], and notice, 2 SPACES after each PARENT item
+      - example_api_key_1 # Here include all keys, 2 SPACES after PARENT, only 1 SPACE after -
+      - example_api_key_2 # Copy paste everything in https://www.yamllint.com/ and hit `go`  
+    source_2:
+      - example_api_key:example_secret_key
+    #and so on
+--- 
+  bbot: #service/source name as it is in main $HOME/.config/bbot/secrets.yml
+    bevigil: #bbot doesn't accept multiple ap_keys, so in main file, they are commented_out
+      - example_api_key_1 # Here include all keys
+      - example_api_key_2 
+    source_2:
+      - example_api_key
+    #and so on  
+---  
+  oneforall: #service/source name as it is in main '$HOME/Tools/OneForAll/config/api.py'
+    bevigil_api: #one_for_all doesn't accept multiple ap_keys, so in main file, they are commented_out
+      - example_api_key_1 # Here include all keys
+      - example_api_key_2 
+    source_2:
+      - example_api_key
+    #and so on
+---  
+  subfinder: #service/source name as it is in main '$HOME/.config/subfinder/provider-config.yaml' [all lowercase]
+    alienvault: #see we are using lowercase
+      - example_api_key_1 # Here include all keys
+      - example_api_key_2
+    source_2:
+      - example_api_key:example_secret_key
+    #and so on
+---  
+  personal: #This is for personal keys only, it's used to check git repo access for example
+    aws: #Use AKIA based keys, temp tokens are useless
+      your_email_in_lowercase@mail.com:
+        - access_key:secret_key
+    github: #This again is an example
+      Azathothas: #Include username as it is [Case Senstive]
+        - ghp_a7D2cKuSqflo0bye6bmw4K5vsOKL05sP2bCR #full access
+        - ghp_Aa5KV7gCHK4Rq8xjXJxOJJDtpJGiFsg1IQqZ #workflow runners, full access
+    gitlab: #Include username in lowercase
+      azathothas:
+        - glpat-vneM78HNyFuwe4LokoFH #full access
+    hackerone:
+      - beg_hacker:TUjaQVi0UMkW1Ud4bhIj9s9Q//DOym/7CilVky/yZmm= 
+---  
+  utils: #Here you can include keys that don't fit anywhere else but are still Security related
+    wpscan: #this is an example
+      - example_api_key  
+---       
+  misc: [] #remove `[]` and expand with `:` if you need to include something else    
