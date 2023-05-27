@@ -46,7 +46,8 @@ github_api_token = 'ghp_token'
 #The free API can only query the first 100 results# 
 #After creating a custom search engine, you need to enable: Search the entire web on the corresponding control panel
 #https://developers.google.com/custom-search/v1/overview#api_key
-google_api_id = 'Google_API_custom_search_engine_app_api_id' 
+#Leave api_id empty
+google_api_id = '' 
 google_api_key = 'Google_API_custom_search_engine_app_api_key'
 
 # ➼ Hunter: https://hunter.qianxin.com/home/userInfo
