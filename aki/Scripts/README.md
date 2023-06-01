@@ -8,7 +8,7 @@
 > - **Usage**
 > ```bash
 > !# Use how you normally use aki
-> aki -a <your/amass/config.ini> 
+> aki-amass -a <your/amass/config.ini> 
 > If you do not provide any options, By default $HOME/.config/amass/config.ini will be used
 >  To change it use:
 >                   -a,  --amass     <your/amass/config.ini>
@@ -24,7 +24,7 @@
 > - **Usage**
 > ```bash
 > !# Use how you normally use aki
-> aki -s <your/subfinder/provider-config.yaml> 
+> aki-subfinder -s <your/subfinder/provider-config.yaml> 
 > If you do not provide any options, By default $HOME/.config/subfinder/provider-config.yaml will be used
 > To change it use:
 >                   -s,  --subfinder     <your/subfinder/provider-config.yaml>
