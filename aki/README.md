@@ -339,7 +339,7 @@ curl -qsk "https://api.hunter.io/v2/account?api_key=$api_key" -H "Accept: applic
 ```
 - [**IntelX**](https://intelx.io/account?tab=developer)
 ```bash
-curl -qsk "https://2.intelx.io/authenticate/info" "x-key:$api_key" -H "Accept: application/json" 
+curl -qsk "https://2.intelx.io/authenticate/info" -H "x-key:$api_key" -H "Accept: application/json" 
 ```
 - [**IPdata**](https://docs.ipdata.co/docs/getting-started)
 ```bash
