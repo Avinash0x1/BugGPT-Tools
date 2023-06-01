@@ -1,5 +1,37 @@
 #### About: Stand alone Scripts to quickly verify only select keys 
 ---
+- [**aki-amass**](https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Scripts/aki-amass.sh) : ***Cut*** & ***Pasted*** fragment for `amass only`
+> - **Install**: 
+> ```bash
+> sudo wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Scripts/aki-amass.sh" -O /usr/local/bin/aki-amass && sudo chmod +xwr /usr/local/bin/aki-amass
+> ```
+> - **Usage**
+> ```bash
+> !# Use how you normally use aki
+> aki -a <your/amass/config.ini> 
+> If you do not provide any options, By default $HOME/.config/amass/config.ini will be used
+>  To change it use:
+>                   -a,  --amass     <your/amass/config.ini>
+> Optional Flags:
+>  -q,   --quota       Shows Usage Quota [https://github.com/the-valluvarsploit/APIkeyBeast] (Limited)                     
+> ```
+---
+- [**aki-subfinder**](https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Scripts/aki-subfinder.sh) : ***Cut*** & ***Pasted*** fragment for `subfinder only`
+> - **Install**: 
+> ```bash
+> sudo wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Scripts/aki-subfinder.sh" -O /usr/local/bin/aki-subfinder && sudo chmod +xwr /usr/local/bin/aki-subfinder
+> ```
+> - **Usage**
+> ```bash
+> !# Use how you normally use aki
+> aki -s <your/subfinder/provider-config.yaml> 
+> If you do not provide any options, By default $HOME/.config/subfinder/provider-config.yaml will be used
+> To change it use:
+>                   -s,  --subfinder     <your/subfinder/provider-config.yaml>
+> Optional Flags:
+>  -q,   --quota       Shows Usage Quota [https://github.com/the-valluvarsploit/APIkeyBeast] (Limited)                  
+> ```
+---
 - [**Gitty**](https://github.com/Azathothas/BugGPT-Tools/blob/main/aki/Scripts/gitty.sh) : Verify **GitHub** || **Gitlab** **`tokens`**
 > - **Install**: 
 > ```bash
