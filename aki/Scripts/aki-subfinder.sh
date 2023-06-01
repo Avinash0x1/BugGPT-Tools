@@ -23,15 +23,8 @@ echo -e "${NC}"
 
 #Help / Usage
 if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; then
-  echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}aki${NC} ${BLUE}-a${NC} ${GREEN}<your/amass/config.ini>${NC} ${BLUE}-s${NC} ${GREEN}<your/subfinder/provider-config.yaml>${NC}\n"
+  echo -e "${YELLOW}➼ Usage${NC}: ${PURPLE}aki-subfinder${NC} ${BLUE}-s${NC} ${GREEN}<your/subfinder/provider-config.yaml>${NC}\n"
   echo -e "➼ ${BLUE}Extended Help${NC} :\n"
-    if [ ! -f "$HOME/.config/amass/config.ini" ]; then
-        echo -e "Your ${YELLOW}$HOME/.config/amass/config.ini${NC} ${RED}does not exist${NC}\nYou ${GREEN}must create${NC} one: ${BLUE}https://github.com/owasp-amass/amass/blob/master/examples/config.ini${NC}\nElse use:"
-        echo -e "        ${BLUE}-a${NC},  ${BLUE}--amass${NC}     ${GREEN}<your/amass/config.ini>${NC} (${YELLOW}Required${NC})\n"
-    else
-        echo -e "➼ By ${BLUE}default ${YELLOW}$HOME/.config/amass/config.ini${NC} will be used\n  To ${BLUE}change${NC} it use:"
-        echo -e "                   ${BLUE}-a${NC},  ${BLUE}--amass${NC}     ${GREEN}<your/amass/config.ini>${NC}\n"
-    fi  
     if [ ! -f "$HOME/.config/subfinder/provider-config.yaml" ]; then
         echo -e "Your ${YELLOW}$HOME/.config/subfinder/provider-config.yaml${NC} ${RED}does not exist${NC}\n${GREEN}must create${NC} one: ${BLUE}$HOME/.config/subfinder/provider-config.yaml${NC}\nElse use:"
         echo -e "        ${BLUE}-s${NC},  ${BLUE}--subfinder${NC}     ${GREEN}<your/subfinder/provider-config.yaml>${NC} (${YELLOW}Required${NC})\n"
@@ -39,9 +32,7 @@ if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; 
         echo -e "➼ By ${BLUE}default ${YELLOW}$HOME/.config/subfinder/provider-config.yaml${NC} will be used\n  To ${BLUE}change${NC} it use:"
         echo -e "                   ${BLUE}-s${NC},  ${BLUE}--subfinder${NC}     ${GREEN}<your/subfinder/provider-config.yaml>${NC}"
     fi  
-    echo -e "${BLUE}Optional flags${NC} :"
-         echo -e " ${BLUE}-gh${NC},  ${BLUE}--github${NC}     ${GREEN}<github_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.github_tokens${NC}]"
-         echo -e " ${BLUE}-gl${NC},  ${BLUE}--gitlab${NC}     ${GREEN}<gitlab_tokens_file>${NC} (${YELLOW}1 per line${NC}) [Default: ${GREEN}$HOME/.config/.gitlab_tokens${NC}]"
+    echo -e "${BLUE}Optional flags${NC} :"       
          echo -e " ${BLUE}-q${NC},   ${BLUE}--quota${NC}      ${YELLOW}Show ${PURPLE}Usage Quota${NC} (${BLUE}limited${NC})"                    
  exit 0      
 fi   
@@ -168,46 +159,7 @@ if ! ping -c 2 google.com > /dev/null; then
 fi
 
 #Defaults
-amass_config_def="$HOME/.config/amass/config.ini"
 subfinder_config_def="$HOME/.config/subfinder/provider-config.yaml"
-
-#if no input passed to -a or --amass 
-if [ -z "$amass_config" ]; then
-        # Check if default amass config file exists
-       if [[ -f $amass_config_def ]]; then
-            echo -e "${GREEN}ⓘ Using default ${BLUE}amass config file${NC}: ${PURPLE}$amass_config_def${NC}\n"
-            export amass_config=$amass_config_def
-       else
-           echo -e "${RED}\u2717 Couldn't find${NC} the default${NC} ${PURPLE}amass config file${NC}: ${RED}$amass_config_def${NC}"
-           echo -e "${YELLOW}specify it manually using${NC} ${BLUE}-a${NC} | ${BLUE}--amass${NC}\n"
-           #Nor was an input passed to -s or --subfinder
-            if [[ -z $subfinder_config ]]; then
-                   # Check if default subfinder config file exists
-                    subfinder_config_def="$HOME/.config/subfinder/provider-config.yaml"            
-                if [[ -f $subfinder_config_def ]]; then
-                   echo -e "${GREEN}ⓘ Using default ${BLUE}subfinder config file${NC}: ${PURPLE}$subfinder_config_def${NC}\n"
-                   export subfinder_config=$subfinder_config_def
-                 else
-                    echo -e "${RED}\u2717 Couldn't find${NC} the default${NC} ${PURPLE}subfinder config file${NC}: ${RED}$subfinder_config_def${NC}"
-                    echo -e "${YELLOW}specify it manually using${NC} ${BLUE}-s${NC} | ${BLUE}--subfinder${NC}\n"
-                    echo -e "${RED}\u2717 Fatal${NC}: Neither one of${PURPLE} amass${NC} | ${PURPLE}subfinder${NC}  ${BLUE}options was used${NC} nor a ${PURPLE}default config file${NC} [${GREEN}amass${NC}: ${PURPLE}$amass_config_def${NC} ${RED}Not Found${NC}] [${GREEN}subfinder${NC}: ${PURPLE}$subfinder_config_def${NC} ${RED}Not Found${NC}]\n"
-                exit 1
-                fi
-            fi
-        fi  
-else
-    echo -e "${GREEN}ⓘ Using Specified ${BLUE}amass config file${NC}: ${PURPLE}$amass_config${NC}\n"  
-         if [ ! -f  $amass_config ]; then 
-            echo -e "${RED}\u2717 Fatal${NC}: [ ${BLUE}amass config file${NC}: ${PURPLE}$amass_config${NC} ${RED}Not Found${NC} ]"
-              if  [ -f  $amass_config_def ]; then  
-                 echo -e "${GREEN}ⓘ Using default ${BLUE}amass config file${NC}: ${PURPLE}$amass_config_def${NC}\n"            
-                 export amass_config=$amass_config_def
-              else
-                 echo -e "${RED}\u2717 Fatal${NC}: [ ${BLUE}Default${NC}: ${PURPLE}$amass_config_def${NC} ${RED}also Not Found${NC} ]\n"              
-              fi        
-         fi       
-fi
-
 
 #if no input passed to -s or --subfinder, and it didn't get exported above
 if [ -z "$subfinder_config" ]; then
@@ -245,41 +197,12 @@ else
          fi       
 fi
 
-#Git
-if [ -z "$github_tokens" ]; then
-  github_tokens="$HOME/.config/.github_tokens"
-  echo -e "${GREEN}ⓘ Using default ${BLUE}github_tokens file${NC}: ${PURPLE}$github_tokens${NC}\n"
-fi
-if [ -z "$gitlab_tokens" ]; then
-  gitlab_tokens="$HOME/.config/.gitlab_tokens"
-  echo -e "${GREEN}ⓘ Using default ${BLUE}gitlab_tokens file${NC}: ${PURPLE}$gitlab_tokens${NC}\n"
-fi
-
-
 #Re Check
-#amass
-if [ -n "$amass_config" ] && [ -e "$amass_config" ]; then
-  echo -e "${YELLOW}Check ${GREEN}amass${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}amass${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
 #subfinder
 if [ -n "$subfinder_config" ] && [ -e "$subfinder_config" ]; then
   echo -e "${YELLOW}Check ${GREEN}Subfinder${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
 else
   echo -e "${YELLOW}Check ${GREEN}Subfinder${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
-#Github Tokens
-if [ -n "$github_tokens" ] && [ -e "$github_tokens" ]; then
-  echo -e "${YELLOW}Check ${GREEN}Github Tokens${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}Github Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
-fi
-#Gitlab Tokens
-if [ -n "$gitlab_tokens" ] && [ -e "$gitlab_tokens" ]; then
-  echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${BLUE}Yes $(echo -e "${GREEN}\u2713${NC}")${NC}"
-else
-  echo -e "${YELLOW}Check ${GREEN}Gitlab Tokens${NC} ${YELLOW}?${NC} : ${RED}No $(echo -e "${RED}\u2717${NC}")${NC}"
 fi
 #whether to show usage quotas     
 if [ -z "$quota" ]; then
