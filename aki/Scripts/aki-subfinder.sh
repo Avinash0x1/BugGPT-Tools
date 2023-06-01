@@ -37,55 +37,12 @@ if [[ "$*" == *"-h"* ]] || [[ "$*" == *"--help"* ]] || [[ "$*" == *"help"* ]] ; 
  exit 0      
 fi   
 
-# Update. Github caches take several minutes to reflect globally  
-if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "$*" == *"--update"* ) ]]; then
-  echo -e "➼ ${YELLOW}Checking For ${BLUE}Updates${NC}"
-      if ping -c 2 github.com > /dev/null; then
-      REMOTE_FILE=$(mktemp)
-      curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki.sh -o "$REMOTE_FILE"
-         if ! diff --brief /usr/local/bin/aki "$REMOTE_FILE" >/dev/null 2>&1; then
-             echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-             dos2unix --quiet $REMOTE_FILE > /dev/null 2>&1 
-             sudo mv "$REMOTE_FILE" /usr/local/bin/aki && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}\n" 
-             echo -e "➼ ${YELLOW}ChangeLog:${NC} ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.message')${NC}"
-             echo -e "➼ ${YELLOW}Pushed at${NC}: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.author.date')${NC}\n"
-             sudo chmod +xwr /usr/local/bin/aki
-             rm -f "$REMOTE_FILE" 2>/dev/null
-             else
-             echo -e "➼ ${YELLOW}Already ${BLUE}UptoDate${NC}"
-             echo -e "➼ Most ${YELLOW}recent change${NC} was on: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.author.date')${NC} [${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.message')${NC}]\n"             
-             rm -f "$REMOTE_FILE" 2>/dev/null
-             exit 0
-             fi
-     else
-         echo -e "➼ ${YELLOW}Github.com${NC} is ${RED}unreachable${NC}"
-         echo -e "➼ ${YELLOW}Try again later!${NC} "
-         exit 1
-     fi
-  exit 0
-fi
-
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
-        -a|--amass)
-        amass_config="$2"
-        shift 
-        shift 
-        ;;
         -s|--subfinder)
         subfinder_config="$2"
-        shift 
-        shift 
-        ;;
-        -gh|--github)
-        github_tokens="$2"
-        shift 
-        shift 
-        ;;
-        -gl|--gitlab)
-        gitlab_tokens="$2"
         shift 
         shift 
         ;;
