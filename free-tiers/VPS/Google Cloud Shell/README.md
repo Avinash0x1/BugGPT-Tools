@@ -24,6 +24,7 @@
 > > >   IPv4               : Yes
 > > >   IPv6               : No
 > > >   Benchmarks         : See #Benchmarks Below
+> > > Cron                 : No crontab, Interactve only # Can't Schedule tasks etc
 > > > ```
 > > > - **Storage**
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/4d841f1d-909c-4697-b0e4-fe845d437b95)
@@ -46,6 +47,7 @@
 > > >   IPv4               : Yes
 > > >   IPv6               : No
 > > >   Benchmarks         : See #Benchmarks Below
+> > > Cron                 : No crontab, Interactve only # Can't Schedule tasks etc   
 > > > ```
 > > ---
 > > ➼ **Configuration**
