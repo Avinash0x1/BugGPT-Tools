@@ -1,6 +1,6 @@
 #! /bin/bash
 printf "Installing RDP Be Patience..." >&2
-cd $(mktemp)
+cd $(mktemp -d)
 {
 sudo useradd -m gcprdp
 sudo adduser gcprdp sudo
