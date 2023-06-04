@@ -51,6 +51,9 @@ fi
 curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.customize_environment" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.customize_environment" >/dev/null 2>&1
 #-----------------------------------------------------#
 #FZF#
+#Deps
+cargo install --locked bat
+cargo install fd-find 
 #Install fzf
 if [ ! -d "$HOME/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
