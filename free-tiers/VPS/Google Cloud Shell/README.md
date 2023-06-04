@@ -100,16 +100,17 @@
 > > > 4. **Copy & Paste** : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.customize_environment
 > > > > ```yaml
 > > > > #Similary, Create (DO NOT FORGET DOTS (.) In FILENAMES) the following files and Copy paste
-> > > > `/scripts/.gsync.sh` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.gsync.sh 
-> > > > `.tmux.conf` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.tmux.conf
-> > > > `.zshrc`     : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshrc
+> > > > `/scripts/gsync.sh` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/gsync.sh 
+> > > > `.tmux.conf`        : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.tmux.conf
+> > > > `.zshrc`            : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshrc
+> > > > `.zshenv`           : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshenv
 > > > > ```
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/10481c12-1306-44e1-9710-2a0ebc16f167)
 > > > > 
-> > > > `.gsync.sh` MUST BE inside `scripts`, use `/` to create folders when adding files
+> > > > `gsync.sh` MUST BE inside `scripts`, use `/` to create folders when adding files
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/3d6e24bc-684d-4c03-8183-a8b22939b0f7)
 > > > > 
-> > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` >> **Committ Changes** >> **Save**
+> > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` in `.customize_environment` || `/scripts/gsync.sh` >> **Commit Changes** >> **Save**
 > > > 6. In [**Google Cloud Shell**](https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=terminal)
 > > > > ```bash
 > > > > !# Set environ, The URL must be your RAW URL for `.customize_environment`
