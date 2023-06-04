@@ -1,13 +1,13 @@
 - #### [Cloud Shell](https://cloud.google.com/shell)
-> - #### About: **Intro** & **Setup**
-> [![ Google Cloud Shell Tutorial for Beginners ](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/34267923-dac3-4ae8-8850-9502c32c0ce0)](https://www.youtube.com/watch?v=RdDyF3jVbbE)
-> > - **Limits**
+> - #### About: [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**Intro** & **Setup**](https://www.youtube.com/watch?v=RdDyF3jVbbE)
+> [![Google Cloud Shell Tutorial for Beginners](https://img.youtube.com/vi/RdDyF3jVbbE/maxresdefault.jpg)](https://www.youtube.com/watch?v=RdDyF3jVbbE)
+> > ➼ **Limits**
 > > ```yaml
 > > Quota                           : 50 Hr / Week [~ 7 Hrs / Day]
 > > Interactive Session Limit       : 12 Hr [Auto Terminates and Loses Persistance] # Interactive = You continously use the Shell Environment
 > > Non Interactive Session Limit   : 20Mins ~ 1 Hr [Auto Terminates and Loses Persistance] # Non Interactive = You do nothing & Shell Environment is Idle
 > > ```
-> > - **Specs**
+> > ➼ **Specs**
 > > 1. **No `Credit Card`** || **No `Free Trial`** 
 > > 
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2eafe78f-e37e-4b83-93c5-e5394fb35f98)
@@ -47,7 +47,7 @@
 > > >   IPv6               : No
 > > >   Benchmarks         : See #Benchmarks Below
 > > > ```
-> > - **Configuration**
+> > ➼ **Configuration**
 > > > 1. Tools & Binaries : Anything Installed via `apt` | `cargo` | `go` | `pip` etc is **Auto DELETED** upon Restart
 > > > > - Only Way to keep your Installed Tools & Binaries, is to store them in: **`$HOME/bin`** || **`$HOME/.local/bin`**
 > > > > ```YAML
@@ -67,9 +67,9 @@
 > > > !# Source $PROFILE
 > > > source "$HOME/.profile" && exec $SHELL
 > > > ```
-> > - **Customization** & **QOL Changes**
+> > ➼ **Customization** & **QOL Changes**
 > > > - `ZSH`
-> > > ```
+> > > ```bash
 > > > !# This is all Ephemeral, Must Install zsh upon each boot, Only ~/.dotfiles are Preserved
 > > > !# See #Scripts for Automation
 > > > !# Install
@@ -77,5 +77,40 @@
 > > > !# Change Default Shell
 > > > sudo chsh -s /bin/zsh "$USER" && $(which zsh)
 > > > ```
+> > - **Scripts**
+> > > - **Auto Setup**, **Backup** & **Sync**
+> > > 1. Create a [**New Private Repository**](https://github.com/new) with the following Presets:
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/4c3a2824-f323-403a-beb0-bb3be77f4788)
+> > > 2. Create a [**Personal Access Token**](https://github.com/settings/tokens?type=beta) (**Fine-grained tokens**) for the created Repository:
+> > > > **Expiration**           : `Exactly 1 Year from Current Date`
+> > > > **Repository access**    : >> `Only select repositories` >> `Select Your Repository`
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/bf3c316b-e332-4dd7-bfcb-0da19da3ecac)
+> > > > **Permissions**          : >> `Repository permissions` >> `Read & Write` | `Read` (**DO NOT give any Account Permission**)
+> > > > - **Generate Token** >> **Copy somewhere safe**
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6eb9fe4b-6d8a-4861-836e-cbffdc68cd0b)
+> > > >
+> > > 3. **Repo** >> **Add File** >> **Create A New File** >> `.customize_environment`
+> > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/30d0cffb-4179-45ff-a695-57b64b93905e)
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/617857cf-740a-4e8b-9258-023943f07090)
+> > >
+> > > 4. **Copy & Paste** : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.customize_environment
+> > > > ```yaml
+> > > > #Similary, Create (DO NOT FORGET DOTS (.) In FILENAMES) the following files and Copy paste
+> > > > `.tmux.conf` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.tmux.conf
+> > > > `.zshrc`     : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshrc
+> > > > ```
+> > > 5. Change `GITHUB_REPO` && `GITHUB_TOKEN` >> **Committ Changes** >> **Save**
+> > > 6. In [**Google Cloud Shell**](https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=terminal)
+> > > > ```bash
+> > > > !# Install Deps
+> > > > sudo apt-get install dos2unix -y
+> > > > !# Set environ
+> > > > curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/.customize_environment" -o "$HOME/.customize_environment" && dos2unix --quiet "$HOME/.customize_environment" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.customize_environment"
+> > > > ```
+> > > > - Restart your CloudShell
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56f4e12f-7ae4-4b16-bffa-de702e9b249b)
+> > > >
 > > - **Benchmarks**
 > > 
