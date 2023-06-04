@@ -114,10 +114,12 @@
 > > > > sudo apt-get install dos2unix -y
 > > > > !# Set environ, The URL must be your RAW URL for `.customize_environment`
 > > > > !# This is EXAMPLE ONLY!!!
-> > > > curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/.customize_environment" -o "$HOME/.customize_environment" && dos2unix --quiet "$HOME/.customize_environment" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.customize_environment"
+> > > > curl -qfsSL "https://raw.githubusercontent.com/Azathothas/GoogleVPS/main/.customize_environment?token=GHFAT0BBBBBY3DGUSBWHAQI2Y4YWSADASQ" && dos2unix --quiet "$HOME/.customize_environment" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.customize_environment"
 > > > > ```
 > > > > - Restart your CloudShell (Restart will take longer)
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56f4e12f-7ae4-4b16-bffa-de702e9b249b)
-> > > >
+> > > > 
+> > > > > If it takes longer than ~5 mins, Hard Refresh the browser (Ctrl + Shift + R)
+> > > > 
 > > - **Benchmarks**
 > > 
