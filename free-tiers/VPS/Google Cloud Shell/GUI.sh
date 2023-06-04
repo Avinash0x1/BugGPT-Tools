@@ -1,7 +1,8 @@
 #! /bin/bash
-printf "Installing RDP Be Patience..." >&2
-printf "This will take ~ 10 Mins..." >&2
-printf "When Asked, Keyboard layout, Enter 1 \n" && sleep 10s
+printf 'Installing RDP Be Patience... \n ' >&2
+printf 'This will take ~ 10 Mins... \n ' >&2
+printf 'When Asked, Keyboard layout, Enter `1` \n ' && sleep 10s
+printf 'Username:gcprdp || Password:7331 \n '
 cd $(mktemp -d)
 {
 sudo useradd -m gcprdp
