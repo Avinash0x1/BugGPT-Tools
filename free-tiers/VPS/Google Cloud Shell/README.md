@@ -47,6 +47,7 @@
 > > >   IPv6               : No
 > > >   Benchmarks         : See #Benchmarks Below
 > > > ```
+> > ---
 > > ➼ **Configuration**
 > > > 1. Tools & Binaries : Anything Installed via `apt` | `cargo` | `go` | `pip` etc is **Auto DELETED** upon Restart
 > > > > - Only Way to keep your Installed Tools & Binaries, is to store them in: **`$HOME/bin`** || **`$HOME/.local/bin`**
@@ -67,6 +68,7 @@
 > > > !# Source $PROFILE
 > > > source "$HOME/.profile" && exec $SHELL
 > > > ```
+> > ---
 > > ➼ **Customization** & **QOL Changes**
 > > > - `ZSH`
 > > > ```bash
@@ -121,5 +123,6 @@
 > > > > 
 > > > > > If it takes longer than ~5 mins, Hard Refresh the browser (Ctrl + Shift + R)
 > > > > 
+> > ---
 > > - **Benchmarks**
 > > 
