@@ -123,6 +123,7 @@
 > > > > zsh
 > > > > !# Your SHELL & PROMPT should look like this: 
 > > > > ```
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/f9bd6c03-5534-43f9-8b24-9ab3003f282b)
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8e61d347-c60b-493d-bbb5-425050014256)
 > > >  
 > > > > - For proper config, you may need to Restart your CloudShell (Restart will take longer)
@@ -134,4 +135,6 @@
 > > - **SSH**
 > > ```
 > > - **Benchmarks**
-> > 
+> > s
+> > - **References**
+> > https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
