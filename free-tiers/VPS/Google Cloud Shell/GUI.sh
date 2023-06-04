@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+#Begin
 printf 'Installing RDP Be Patience... \n ' >&2
 printf 'This will take ~ 10 Mins... \n ' >&2
 printf 'When Asked, Keyboard layout, Enter `1` \n ' && sleep 10s
@@ -27,3 +28,4 @@ read -p "Paste Here: " CRP
 su - gcprdp -c """$CRP"""
 printf 'Check https://remotedesktop.google.com/access/ \n '
 printf 'Username:gcprdp || Password:733169420 \n '
+#EOF
