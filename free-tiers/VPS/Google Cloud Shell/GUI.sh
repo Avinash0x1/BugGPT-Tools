@@ -1,7 +1,7 @@
 #! /bin/bash
 printf "Installing RDP Be Patience..." >&2
 printf "This will take ~ 10 Mins..." >&2
-printf "When Asked, Keyboard layout, Enter `1`\n" && sleep 10s
+printf "When Asked, Keyboard layout, Enter 1\n" && sleep 10s
 cd $(mktemp -d)
 {
 sudo useradd -m gcprdp
