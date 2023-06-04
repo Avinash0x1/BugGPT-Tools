@@ -4,7 +4,9 @@ cd $(mktemp -d)
 #Setup Deps
 sudo apt update && sudo apt install xvfb xfce4 xfce4-goodies mpv kdenlive simplescreenrecorder firefox-esr plank papirus-icon-theme dbus-x11 neofetch krita --assume-yes
 # Download Chrome Remote Desktop, install it, then delete downloaded .deb package
-eget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb --to /tmp/Chrome
+wget --quiet https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb && sudo dpkg -i chrome-remote-desktop* && sudo apt --fix-broken install --assume-yes
+rm chrome-remote-desktop*
+#eget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb --to /tmp/Chrome
 
 # Install Catppuccin themes for terminal
 sudo apt install sassc --assume-yes
