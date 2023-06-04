@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #Env Vars
 export GITHUB_USER="Azathothas" # This is CaseSensitive
