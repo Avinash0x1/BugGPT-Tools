@@ -18,11 +18,11 @@ PROMPT="%F{red}┌[%f%F{cyan}%m%f%F{red}]─[%f%F{yellow}%D{%H:%M-%d/%m}%f%F{red
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleVPS" #Your Gcloud Repo
 export GITDIR="$HOME/GoogleVPS" # The main sync directory, usually, just $HOME/REPO, DO NOT INCLUDE USERNAME
-export SCRIPTS="$HOME/.scripts"
-export Tools="$HOME/Tools"
+export SCRIPTS="$HOME/$GITDIR/.scripts" # Misc Scripts, is backed up
+export Tools="$HOME/Tools" # Not backed up
 export tools="$HOME/Tools"
 export TOOLS="$HOME/Tools"
-export WORDLIST="$HOME/.wordlists"
+export WORDLIST="$HOME/.wordlists" # Also not backed up
 current_dir=$(pwd)
 
 #aliases
@@ -90,7 +90,7 @@ setopt appendhistory
 #Some Custom QOL Changes
 #GitSync, 
 set +m
-source "$HOME/.scripts/gsync.sh" >/dev/null 2>&1 &
+source "$SCRIPTS/gsync.sh" >/dev/null 2>&1 &
 cd $current_dir && clear
 ###
 #EOF
