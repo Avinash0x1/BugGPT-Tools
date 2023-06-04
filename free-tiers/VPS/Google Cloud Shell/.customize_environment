@@ -37,7 +37,7 @@ sudo aptitude install figlet neofetch -y >/dev/null 2>&1
 #-----------------------------------------------------#
 ##Setup USR Settings
 #Dirs
-mkdir -p "$HOME"{bin,BugBountyData,GSHELL,.local/bin,Tools,.scripts,Sync,tmp,.wordlists} >/dev/null 2>&1
+mkdir -p "$HOME"{bin,.local/bin,Tools,tmp} >/dev/null 2>&1
 #Git Clone Remote Repo for Sync
 GITDIR=$(echo $GITHUB_REPO | sed -e '/^$/d' -e 's/[[:space:]]*$//' | awk -F '/' '{print $2}') && export GITDIR="$GITDIR"
 if [ ! -d "$HOME/$GITDIR" ]; then #Clone
@@ -79,5 +79,4 @@ curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshrc" -H "Aut
 #Change the shell & Source:
 sudo chsh -s /bin/zsh "$USER" && $(which zsh)
 #-----------------------------------------------------#
-
 #EOF
