@@ -101,7 +101,7 @@
 > > > > `.tmux.conf` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.tmux.conf
 > > > > `.zshrc`     : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshrc
 > > > > ```
-> > > 5. Change `GITHUB_REPO` && `GITHUB_TOKEN` >> **Committ Changes** >> **Save**
+> > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` >> **Committ Changes** >> **Save**
 > > > 6. In [**Google Cloud Shell**](https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=terminal)
 > > > > ```bash
 > > > > !# Install Deps
