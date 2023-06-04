@@ -50,5 +50,32 @@
 > > - **Configuration**
 > > > 1. Tools & Binaries : Anything Installed via `apt` | `cargo` | `go` | `pip` etc is **Auto DELETED** upon Restart
 > > > > - Only Way to keep your Installed Tools & Binaries, is to store them in: **`$HOME/bin`** || **`$HOME/.local/bin`**
+> > > > ```YAML
+> > > > !# Default path for Binaries
+> > > > apt    | apt-get       : /usr/bin/ || /usr/local/bin/
+> > > > cargo (rust)           : $HOME/.cargo/bin/ # Rust is not installed by default
+> > > > go get | go install    : $HOME/gopath/bin/
+> > > > pip    | pip3          : $HOME/.local/bin # May need to `source ~/.profile`
+> > > > ```
+> > > ```bash
+> > > !# You only have a limited 5 GB of Space. Only Preserve Absolute Necessities
+> > > !# Create Dirs
+> > > mkdir -p "$HOME"{bin,,.local/bin}
+> > > !# Installing via CLI (`apt` | `cargo` | `go` | `pip` etc)
+> > > !# Install normally, and then move
+> > > sudo mv $(which $Tool) "$HOME/bin/"
+> > > !# Source $PROFILE
+> > > source "$HOME/.profile" && exec $SHELL
+> > > ```
+> > - **Customization** & **QOL Changes**
+> > > - `ZSH`
+> > > ```
+> > > !# This is all Ephemeral, Must Install zsh upon each boot, Only ~/.dotfiles are Preserved
+> > > !# See #Scripts for Automation
+> > > !# Install
+> > > sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
+> > > !# Change Default Shell
+> > > sudo chsh -s /bin/zsh "$USER" && $(which zsh)
+> > > ```
 > > - **Benchmarks**
 > > 
