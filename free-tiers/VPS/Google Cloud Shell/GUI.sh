@@ -2,12 +2,12 @@
 printf 'Installing RDP Be Patience... \n ' >&2
 printf 'This will take ~ 10 Mins... \n ' >&2
 printf 'When Asked, Keyboard layout, Enter `1` \n ' && sleep 10s
-printf 'Username:gcprdp || Password:7331 \n '
+printf 'Username:gcprdp || Password:733169420 \n '
 cd $(mktemp -d)
 {
 sudo useradd -m gcprdp
 sudo adduser gcprdp sudo
-echo 'gcprdp:7331' | sudo chpasswd
+echo 'gcprdp:733169420' | sudo chpasswd
 sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
 sudo apt update
 sudo apt install xvfb xfce4 xfce4-goodies mpv kdenlive simplescreenrecorder firefox-esr plank papirus-icon-theme dbus-x11 neofetch krita --assume-yes
@@ -34,4 +34,4 @@ printf '\nCheck https://remotedesktop.google.com/headless `Begin` >> `Next` >> `
 read -p "Paste Here: " CRP
 su - gcprdp -c """$CRP"""
 printf 'Check https://remotedesktop.google.com/access/ \n '
-printf 'Username:gcprdp || Password:7331 \n '
+printf 'Username:gcprdp || Password:733169420 \n '
