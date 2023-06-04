@@ -1,0 +1,54 @@
+#!/bin/sh
+
+#Env Vars
+export GITHUB_REPO="Azathothas/GoogleVPS" # Change this to "$Your_Github_Username/$Name_of_Your_Github_Repo"
+export GITHUB_TOKEN="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" # Change this to "$Token_of_Your_Github_Repo"
+
+#-----------------------------------------------------#
+## DO NOT CHANGE ANYTHING ELSE
+## Make sure you have created `.tmux.conf` , `.zshrc` or any other files that the script refrences
+#-----------------------------------------------------#
+
+##Change Defaults
+#Disable Banners
+sudo rm /etc/profile.d/init_help.sh 2>/dev/null
+#Disable Tracking Metrics
+gcloud config set disable_usage_reporting true 2>/dev/null
+#Disable broadcasting GSHELL to Subshell Tools & Scripts
+unset GOOGLE_CLOUD_SHELL CLOUD_SHELL 2>/dev/null
+#Suppress BS messages
+touch ~/.cloudshell/no-apt-get-warning 2>/dev/null
+
+##Core Tools
+#Install rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
+source "$HOME/.cargo/env" && clear
+
+#Universal Releases & Binaries, used as a function in ~/.zshrc
+go install -v github.com/zyedidia/eget@latest && mv "$HOME/gopath/bin/eget" "$HOME/bin/"
+
+
+#Aptitude & tmate
+sudo apt-get install aptitude -y
+sudo aptitude install figlet neofetch tmate -y
+
+##Setup USR Settings
+#Dirs
+mkdir -p "$HOME"{bin,BugBountyData,GSHELL,.local/bin,Tools,.scripts,Sync,tmp,.wordlists} 2>/dev/null
+#Customization & QOL Changes: 
+#Fetch latest $HOME/.customize_environment
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.customize_environment" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.customize_environment" 2>/dev/null
+#Tmux Plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 2>/dev/null
+#Fetch latest tmux.conf & set
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.tmux.conf" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.tmux.conf" 2>/dev/null
+#Source
+tmux source-file "$HOME/.tmux.conf"
+#Install zsh
+sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
+#Fetch latest ~/.zshrc & set it
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshrc" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshrc"
+#Change the shell & Source:
+sudo chsh -s /bin/zsh "$USER" && $(which zsh)
+
+#EOF
