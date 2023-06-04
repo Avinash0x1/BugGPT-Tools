@@ -14,11 +14,12 @@ NC='\033[0m'
 # Prompt
 PROMPT="%F{red}┌[%f%F{cyan}%m%f%F{red}]─[%f%F{yellow}%D{%H:%M-%d/%m}%f%F{red}]─[%f%F{magenta}%d%f%F{red}]%f"$'\n'"%F{red}└╼%f%F{green}$USER%f%F{yellow}$%f"
 
+
 #Env variables
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleVPS" #Your Gcloud Repo
 export GITDIR="$HOME/GoogleVPS" # The main sync directory, usually, just $HOME/REPO, DO NOT INCLUDE USERNAME
-export SCRIPTS="$HOME/$GITDIR/.scripts" # Misc Scripts, is backed up
+export SCRIPTS="$GITDIR/.scripts" # Misc Scripts, is backed up
 export Tools="$HOME/Tools" # Not backed up
 export tools="$HOME/Tools"
 export TOOLS="$HOME/Tools"
@@ -26,9 +27,11 @@ export WORDLIST="$HOME/.wordlists" # Also not backed up
 current_dir=$(pwd)
 
 #aliases
+alias bat='batcat'
 alias dir='dir --color=auto'
 alias esort='for file in ./* ; do sort -u "$file" -o "$file"; done'
 alias egrep='egrep --color=auto'
+alias fdfind='fd'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 alias ls='ls -lh --color=auto'
