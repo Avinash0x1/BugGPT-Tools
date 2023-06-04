@@ -1,6 +1,7 @@
 #!/bin/sh
 
 #Env Vars
+export GITHUB_USER="Azathothas" # This is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleVPS" # Change this to "$Your_Github_Username/$Name_of_Your_Github_Repo"
 export GITHUB_TOKEN="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" # Change this to "$Token_of_Your_Github_Repo"
 
@@ -9,46 +10,71 @@ export GITHUB_TOKEN="github_pat_11AN32D4I0wQNDljlA0z3k_j9IWuY6tUI30PvvCWxXdEds2k
 ## Make sure you have created `.tmux.conf` , `.zshrc` or any other files that the script refrences
 #-----------------------------------------------------#
 
+#-----------------------------------------------------#
 ##Change Defaults
 #Disable Banners
-sudo rm /etc/profile.d/init_help.sh 2>/dev/null
+sudo rm /etc/profile.d/init_help.sh >/dev/null 2>&1
 #Disable Tracking Metrics
-gcloud config set disable_usage_reporting true 2>/dev/null
+gcloud config set disable_usage_reporting true >/dev/null 2>&1
 #Disable broadcasting GSHELL to Subshell Tools & Scripts
-unset GOOGLE_CLOUD_SHELL CLOUD_SHELL 2>/dev/null
+unset GOOGLE_CLOUD_SHELL CLOUD_SHELL >/dev/null 2>&1
 #Suppress BS messages
-touch ~/.cloudshell/no-apt-get-warning 2>/dev/null
+touch ~/.cloudshell/no-apt-get-warning >/dev/null 2>&1
+#-----------------------------------------------------#
 
+#-----------------------------------------------------#
 ##Core Tools
 #Install rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y >/dev/null 2>&1
 source "$HOME/.cargo/env" && clear
-
 #Universal Releases & Binaries, used as a function in ~/.zshrc
 go install -v github.com/zyedidia/eget@latest && mv "$HOME/gopath/bin/eget" "$HOME/bin/"
+#Aptitude
+sudo apt-get install aptitude -y >/dev/null 2>&1
+sudo aptitude install figlet neofetch -y >/dev/null 2>&1
+#-----------------------------------------------------#
 
-
-#Aptitude & tmate
-sudo apt-get install aptitude -y
-sudo aptitude install figlet neofetch tmate -y
-
+#-----------------------------------------------------#
 ##Setup USR Settings
 #Dirs
-mkdir -p "$HOME"{bin,BugBountyData,GSHELL,.local/bin,Tools,.scripts,Sync,tmp,.wordlists} 2>/dev/null
+mkdir -p "$HOME"{bin,BugBountyData,GSHELL,.local/bin,Tools,.scripts,Sync,tmp,.wordlists} >/dev/null 2>&1
+#Git Clone Remote Repo for Sync
+GITDIR=$(echo $GITHUB_REPO | sed -e '/^$/d' -e 's/[[:space:]]*$//' | awk -F '/' '{print $2}') && export GITDIR="$GITDIR"
+if [ ! -d "$HOME/$GITDIR" ]; then #Clone
+  cd "$HOME" && git clone "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_REPO.git"
+else #Pull latest
+  cd "$HOME/$GITDIR" && git fetch --all >/dev/null 2>&1 && git reset --hard origin/main >/dev/null 2>&1 && git clean -fd >/dev/null 2>&1 && git pull --force origin main >/dev/null 2>&1
+fi 
+#-----------------------------------------------------#
 #Customization & QOL Changes: 
 #Fetch latest $HOME/.customize_environment
-curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.customize_environment" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.customize_environment" 2>/dev/null
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.customize_environment" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.customize_environment" >/dev/null 2>&1
+#-----------------------------------------------------#
+#FZF#
+#Install fzf
+if [ ! -d "$HOME/.fzf" ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
+  ~/.fzf/install --all >/dev/null 2>&1
+fi  
+# Setup fzf
+# fzf is auto setup from ~/.zshrc
+#-----------------------------------------------------#
 #Tmux Plugins
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 2>/dev/null
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  mkdir -p "$HOME/.tmux"
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >/dev/null 2>&1
+fi  
 #Fetch latest tmux.conf & set
-curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.tmux.conf" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.tmux.conf" 2>/dev/null
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.tmux.conf" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.tmux.conf" >/dev/null 2>&1
 #Source
 tmux source-file "$HOME/.tmux.conf"
+#-----------------------------------------------------#
 #Install zsh
 sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
 #Fetch latest ~/.zshrc & set it
 curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshrc" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshrc"
 #Change the shell & Source:
 sudo chsh -s /bin/zsh "$USER" && $(which zsh)
+#-----------------------------------------------------#
 
 #EOF
