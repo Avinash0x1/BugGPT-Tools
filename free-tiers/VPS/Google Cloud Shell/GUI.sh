@@ -10,22 +10,14 @@ sudo adduser gcprdp sudo
 echo 'gcprdp:733169420' | sudo chpasswd
 sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
 sudo apt update
-sudo apt install xvfb xfce4 xfce4-goodies mpv kdenlive simplescreenrecorder firefox-esr plank papirus-icon-theme dbus-x11 neofetch krita --assume-yes
-wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
-sudo dpkg --install chrome-remote-desktop_current_amd64.deb
-sudo apt install sassc --assume-yes
-sudo apt install --assume-yes --fix-broken
 sudo DEBIAN_FRONTEND=noninteractive \
-sudo apt install --assume-yes xfce4 desktop-base xfce4-terminal 
+sudo apt install dbus-x11 desktop-base firefox-esr gnome-terminal kdenlive mpv nano nautilus neofetch nload papirus-icon-theme plank sassc simplescreenrecorder xfce4 xfce4-goodies xfce4-terminal xscreensaver xvfb --assume-yes
+sudo apt install --assume-yes --fix-broken
 sudo bash -c 'echo "exec /etc/X11/Xsession /usr/bin/xfce4-session" > /etc/chrome-remote-desktop-session'
-sudo apt remove --assume-yes gnome-terminal
-sudo apt install --assume-yes xscreensaver
 sudo systemctl disable lightdm.service
 wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
 sudo dpkg --install chrome-remote-desktop_current_amd64.deb
 sudo apt install --assume-yes --fix-broken
-sudo apt install nautilus nano -y
-sudo apt install nload
 sudo adduser gcprdp chrome-remote-desktop
 } &> /dev/null &&
 printf "\nSetup Completed \n" >&2 ||
