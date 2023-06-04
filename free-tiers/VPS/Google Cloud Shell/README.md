@@ -112,14 +112,16 @@
 > > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` >> **Committ Changes** >> **Save**
 > > > 6. In [**Google Cloud Shell**](https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=terminal)
 > > > > ```bash
-> > > > !# Install Deps
-> > > > sudo apt-get install dos2unix -y
-> > > > !# Bash is provisioned each time, add this to ~/.bashrc, if you don't want to type zsh 
-> > > > echo "sudo chsh -s /bin/zsh "$USER" && zsh" >> "$HOME/.bashrc"
 > > > > !# Set environ, The URL must be your RAW URL for `.customize_environment`
 > > > > !# This is EXAMPLE ONLY!!!
 > > > > curl -qfsSL "https://raw.githubusercontent.com/Azathothas/GoogleVPS/main/.customize_environment?token=GHFAT0BBBBBY3DGUSBWHAQI2Y4YWSADASQ" | bash
+> > > > !# That will take ~ 2-3 Mins
+> > > > !# Type bash or zsh
+> > > > zsh
+> > > > !# Your SHELL & PROMPT should look like this: 
 > > > > ```
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8e61d347-c60b-493d-bbb5-425050014256)
+> > >  
 > > > > - For proper config, you may need to Restart your CloudShell (Restart will take longer)
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56f4e12f-7ae4-4b16-bffa-de702e9b249b)
 > > > > 
