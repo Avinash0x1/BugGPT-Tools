@@ -124,7 +124,7 @@
 > > > > !# Your SHELL & PROMPT should look like this: 
 > > > > ```
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/f9bd6c03-5534-43f9-8b24-9ab3003f282b)
-> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8e61d347-c60b-493d-bbb5-425050014256)
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/48d2608b-fea8-4e30-98cf-f8d5a517ac2e)
 > > >  
 > > > > - For proper config, you may need to Restart your CloudShell (Restart will take longer)
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56f4e12f-7ae4-4b16-bffa-de702e9b249b)
@@ -133,8 +133,101 @@
 > > > > 
 > > ---
 > > - **SSH**
-> > ```
-> > - **Benchmarks**
-> > s
+> > > - **Setup**
+> > > ```
+> > > !# Install Gcloud ClI, if this doesn't work : https://cloud.google.com/sdk/docs/install#deb
+> > > !# Setup Deps
+> > > sudo apt-get install apt-transport-https ca-certificates gnupg
+> > > !# Import Keys
+> > > curl -qs "https://packages.cloud.google.com/apt/doc/apt-key.gpg" | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+> > > !# Finally Install
+> > > sudo apt-get update && sudo apt-get install google-cloud-cli
+> > > ```
+> > > - **Configuration**
+> > > ```bash
+> > > gcloud auth login 
+> > > ```
+> > > Sign In & Authorize Via Browser
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/510a918c-30ba-46f4-832c-316d30618cf0)
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b113b34a-88e3-43d0-9f27-46568c84147d)
+> > > 
+> > > - SSH :
+> > > ```bash
+> > > gcloud cloud-shell ssh
+> > > ```
+> > > > If you have multiple projectts in your GCloud Acc
+> > > > ```bash
+> > > > !# List ALL Projects
+> > > > gcloud projects list
+> > > > !# Example Output
+> > > > PROJECT_ID        NAME                PROJECT_NUMBER
+> > > > BegHecker-1337    Beg Hecker          6969886133769
+> > > > BegHecker-69420   beghaxxor           1337133769420
+> > > > !# Change to $project
+> > > > gcloud config set project $Poject_ID
+> > > > !#Example
+> > > > gcloud config set project BegHecker-1337
+> > > > 
+> > > > ```
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/1906fa0b-182b-4ddc-848f-8716e2d0727a)
+> > > 
+> > > - TmuX [Bind Key is Alt + G] 
+> > > ```bash
+> > > tmux 
+> > > ```
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cba1f9c9-95c6-4704-9b86-b14b8ba7a3b7)
+> > ---
+> > - **Remote Desktop**
+> > > 1. Using **lxde** + **Chrome**
+> > > ```bash
+> > > !# Run
+> > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" -o /tmp/gui.sh  
+> > >  dos2unix --quiet /tmp/gui.sh && sudo chmod +xwr /tmp/gui.sh && sudo bash /tmp/gui.sh
+> > > ```
+> > > > - Visit: https://remotedesktop.google.com/headless
+> > > > - `Begin` >> `Next` >> `Authorize`
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/04d884ed-6081-469b-889e-d810af9f29ab)
+> > > >
+> > > > - Copy `Debian Linux` & Paste [Remember the PIN you enter]
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/3a69f6c2-8d4c-4822-8058-6cb61ac636e0)
+> > > > 
+> > > > - Visit: https://remotedesktop.google.com/access
+> > > > - You will See `Online`
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6408bc37-bed4-4684-82ca-363f8cc883fb)
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56c77c5e-06ce-4885-b236-b29b45508347)
+
+
+> > > > 
+> > > 2. Using **xRDP** 
+> > > ```bash
+> > > !# Create a rdp user
+> > > sudo adduser remote
+> > > !# Enter the password when prompted, Press Enter for everything else
+> > > !# Assign sudo perms
+> > > sudo usermod -aG sudo remote
+> > > ```
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/416cf2ba-53ff-4b41-864c-a04b9ba657cf)
+> > >
+> > >```bash
+> > > !# Install Essential Pkgs
+> > > sudo apt install -y xrdp dbus-x11 xfce4
+> > > !# If prompted to choose Keyboard Layout, Choose English (US) : 1
+> > > !# ngrok for tunneling
+> > > eget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz --to "$HOME/bin/ngrok" && sudo chmod +x "$HOME/bin/ngrok"
+> > > !# Reister & Get Auth Token
+> > > https://dashboard.ngrok.com/get-started/your-authtoken
+> > > !# Add it
+> > > ngrok config add-authtoken $auth_token
+> > > !# Start xrdp service
+> > > sudo service xrdp start 
+> > > !# Start ngrok
+> > > ngrok tcp 3389
+> > > ```
+> > > - Copy the `tcp://Address:Port` 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/69c10a51-77ee-41f1-a3b4-3786cbc393db)
+
+---
+ - #### **Benchmarks**
+> > 
 > > - **References**
 > > https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
