@@ -100,7 +100,7 @@
 > > > 4. **Copy & Paste** : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.customize_environment
 > > > > ```yaml
 > > > > #Similary, Create (DO NOT FORGET DOTS (.) In FILENAMES) the following files and Copy paste
-> > > > `/scripts/.gsync.sh` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.gsync.sh 
+> > > > `/scripts/gsync.sh` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.gsync.sh 
 > > > > `.tmux.conf` : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.tmux.conf
 > > > > `.zshrc`     : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshrc
 > > > > ```
