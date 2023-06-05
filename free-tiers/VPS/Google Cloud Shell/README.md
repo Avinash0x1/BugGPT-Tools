@@ -186,7 +186,10 @@
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cba1f9c9-95c6-4704-9b86-b14b8ba7a3b7)
 > > ---
 > > - **Remote Desktop**
-> > > 1. Using **lxde** + **Chrome** [**Fast but Limited**]
+> > > 1. Using **lxde** + **Chrome** [**Fast but Limited**] [USE: xdrp See#3 ]
+> > > > Note: Setting this will take a lot of Space + Time
+> > > > - This is documented only for documentation's sake
+> > > > - `xRdp` is a way better way to achieve this
 > > > ```bash
 > > > !# Run
 > > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" | bash 
@@ -210,9 +213,7 @@
 > > > > - Visit: https://remotedesktop.google.com/access
 > > > > - You will See `Online`
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6408bc37-bed4-4684-82ca-363f8cc883fb)
-> > > > 
 > > > > - Enter the **PIN** You created & **Login**
-> > > > 
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56c77c5e-06ce-4885-b236-b29b45508347)
 > > > > 
 > > > > ---
@@ -236,7 +237,9 @@
 > > > >     Speed     : ~ 1000 Mbps
 > > > > ```   
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/af8c457d-8b25-4303-82fc-4a126a8c21af)
-> > > > ---
+> > > 
+> > > ---
+> > > 
 > > > 3. Using **xRDP** [**Most Stable & Reliable**]
 > > > ```bash
 > > > !# Create a rdp user
@@ -281,6 +284,7 @@
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/17d47db2-2c38-4f8e-b1de-09087629e43b)
 ---
  - #### **Benchmarks**
-> > 
-> > - **References**
-> > https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
+---
+> - **References**
+> > - https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
+> > - https://github.com/ProblematicToucan/gcloud-shell-rdp
