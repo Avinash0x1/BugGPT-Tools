@@ -182,7 +182,7 @@
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cba1f9c9-95c6-4704-9b86-b14b8ba7a3b7)
 > > ---
 > > - **Remote Desktop**
-> > > 1. Using **lxde** + **Chrome**
+> > > 1. Using **lxde** + **Chrome** [**Fast but Limited**]
 > > > ```bash
 > > > !# Run
 > > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" -o /tmp/gui.sh  
@@ -199,14 +199,33 @@
 > > > > - You will See `Online`
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6408bc37-bed4-4684-82ca-363f8cc883fb)
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56c77c5e-06ce-4885-b236-b29b45508347)
-
-
 > > > > 
-> > > 2. Using **xRDP** 
+> > > 2. Using Docker (Easiest + Quickest) [**Slow** & **Limited**]
+> > > > ```bash
+> > > > !#Pull the container
+> > > >  docker run -p 7331:80 dorowu/ubuntu-desktop-lxde-vnc
+> > > > ``` 
+> > > > - **Web Preview** >> **Change Port** >> 7331
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/499a0298-6bc4-4941-ad31-85f72ea1a602)
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/286adcff-45c1-4c49-8d5d-e880e65a7178) 
+> > > > 
+> > > > ```YAML
+> > > > Specs:
+> > > >   Persisteence: None (Temporary)
+> > > >   Uptime      : 4-5 Hrs
+> > > >   Disk        : 10 GB
+> > > >   Network     :
+> > > >     IPv4      : Yes
+> > > >     IPv6      : No
+> > > >     Speed     : ~ 1000 Mbps
+> > > > ```   
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/af8c457d-8b25-4303-82fc-4a126a8c21af)
+> > > >
+> > > 3. Using **xRDP** [**Most Stable & Reliable**]
 > > > ```bash
 > > > !# Create a rdp user
 > > > sudo adduser remote
-> > > !# Enter the password when prompted, Press Enter for everything else
+> > > !# Enter a new password when prompted, Press Enter for everything else
 > > > !# Assign sudo perms
 > > > sudo usermod -aG sudo remote
 > > > ```
@@ -214,11 +233,11 @@
 > > >
 > > >```bash
 > > > !# Install Essential Pkgs
-> > > sudo apt install -y xrdp dbus-x11 xfce4
+> > > sudo apt install xrdp dbus-x11 xfce4 -y 
 > > > !# If prompted to choose Keyboard Layout, Choose English (US) : 1
 > > > !# ngrok for tunneling
 > > > eget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz --to "$HOME/bin/ngrok" && sudo chmod +x "$HOME/bin/ngrok"
-> > > !# Reister & Get Auth Token
+> > > !# Register & Get Auth Token
 > > > https://dashboard.ngrok.com/get-started/your-authtoken
 > > > !# Add it
 > > > ngrok config add-authtoken $auth_token
@@ -228,8 +247,22 @@
 > > > ngrok tcp 3389
 > > > ```
 > > > - Copy the `tcp://Address:Port` 
-> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/69c10a51-77ee-41f1-a3b4-3786cbc393db)
-
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/84cc450f-611d-4bcb-a10c-c367f2798b2f)
+> > > 
+> > > 1. Install [**mRemoteNG**](https://github.com/mRemoteNG/mRemoteNG)
+> > > > [WingetUI](https://github.com/marticliment/WingetUI): **Install As Admin**
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c3b27b53-27e3-4e4b-9750-c38a31070fe9)
+> > > 2. Open mRemoteNG [**FULL SCREEN**]
+> > > > On the Top >> Enter your **Address:PORT** >> Click **RDP**
+> > > > ![2023-06-05_10-38](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6fa2410d-30aa-49fa-bc77-dab7aff56adf)
+> > > > 
+> > > > ```bash
+> > > > Session : Xorg
+> > > > User : remote
+> > > > Password: $the_password_You_created_in_abv_steps
+> > > > ```
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/75afe6c2-881d-45c0-bdd8-e5e32be3bfe2)
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/17d47db2-2c38-4f8e-b1de-09087629e43b)
 ---
  - #### **Benchmarks**
 > > 
