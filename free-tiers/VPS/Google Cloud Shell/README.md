@@ -130,7 +130,11 @@
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56f4e12f-7ae4-4b16-bffa-de702e9b249b)
 > > > > 
 > > > > > If it takes longer than ~5 mins, Hard Refresh the browser (Ctrl + Shift + R)
-> > > > 
+> > > > > Next time whenever you reboot, your system should automatically be configured, if it is not then:
+> > > > > ```bash
+> > > > > bash "$HOME/.customize_environment"
+> > > > > !#If asked for Font Config, Enter `N`
+> > > > > ```
 > > ---
 > > - **SSH**
 > > > - **Setup**
