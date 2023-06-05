@@ -1,31 +1,88 @@
 #!/usr/bin/env bash
-#Begin
-printf 'Installing RDP Be Patience... \n ' >&2
-printf 'This will take ~ 10 Mins... \n ' >&2
-printf 'When Asked, Keyboard layout, Enter `1` \n ' && sleep 10s
-printf 'Username:gcprdp || Password:733169420 \n '
-cd $(mktemp -d)
-{
-sudo useradd -m gcprdp
-sudo adduser gcprdp sudo
-echo 'gcprdp:733169420' | sudo chpasswd
-sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
-sudo apt update
-sudo DEBIAN_FRONTEND=noninteractive \
-sudo apt install dbus-x11 desktop-base firefox-esr gnome-terminal kdenlive mpv nano nautilus neofetch nload papirus-icon-theme plank sassc simplescreenrecorder xfce4 xfce4-goodies xfce4-terminal xscreensaver xvfb --assume-yes
-sudo apt install --assume-yes --fix-broken
-sudo bash -c 'echo "exec /etc/X11/Xsession /usr/bin/xfce4-session" > /etc/chrome-remote-desktop-session'
-sudo systemctl disable lightdm.service
-wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
-sudo dpkg --install chrome-remote-desktop_current_amd64.deb
-sudo apt install --assume-yes --fix-broken
-sudo adduser gcprdp chrome-remote-desktop
-} &> /dev/null &&
-printf "\nSetup Completed \n" >&2 ||
-printf "\nError Occured \n" >&2
-printf '\nCheck https://remotedesktop.google.com/headless `Begin` >> `Next` >> `Authorize` \n  Copy Command Of Debian Linux And Paste Down \n '
-read -p "Paste Here: " CRP
-su - gcprdp -c """$CRP"""
-printf 'Check https://remotedesktop.google.com/access/ \n '
-printf 'Username:gcprdp || Password:733169420 \n '
+#Set tmp dir
+export gui_setup=$(mktemp -d) && cd "$gui_setup"
+##Set Deps for Core
+sudo apt update && sudo apt install xvfb xfce4 xfce4-goodies mpv kdenlive simplescreenrecorder firefox-esr plank papirus-icon-theme dbus-x11 neofetch krita --assume-yes
+# Download Chrome Remote Desktop, install it, then delete downloaded .deb package
+wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb && sudo dpkg -i chrome-remote-desktop* && sudo apt --fix-broken install --assume-yes && rm chrome-remote-desktop*
+##Set Deps
+sudo apt install sassc --assume-yes && git clone https://github.com/catppuccin/gtk.git && cd gtk && sudo make build && sudo make package && cd pkgs && sudo cp * /usr/share/themes && cd /usr/share/themes
+# Install Catppuccin theme
+sudo unzip '/usr/share/themes/Catppuccin-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-green-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-grey.zip'
+sudo unzip '/usr/share/themes/Catppuccin-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-orange-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-pink-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-purple-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-red-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-teal-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-dark.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-dark-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-dark-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-light.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-light-hdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-light-xhdpi.zip'
+sudo unzip '/usr/share/themes/Catppuccin-yellow-xhdpi.zip' 
+sudo rm *.zip
+# Install Catppuccin Plank theme
+cd "$gui_setup" && git clone https://github.com/catppuccin/plank.git && cd plank && sudo cp -r Catppuccin /usr/share/plank/themes && sudo cp -r Catppuccin-solid /usr/share/plank/themes
+# Remove Tmp
+sudo rm -rf "$gui_setup"
 #EOF
