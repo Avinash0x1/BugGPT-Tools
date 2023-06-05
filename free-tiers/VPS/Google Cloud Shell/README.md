@@ -288,3 +288,5 @@
 > - **References**
 > > - https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
 > > - https://github.com/ProblematicToucan/gcloud-shell-rdp
+> > - https://github.com/sprucecellodev125/cloudshell-gui/tree/main
+> > 
