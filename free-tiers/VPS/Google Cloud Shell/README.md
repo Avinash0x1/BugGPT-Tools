@@ -191,6 +191,14 @@
 > > > !# Run
 > > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" | bash 
 > > > !# If prompted for : Keyboard layout >> Enter 1 (Press Enter 2-3 times & wait)
+> > > !# The script essenttially installs a Desktop Environment from Scratch
+> > > !# Sometimes, t may not work, and will need Troubleshootng:
+> > > !# If hangs, exit `Alt + G + X` >> Restart >> Try Again:
+> > >  sudo killall apt
+> > >  sudo dpkg --configure -a
+> > > !#Then re run the curl cmd  
+> > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" | bash
+> > > !# If it still doesn't work, try the `xRdp` Way
 > > > ```
 > > > > - Visit: https://remotedesktop.google.com/headless
 > > > > - `Begin` >> `Next` >> `Authorize`
