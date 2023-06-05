@@ -175,7 +175,11 @@
 > > > > ```
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/1906fa0b-182b-4ddc-848f-8716e2d0727a)
 > > > 
-> > > - TmuX [Bind Key is Alt + G] 
+> > > - **TmuX**
+> > > ```YAML
+> > > Bind Key      : Alt + G
+> > > Mouse Support : Enabled (Messes up easy copy paste in browser, so either disable or use `Alt + G + [ `
+> > > ```
 > > > ```bash
 > > > tmux 
 > > > ```
@@ -185,8 +189,8 @@
 > > > 1. Using **lxde** + **Chrome** [**Fast but Limited**]
 > > > ```bash
 > > > !# Run
-> > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" -o /tmp/gui.sh  
-> > >  dos2unix --quiet /tmp/gui.sh && sudo chmod +xwr /tmp/gui.sh && sudo bash /tmp/gui.sh
+> > >  curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Cloud%20Shell/GUI.sh" | bash 
+> > > !# If prompted for : Keyboard layout >> Enter 1 (Press Enter 2-3 times & wait)
 > > > ```
 > > > > - Visit: https://remotedesktop.google.com/headless
 > > > > - `Begin` >> `Next` >> `Authorize`
@@ -198,8 +202,10 @@
 > > > > - Visit: https://remotedesktop.google.com/access
 > > > > - You will See `Online`
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6408bc37-bed4-4684-82ca-363f8cc883fb)
+> > > > - Enter the **PIN** You created & **Login**
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56c77c5e-06ce-4885-b236-b29b45508347)
 > > > > 
+> > > > ---
 > > > 2. Using Docker (Easiest + Quickest) [**Slow** & **Limited**]
 > > > > ```bash
 > > > > !#Pull the container
@@ -220,7 +226,7 @@
 > > > >     Speed     : ~ 1000 Mbps
 > > > > ```   
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/af8c457d-8b25-4303-82fc-4a126a8c21af)
-> > > >
+> > > > ---
 > > > 3. Using **xRDP** [**Most Stable & Reliable**]
 > > > ```bash
 > > > !# Create a rdp user
