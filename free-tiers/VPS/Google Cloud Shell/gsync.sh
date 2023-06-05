@@ -27,7 +27,6 @@ git config --global --add safe.directory "$GITDIR"
 git remote set-url origin "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_REPO.git"
 #Pull changes and Reset HEAD
 cd "$HOME/$GITDIR" && git fetch --all >/dev/null 2>&1 && git reset --hard origin/main >/dev/null 2>&1 && git clean -fd >/dev/null 2>&1 && git pull --force origin main >/dev/null 2>&1
-
 #Set Dirs
 mkdir -p "$GITDIR/HOME/"
 #Copy Configs
