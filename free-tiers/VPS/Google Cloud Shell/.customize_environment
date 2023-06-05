@@ -10,12 +10,6 @@ export GITHUB_TOKEN="github_pat_11AN32D4I0wQNDljlA0z3k_j9IWuY6tUI30PvvCWxXdEds2k
 #-----------------------------------------------------#
 #-----------------------------------------------------#
 ##Change Defaults
-#Disable Banners
-sudo rm /etc/profile.d/init_help.sh >/dev/null 2>&1
-#Disable Tracking Metrics
-gcloud config set disable_usage_reporting true >/dev/null 2>&1
-#Disable broadcasting GSHELL to Subshell Tools & Scripts
-unset GOOGLE_CLOUD_SHELL CLOUD_SHELL >/dev/null 2>&1
 #Suppress BS messages
 mkdir -p ~/.cloudshell && touch ~/.cloudshell/no-apt-get-warning >/dev/null 2>&1
 #Dirs
@@ -27,21 +21,27 @@ mkdir -p "$HOME"/{bin,.local/bin,Tools,tmp} >/dev/null 2>&1
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y >/dev/null 2>&1
 source "$HOME/.cargo/env" && clear
 #Universal Releases & Binaries, used as a function in ~/.zshrc
-go install -v github.com/zyedidia/eget@latest && mv "$HOME/gopath/bin/eget" "$HOME/bin/"
+go install github.com/zyedidia/eget@latest && cp "$HOME/gopath/bin/eget" "$HOME/bin/"
+#Anew, used to update config files
+go install github.com/tomnomnom/anew@latest && cp "$HOME/gopath/bin/anew" "$HOME/bin/"
 #Aptitude
 sudo apt-get install aptitude -y >/dev/null 2>&1
-sudo aptitude install apt-transport-https dos2unix figlet iputils-arping iputils-clockdiff iputils-ping iputils-tracepath neofetch ping software-properties-common wget -y >/dev/null 2>&1
+sudo aptitude install apt-transport-https apt-utils dos2unix figlet fonts-powerline iputils-arping iputils-clockdiff iputils-ping iputils-tracepath neofetch ping software-properties-common wget xclip -y >/dev/null 2>&1
 #-----------------------------------------------------#
 #-----------------------------------------------------#
 ##Setup USR Settings
 #Copy Core Binaries
-sudo cp $(which dos2unix) "$HOME/bin/dos2unix" && sudo cp $(which neofetch) "$HOME/bin/neofetch"
+sudo cp $(which dos2unix) "$HOME/bin/dos2unix" && sudo cp $(which neofetch) "$HOME/bin/neofetch" 
 #Git Clone Remote Repo for Sync
 GITDIR=$(echo $GITHUB_REPO | sed -e '/^$/d' -e 's/[[:space:]]*$//' | awk -F '/' '{print $2}') && export GITDIR="$GITDIR"
-if [ ! -d "$HOME/$GITDIR" ]; then #Clone
+if [ ! -d "$GITDIR" ]; then #Clone
   cd "$HOME" && git clone "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_REPO.git"
+  dos2unix --quiet "$GITDIR/.scripts/gsync.sh" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh"
+  sudo chmod +xwr "$GITDIR/.scripts/gsync.sh"
 else #Pull latest
   cd "$GITDIR" && git fetch --all >/dev/null 2>&1 && git reset --hard origin/main >/dev/null 2>&1 && git clean -fd >/dev/null 2>&1 && git pull --force origin main >/dev/null 2>&1
+  dos2unix --quiet "$GITDIR/.scripts/gsync.sh" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh"
+  sudo chmod +xwr "$GITDIR/.scripts/gsync.sh"
 fi
 #-----------------------------------------------------#
 #Customization & QOL Changes:
@@ -55,6 +55,7 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
 fi
 #Fetch latest tmux.conf & set
 curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.tmux.conf" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.tmux.conf" >/dev/null 2>&1
+dos2unix --quiet "$HOME/.tmux.conf" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.tmux.conf"
 #Source
 tmux source-file "$HOME/.tmux.conf"
 #-----------------------------------------------------#
@@ -62,10 +63,15 @@ tmux source-file "$HOME/.tmux.conf"
 sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
 #Fetch latest ~/.zshrc & set it
 curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshrc" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshrc"
+dos2unix --quiet "$HOME/.zshrc" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc"
+#Zshenv
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshenv" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshenv"
+dos2unix --quiet "$HOME/.zshenv" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshenv"
+#Changing the shell & sourcing is done by ~/.bashrc:
 #-----------------------------------------------------#
 #FZF#
 #Deps
-eget sharkdp/fd --to "$HOME/bin/fd-find" --asset ^gnu && sudo chmod +xwr "$HOME/bin/fd-find"
+eget sharkdp/fd --to "$HOME/bin/fdfind" --asset ^gnu && sudo chmod +xwr "$HOME/bin/fdfind"
 eget sharkdp/bat --to "$HOME/bin/batcat" --asset ^gnu && sudo chmod +xwr "$HOME/bin/batcat"
 #Install fzf
 if [ ! -d "$HOME/.fzf" ]; then
@@ -74,8 +80,14 @@ if [ ! -d "$HOME/.fzf" ]; then
 fi
 # Setup fzf
 # fzf is auto setup from ~/.zshrc
-#Change the shell & Source:
-sudo chsh -s /bin/zsh "$USER" && zsh
+# Install nerdfonts
+(cd "$(mktemp -d)")  && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v 
+# Install Starship
+curl -sS https://starship.rs/install.sh | sudo sh -s -- -y >/dev/null 2>&1
+# Bash is provisioned each time, add this to ~/.bashrc, if we don't want to type zsh 
+echo "sudo chsh -s /bin/zsh "$USER" && zsh" | anew -q "$HOME/.bashrc"
+echo "$(which zsh)" | anew -q "$HOME/.profile"
+source "$HOME/.bashrc" && source "$HOME/.profile"
 #-----------------------------------------------------#
 clear
 #EOF
