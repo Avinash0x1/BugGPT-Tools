@@ -210,7 +210,9 @@
 > > > > - Visit: https://remotedesktop.google.com/access
 > > > > - You will See `Online`
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6408bc37-bed4-4684-82ca-363f8cc883fb)
+> > > > 
 > > > > - Enter the **PIN** You created & **Login**
+> > > > 
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56c77c5e-06ce-4885-b236-b29b45508347)
 > > > > 
 > > > > ---
