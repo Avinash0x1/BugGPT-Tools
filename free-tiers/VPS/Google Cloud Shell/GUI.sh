@@ -2,15 +2,14 @@
 #Set tmp dir
 export gui_setup=$(mktemp -d) && cd "$gui_setup"
 export origin=$(pwd)
-##Set Deps for Core
+##Set Deps for Core & GUI
 sudo apt update
-sudo apt install dbus-x11 firefox-esr nano nautilus neofetch papirus-icon-theme plank simplescreenrecorder xfce4 xfce4-goodies xfce4-terminal xscreensaver xvfb --assume-yes
-sudo apt --fix-broken install --assume-yes
-##Set Deps for GUI
-sudo apt install sassc --assume-yes
-sudo apt --fix-broken install
+sudo apt install xvfb xfce4 xfce4-goodies mpv kdenlive simplescreenrecorder firefox-esr plank papirus-icon-theme dbus-x11 neofetch krita --assume-yessudo apt --fix-broken install --assume-yes
 # Download Chrome Remote Desktop, install it, then delete downloaded .deb package
 wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb && sudo dpkg -i chrome-remote-desktop* && sudo apt --fix-broken install --assume-yes && rm chrome-remote-desktop*
+sudo apt --fix-broken install
+#Fix
+sudo apt install sassc --assume-yes
 # Remove Tmp
 sudo rm -rf "$gui_setup"
 cd "$origin"
