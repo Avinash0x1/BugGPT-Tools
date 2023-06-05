@@ -186,7 +186,7 @@
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cba1f9c9-95c6-4704-9b86-b14b8ba7a3b7)
 > > ---
 > > - **Remote Desktop**
-> > > 1. Using **lxde** + **Chrome** [**Fast but Limited**] [USE: xdrp See#3 ]
+> > > 1. Using **lxde** + **Chrome** [**Fast but Limited**] [USE: `xRdp` See#3 ]
 > > > > Note: Setting this will take a lot of Space + Time
 > > > > - This is documented only for documentation's sake
 > > > > - `xRdp` is a way better way to achieve this
