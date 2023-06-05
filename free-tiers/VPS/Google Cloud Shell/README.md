@@ -107,10 +107,10 @@
 > > > > `.zshrc`            : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshrc
 > > > > `.zshenv`           : https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Cloud%20Shell/.zshenv
 > > > > ```
-> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/10481c12-1306-44e1-9710-2a0ebc16f167)
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8dd324ff-f0d7-4e48-9ea4-ef0e6d49d50e)
 > > > > 
-> > > > `gsync.sh` MUST BE inside `scripts`, use `/` to create folders when adding files
-> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/3d6e24bc-684d-4c03-8183-a8b22939b0f7)
+> > > > `gsync.sh` (NO .DOTS in FILENAME) MUST BE inside `scripts`, use `/` to create folders when adding files
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/99c18f50-33f0-48a9-b171-7daa3fd7fd00)
 > > > > 
 > > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` in `.customize_environment` || `/scripts/gsync.sh` >> **Commit Changes** >> **Save**
 > > > 6. In [**Google Cloud Shell**](https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=terminal)
