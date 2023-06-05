@@ -11,10 +11,6 @@ VIOLET='\033[0;35m'
 RESET='\033[0m'
 NC='\033[0m'
 
-# Prompt
-PROMPT="%F{red}┌[%f%F{cyan}%m%f%F{red}]─[%f%F{yellow}%D{%H:%M-%d/%m}%f%F{red}]─[%f%F{magenta}%d%f%F{red}]%f"$'\n'"%F{red}└╼%f%F{green}$USER%f%F{yellow}$%f"
-
-
 #Env variables
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleVPS" #Your Gcloud Repo
@@ -24,7 +20,30 @@ export Tools="$HOME/Tools" # Not backed up
 export tools="$HOME/Tools"
 export TOOLS="$HOME/Tools"
 export WORDLIST="$HOME/.wordlists" # Also not backed up
+export SHELL=zsh #have to manually do this
 current_dir=$(pwd)
+
+#Unset Vars
+#Disable Banners
+sudo rm /etc/profile.d/init_help.sh >/dev/null 2>&1
+#Disable Tracking Metrics
+gcloud config set disable_usage_reporting true >/dev/null 2>&1
+#Disable broadcasting GSHELL to Subshell Tools & Scripts
+unset GOOGLE_CLOUD_SHELL CLOUD_SHELL >/dev/null 2>&1
+#Disable auto bash, force zsh
+setopt promptsubst
+PROMPT='%n@${DEVSHELL_PROJECT_ID:-cloudshell}:%~ %(!.#.Z) '
+if [[ -e "/google/google-cloud-sdk/completion.zsh.inc" ]]; then
+  source "/google/google-cloud-sdk/completion.zsh.inc"
+fi
+onexit () {
+  for FILE in /google/devshell/bash_exit.google.d/*; do
+    if [ -x "$FILE" ]; then
+      "$FILE"
+    fi
+  done
+}
+trap onexit EXIT
 
 #aliases
 alias bat='batcat'
@@ -91,6 +110,10 @@ SAVEHIST=10000
 setopt appendhistory
 
 #Some Custom QOL Changes
+#Prompt
+eval "$(starship init zsh)"
+# Set prompt
+starship preset pure-preset -o ~/.config/starship.toml
 #GitSync, 
 set +m
 source "$SCRIPTS/gsync.sh" >/dev/null 2>&1 &
