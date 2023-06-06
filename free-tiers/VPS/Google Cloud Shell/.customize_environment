@@ -4,12 +4,16 @@
 export GITHUB_USER="Azathothas" # This is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleVPS" # Change this to "$Your_Github_Username/$Name_of_Your_Github_Repo"
 export GITHUB_TOKEN="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" # Change this to "$Token_of_Your_Github_Repo"
+
+#-----------------------------------------------------#
+#When Updating, just replace (Copy & Paste) from https://github.com/Azathothas/BugGPT-Tools/edit/main/free-tiers/VPS/Google%20Cloud%20Shell/.customize_environment#
 #-----------------------------------------------------#
 ## DO NOT CHANGE ANYTHING ELSE
 ## Make sure you have created `.tmux.conf` , `.zshrc` or any other files that the script refrences
 #-----------------------------------------------------#
 #-----------------------------------------------------#
 ##Change Defaults
+export origin=$(pwd)
 #Suppress BS messages
 mkdir -p ~/.cloudshell && touch ~/.cloudshell/no-apt-get-warning >/dev/null 2>&1
 #Dirs
@@ -81,7 +85,7 @@ fi
 # Setup fzf
 # fzf is auto setup from ~/.zshrc
 # Install nerdfonts
-(cd "$(mktemp -d)")  && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v 
+cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v && clear
 # Install Starship
 curl -sS https://starship.rs/install.sh | sudo sh -s -- -y >/dev/null 2>&1
 # Bash is provisioned each time, add this to ~/.bashrc, if we don't want to type zsh 
@@ -89,5 +93,5 @@ echo "sudo chsh -s /bin/zsh "$USER" && zsh" | anew -q "$HOME/.bashrc"
 echo "$(which zsh)" | anew -q "$HOME/.profile"
 source "$HOME/.bashrc" && source "$HOME/.profile"
 #-----------------------------------------------------#
-clear
+clear && cd "$origin"
 #EOF
