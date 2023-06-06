@@ -36,16 +36,10 @@ sudo cp $(which dos2unix) "$HOME/bin/dos2unix" >/dev/null 2>&1 && sudo cp $(whic
 GITDIR=$(echo $GITHUB_REPO | sed -e '/^$/d' -e 's/[[:space:]]*$//' | awk -F '/' '{print $2}') && export GITDIR="$GITDIR" 
 if [ ! -d "$GITDIR" ]; then #Clone
   cd "$HOME" && git clone "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_REPO.git"
-  if [ -f "$GITDIR/scripts/gsync.sh" ]; then #change it to be `.scripts`
-    mkdir -p "$GITDIR/.scripts/" && mv "$GITDIR/scripts/gsync.sh" "$GITDIR/.scripts/gsync.sh" 
-  fi  
   dos2unix --quiet "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
   sudo chmod +xwr "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
 else #Pull latest
-  cd "$GITDIR" && git fetch --all >/dev/null 2>&1 && git reset --hard origin/main >/dev/null 2>&1 && git clean -fd >/dev/null 2>&1 && git pull --force origin main >/dev/null 2>&1
-    if [ -f "$GITDIR/scripts/gsync.sh" ]; then #change it to be `.scripts`
-       mkdir -p "$GITDIR/.scripts/" && mv "$GITDIR/scripts/gsync.sh" "$GITDIR/.scripts/gsync.sh" 
-    fi  
+  cd "$GITDIR" && git fetch --all >/dev/null 2>&1 && git reset --hard origin/main >/dev/null 2>&1 && git clean -fd >/dev/null 2>&1 && git pull --force origin main >/dev/null 2>&1 
   dos2unix --quiet "$GITDIR/.scripts/gsync.sh" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
   sudo chmod +xwr "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
 fi
