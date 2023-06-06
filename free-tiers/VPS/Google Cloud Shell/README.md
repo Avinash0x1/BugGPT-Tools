@@ -110,6 +110,7 @@
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8dd324ff-f0d7-4e48-9ea4-ef0e6d49d50e)
 > > > > 
 > > > > `gsync.sh` (NO .DOTS in FILENAME) MUST BE inside `.scripts` (.DOTS in FILENAME), use `/` to create folders when adding files
+> > > > 
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/957e403f-db0c-46a2-aba4-81fb4f5c5560)
 > > > > 
 > > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` in `.customize_environment` || `/scripts/gsync.sh` >> **Commit Changes** >> **Save**
