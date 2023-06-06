@@ -1,6 +1,11 @@
 - #### [Cloud Colab](https://colab.research.google.com)
 > - #### About: [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**Intro** & **Setup**](https://www.youtube.com/watch?v=g0xu9DA4gDw)
 > [![Google Colab Tutorial for Beginners](https://img.youtube.com/vi/g0xu9DA4gDw/maxresdefault.jpg)](https://www.youtube.com/watch?v=RdDyF3jVbbE)
+> 
+> - [**Legalities & Warnings**](https://research.google.com/colaboratory/faq.html)
+> 
+> ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/d37139c1-5f59-4613-a043-82839d39b5ee)
+>
 > > ➼ **Limits**
 > > 
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ff3c76fb-cad8-47a6-a6f0-1ad5b42d3b93)
@@ -74,6 +79,16 @@
 > > 
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ead2da79-8faa-4122-bdb2-824679988aea)
 > > 
+> > ```bash
+> > !#Almost all commands have to be run as root: `sudo`
+> > !#Password is : `root`
+> > !!WARNING: Installing neofetch messes up colors
+> > !#Install archey instead: https://github.com/HorlogeSkynet/archey4
+> > sudo pip3 install archey4
+> > !#Note: NOT ALL Displayed Info is ACCURATE
+> > ```
+> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/76bf2222-d3db-4e96-a632-b8978d4bee4f)
+>
 > 6. To **`Shutdown`**
 > 
 > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2316fc67-c17e-419f-8139-7e3785bcc41a)
@@ -81,13 +96,29 @@
 > 7. To **`Reboot`**
 > > Repeat Steps from **`1-5`**
 ---
-> - Customization & QOL Changes
+> - **Customization** & QOL **Changes**
 > 1. **Install** [Chrome Remote Desktop Extension](https://chrome.google.com/webstore/detail/chrome-remote-desktop/inomeogfingihgjfjlpeplalcfajhgai)
-> > - This enables features like **`clipboard sharing`**
-> > 
+> 
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56a25ab6-9bfd-4a4c-b21e-d5436f87483d)
 > > 
-> 2. 
+> > - This enables features like **`clipboard sharing`**
+> > 
+> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/af1ff456-c258-41af-b976-fd1e4a2bae20)
+>
+> 2. Enable **Higher Bitrate** (Better Colors)
+> 
+> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b2ff44e9-a322-4d89-929c-ce0213152c48)
+> 
+> 3. Install core-utils
+> > ```bash
+> > !# The host OS `Ubuntu 20.04` doesn't include many core utilities like `ping`, `nano` or even `ifconfig`
+> > !# Run the following from an Elevated Shell (root)
+> > sudo su
+> > curl -qfs "" | bash
+> > 
+> > ```
+> ```bash
+> ```
 > 
 
 
