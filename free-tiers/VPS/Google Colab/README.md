@@ -75,6 +75,7 @@
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ead2da79-8faa-4122-bdb2-824679988aea)
 > > 
 > 6. To **`Shutdown`**
+> 
 > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2316fc67-c17e-419f-8139-7e3785bcc41a)
 > 
 > 7. To **`Reboot`**
