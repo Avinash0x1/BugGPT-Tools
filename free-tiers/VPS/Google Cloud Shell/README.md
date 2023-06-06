@@ -113,7 +113,7 @@
 > > > > 
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/957e403f-db0c-46a2-aba4-81fb4f5c5560)
 > > > > 
-> > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` in `.customize_environment` || `/scripts/gsync.sh` >> **Commit Changes** >> **Save**
+> > > 5. Change `GITHUB_USER` && `GITHUB_REPO` && `GITHUB_TOKEN` in `.customize_environment` || `/.scripts/gsync.sh` >> **Commit Changes** >> **Save**
 > > > 6. In [**Google Cloud Shell**](https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=terminal)
 > > > > ```bash
 > > > > !# Set environ, The URL must be your RAW URL for `.customize_environment`
