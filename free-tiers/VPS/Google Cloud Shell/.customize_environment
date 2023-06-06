@@ -21,9 +21,9 @@ mkdir -p "$HOME"/{bin,.local/bin,Tools,tmp} >/dev/null 2>&1
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y >/dev/null 2>&1
 source "$HOME/.cargo/env" && clear
 #Universal Releases & Binaries, used as a function in ~/.zshrc
-go install github.com/zyedidia/eget@latest && cp "$HOME/gopath/bin/eget" "$HOME/bin/"
+go install github.com/zyedidia/eget@latest && cp "$HOME/gopath/bin/eget" "$HOME/bin/" >/dev/null 2>&1
 #Anew, used to update config files
-go install github.com/tomnomnom/anew@latest && cp "$HOME/gopath/bin/anew" "$HOME/bin/"
+go install github.com/tomnomnom/anew@latest && cp "$HOME/gopath/bin/anew" "$HOME/bin/" >/dev/null 2>&1
 #Aptitude
 sudo apt-get install aptitude -y >/dev/null 2>&1
 sudo aptitude install apt-transport-https apt-utils dos2unix figlet fonts-powerline iputils-arping iputils-clockdiff iputils-ping iputils-tracepath neofetch ping software-properties-common wget xclip -y >/dev/null 2>&1
@@ -31,17 +31,23 @@ sudo aptitude install apt-transport-https apt-utils dos2unix figlet fonts-powerl
 #-----------------------------------------------------#
 ##Setup USR Settings
 #Copy Core Binaries
-sudo cp $(which dos2unix) "$HOME/bin/dos2unix" && sudo cp $(which neofetch) "$HOME/bin/neofetch" 
+sudo cp $(which dos2unix) "$HOME/bin/dos2unix" >/dev/null 2>&1 && sudo cp $(which neofetch) "$HOME/bin/neofetch" >/dev/null 2>&1
 #Git Clone Remote Repo for Sync
-GITDIR=$(echo $GITHUB_REPO | sed -e '/^$/d' -e 's/[[:space:]]*$//' | awk -F '/' '{print $2}') && export GITDIR="$GITDIR"
+GITDIR=$(echo $GITHUB_REPO | sed -e '/^$/d' -e 's/[[:space:]]*$//' | awk -F '/' '{print $2}') && export GITDIR="$GITDIR" 
 if [ ! -d "$GITDIR" ]; then #Clone
   cd "$HOME" && git clone "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_REPO.git"
-  dos2unix --quiet "$GITDIR/.scripts/gsync.sh" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh"
-  sudo chmod +xwr "$GITDIR/.scripts/gsync.sh"
+  if [ -f "$GITDIR/scripts/gsync.sh"]; then #change it to be `.scripts`
+    mkdir -p "$GITDIR/.scripts/" && mv "$GITDIR/scripts/gsync.sh" "$GITDIR/.scripts/gsync.sh" 
+  fi  
+  dos2unix --quiet "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
+  sudo chmod +xwr "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
 else #Pull latest
   cd "$GITDIR" && git fetch --all >/dev/null 2>&1 && git reset --hard origin/main >/dev/null 2>&1 && git clean -fd >/dev/null 2>&1 && git pull --force origin main >/dev/null 2>&1
-  dos2unix --quiet "$GITDIR/.scripts/gsync.sh" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh"
-  sudo chmod +xwr "$GITDIR/.scripts/gsync.sh"
+    if [ -f "$GITDIR/scripts/gsync.sh"]; then #change it to be `.scripts`
+       mkdir -p "$GITDIR/.scripts/" && mv "$GITDIR/scripts/gsync.sh" "$GITDIR/.scripts/gsync.sh" 
+    fi  
+  dos2unix --quiet "$GITDIR/.scripts/gsync.sh" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
+  sudo chmod +xwr "$GITDIR/.scripts/gsync.sh" >/dev/null 2>&1
 fi
 #-----------------------------------------------------#
 #Customization & QOL Changes:
@@ -55,18 +61,18 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
 fi
 #Fetch latest tmux.conf & set
 curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.tmux.conf" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.tmux.conf" >/dev/null 2>&1
-dos2unix --quiet "$HOME/.tmux.conf" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.tmux.conf"
+dos2unix --quiet "$HOME/.tmux.conf" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.tmux.conf" >/dev/null 2>&1
 #Source
-tmux source-file "$HOME/.tmux.conf"
+tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
 #-----------------------------------------------------#
 #Install zsh
 sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
 #Fetch latest ~/.zshrc & set it
-curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshrc" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshrc"
-dos2unix --quiet "$HOME/.zshrc" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc"
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshrc" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshrc" 
+dos2unix --quiet "$HOME/.zshrc" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
 #Zshenv
-curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshenv" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshenv"
-dos2unix --quiet "$HOME/.zshenv" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshenv"
+curl -qfsSL "https://raw.githubusercontent.com/$GITHUB_REPO/main/.zshenv" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$HOME/.zshenv" 
+dos2unix --quiet "$HOME/.zshenv" && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshenv" >/dev/null 2>&1
 #Changing the shell & sourcing is done by ~/.bashrc:
 #-----------------------------------------------------#
 #FZF#
@@ -85,7 +91,7 @@ fi
 # Install Starship
 curl -sS https://starship.rs/install.sh | sudo sh -s -- -y >/dev/null 2>&1
 # Bash is provisioned each time, add this to ~/.bashrc, if we don't want to type zsh 
-echo "sudo chsh -s /bin/zsh "$USER" && zsh" | anew -q "$HOME/.bashrc"
+echo "sudo chsh -s /bin/zsh "$USER" && zsh" | anew -q "$HOME/.bashrc" 
 echo "$(which zsh)" | anew -q "$HOME/.profile"
 source "$HOME/.bashrc" && source "$HOME/.profile"
 #-----------------------------------------------------#
