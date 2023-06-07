@@ -152,7 +152,8 @@
 > > > > > !#Use your AuthKey (On Your Linux)
 > > > > >  sudo tailscale login --auth-key=$Auth_key
 > > > > > !# On Colab (NOT YOUR LINUX)
-> > > > >  tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 & tailscale up --authkey=$Auth_key
+> > > > >  sudo tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 & 
+> > > > >  sudo tailscale up --ssh --authkey=$Auth_key
 > > > > > !# If you provide Invalid key: backend error: invalid key: API key does not exist
 > > > > > !# Else, there will be NO Output 
 > > > > > !# Check Status
@@ -211,9 +212,11 @@
 > > > > !# This should be auto configured when starting Colab
 > > > > !# In case it doesn't, On Colab's Terminal
 > > > > !# Default
-> > > >  sudo tailscale up --ssh --auth-key=$Auth_key
+> > > >  sudo tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 & 
+> > > >  sudo tailscale up --ssh --authkey=$Auth_key
 > > > > !# Or if using Machine Names
-> > > >  sudo tailscale up --ssh --auth-key=$Auth_key --hostname=$Machine_Name
+> > > >  sudo tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 & 
+> > > >  sudo tailscale up --ssh --authkey=$Auth_key --hostname=$Machine_Name
 > > > > ```
 > > > > - **Check** & **Copy SSH** : **https://login.tailscale.com/admin/services**
 > > > > 
