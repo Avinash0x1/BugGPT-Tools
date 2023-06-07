@@ -261,3 +261,4 @@
 > > - User Space Networking : https://tailscale.com/kb/1112/userspace-networking/
 > > > - https://github.com/tailscale/tailscale/issues/6941
 > > - https://tailscale.com/kb/1080/cli/
+> > - https://jflower.co.uk/setup-windows-terminal/
