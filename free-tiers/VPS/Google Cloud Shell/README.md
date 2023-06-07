@@ -1,4 +1,10 @@
 - #### [Cloud Shell](https://cloud.google.com/shell)
+> - [**BenchMarks**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#about-intro--setup)
+> - [**About**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#about-intro--setup)
+> - [**Setup**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#setup)
+> - [**Configuraton**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#customization--qol-changes)
+> - [**SSH**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#ssh)
+---
 > - #### About: [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**Intro** & **Setup**](https://www.youtube.com/watch?v=RdDyF3jVbbE)
 > [![Google Cloud Shell Tutorial for Beginners](https://img.youtube.com/vi/RdDyF3jVbbE/maxresdefault.jpg)](https://www.youtube.com/watch?v=RdDyF3jVbbE)
 > > ➼ **Limits**
@@ -50,7 +56,7 @@
 > > > Cron                 : No crontab, Interactve only # Can't Schedule tasks etc   
 > > > ```
 > > ---
-> > ➼ **Configuration**
+> > - #### **Configuration**
 > > > 1. Tools & Binaries : Anything Installed via `apt` | `cargo` | `go` | `pip` etc is **Auto DELETED** upon Restart
 > > > > - Only Way to keep your Installed Tools & Binaries, is to store them in: **`$HOME/bin`** || **`$HOME/.local/bin`**
 > > > > ```YAML
@@ -137,7 +143,7 @@
 > > > > > !#If asked for Font Config, Enter `N`
 > > > > > ```
 > > ---
-> > - **SSH**
+> > - #### **SSH**
 > > > - **Setup**
 > > > ```
 > > > !# Install Gcloud ClI, if this doesn't work : https://cloud.google.com/sdk/docs/install#deb
@@ -186,7 +192,7 @@
 > > > ```
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cba1f9c9-95c6-4704-9b86-b14b8ba7a3b7)
 > > ---
-> > - **Remote Desktop**
+> > - #### **Remote Desktop**
 > > > 1. Using **lxde** + **Chrome** [**Fast but Limited**] [USE: `xRdp` See#3 ]
 > > > > Note: Setting this will take a lot of Space + Time
 > > > > - This is documented only for documentation's sake
@@ -284,7 +290,7 @@
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/75afe6c2-881d-45c0-bdd8-e5e32be3bfe2)
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/17d47db2-2c38-4f8e-b1de-09087629e43b)
 ---
- - #### **Benchmarks**
+> > - #### **Benchmarks**
 ---
 > - **References**
 > > - https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
