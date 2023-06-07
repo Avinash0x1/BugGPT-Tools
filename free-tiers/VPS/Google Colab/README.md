@@ -121,13 +121,16 @@
 > > > 1. Create a [**TailScale**](https://tailscale.com/) **Account** : **https://login.tailscale.com/start**
 > > > > - **Install** [**TailScale CLI**]()
 > > > > > ```bash
-> > > > > !# On Linux
+> > > > > !# On Linux (NOT Colab)
 > > > > > !# Add Keys
 > > > > >  curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
 > > > > >  curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
 > > > > > !# Update & Install TailScale
 > > > > >  sudo apt-get update
 > > > > >  sudo apt-get install tailscale -y
+> > > > > !# On Colab (NOT your Linux)
+> > > > >  sudo su
+> > > > >  curl -fsSL https://tailscale.com/install.sh | sh
 > > > > > ```
 > > > > [**WingetUI**](https://github.com/marticliment/WingetUI)
 > > > > **Search**: **`Tailscale`** >> **Source** : **`Winget`** >> **Right Click** >> **`Install as Admin`**
@@ -146,21 +149,39 @@
 > > > > > 
 > > > > > 3. Using Tailscale Cli
 > > > > > ```bash
-> > > > > !#Use your AuthKey
-> > > > >  sudo tailscale login --auth-key $Auth_key
+> > > > > !#Use your AuthKey (Both your Linux || Colab)
+> > > > >  sudo tailscale login --auth-key=$Auth_key
 > > > > > !# If you provide Invalid key: backend error: invalid key: API key does not exist
 > > > > > !# Else, there will be NO Output 
 > > > > > !# Check Status
 > > > > >  sudo tailscale status
+> > > > > !# Add TailScale to run on boot (No point on doing this on Colab, since it's Ephemeral)
+> > > > >  
 > > > > > ````
 > > > > > 
 > > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/86dce283-d838-4afc-a269-007b16135557)
 > > > > 
 > > > > - **`Windows`**
 > > > > > 1. Launch TailScale (Search `tailscale` & Double Click) if it's not already Launched
-> > > > > 2. **`Expand`** >> **`System Tray`** >> **Right Click on `TailScale`** >> **`Connect`**
+> > > > > 2. **`Expand`** >> **`System Tray`** >> **Right Click on `TailScale`** >> **`Login`**
 > > > > > 
-> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/57818fc4-7570-431c-9e31-62b5bdff9251)
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/a0b28e0f-2952-4475-b5ac-d5089fa3a23d)
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/3270d3c5-67f0-4ccf-ae84-3cbf31142d61)
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/3fd35e42-53c4-4726-8940-0d5621711db5)
+> > > > > 
+> > > > > - **Connect**
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/516346b0-c937-4e50-9a73-e3be86c60b4f)
+> > > > > 
+> > > > > - **Check Status**
+> > > > > 
+> > > > > - ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/d56789bb-8839-4c5c-8758-b4d997b9ae5d)
+> > > > > 
+> > > > > - **Enable Services** : 
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c8e4704b-281f-4007-94a8-d20ef1ee67da)
 > > > 3. **DNS** : **https://login.tailscale.com/admin/dns**
 > > > > > ```bash
 > > > > > !# By Default, TailScale Assigns PERMANENT IPv4 + IPv6 Addresses, but they can be hard to remember
@@ -168,19 +189,47 @@
 > > > > > !# Have a Dynamic DNS will also act as failsafe
 > > > > > ```
 > > > > - **Update NameServers**
+> > > > > - **Add**: **Google** + **CloudFlare** + **Quad9** >> **Enable** **`HTTPS`**
 > > > > 
-> > > > - Get an easy to remember DNS 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/d123507d-273c-4bc5-903a-caf5253a8f3c)
+> > > > 
+> > > > - **Get an easy to remember DNS **
 > > > > 
 > > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9ea8c02b-5ea4-4e00-bbe1-a77198756775)
 > > > > > 
+> > > > >
 > > > > > - **Check**
 > > > > > ```bash
 > > > > > !# NameServers will take ~ 1-7 Hrs to update, so be patient
+> > > > >   nslookup $custom_dns_name
+> > > > > ```
+> > > > >
+> > > 4. [**SSH**](https://tailscale.com/kb/1193/tailscale-ssh/)
+> > > > ```bash
+> > > > !# This should be auto configured when starting Colab
+> > > > !# In case it doesn't, On Colab's Terminal
+> > > >  sudo tailscale up --ssh --auth-key=$Auth_key --hostname=$Machine_Name
+> > > > ```
+> > > > - **Check** & **Copy SSH** : **https://login.tailscale.com/admin/services**
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cc6ea1d3-8b56-42ff-a4aa-0270b2fd8503)
+> > > > 
+> > > > - **Get A Machine Name** : **https://login.tailscale.com/admin/machines**
+> > > > > - This will allow you to **ssh directly via**: **`ssh $machine_name.$custom_dns_name`**
 > > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2f00b880-e6a4-4d44-9eb3-6c6811bb2e47)
+> > > > > 
+> > > > > - **Disable** : **`Auto-generate from OS hostname`** >> **Update Name**
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8395532d-16f5-4186-a0e6-34af5f77ffa2)
+> > > > > 
+> > > > > ```bash
+> > > > > !# Now you can ssh 
+> > > > >  ssh $username@$machine_name.$custom_dns_name
 > > > > > ```
 
-Copy  ssh cmd https://login.tailscale.com/admin/services
-![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cc6ea1d3-8b56-42ff-a4aa-0270b2fd8503)
+
+> > > > Copy  ssh cmd 
 
 
 
