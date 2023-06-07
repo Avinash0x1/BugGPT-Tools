@@ -193,6 +193,8 @@
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cba1f9c9-95c6-4704-9b86-b14b8ba7a3b7)
 > > ---
 > > - #### **Remote Desktop**
+> > > > Note: There's really no point in doing this, [**Google Collab**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab) offers way more!
+> > > > If you want to do this for REASONS, try Using **xRDP** ( See#3)
 > > > 1. Using **lxde** + **Chrome** [**Fast but Limited**] [USE: `xRdp` See#3 ]
 > > > > Note: Setting this will take a lot of Space + Time
 > > > > - This is documented only for documentation's sake
