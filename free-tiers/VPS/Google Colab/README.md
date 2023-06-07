@@ -1,4 +1,10 @@
 - #### [Cloud Colab](https://colab.research.google.com)
+> - [BenchMarks]()
+> - [About](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#about-intro--setup)
+> - [Setup](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#setup)
+> - [Configuraton]()
+> - [SSH](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#ssh)
+---
 > - #### About: [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**Intro** & **Setup**](https://www.youtube.com/watch?v=g0xu9DA4gDw)
 > [![Google Colab Tutorial for Beginners](https://img.youtube.com/vi/g0xu9DA4gDw/maxresdefault.jpg)](https://www.youtube.com/watch?v=g0xu9DA4gDw)
 > 
@@ -92,7 +98,7 @@
 > 7. To **`Reboot`**
 > > Repeat Steps from **`1-5`**
 ---
-> - **Customization** & QOL **Changes**
+> - #### **Customization** & QOL **Changes**
 > 1. **Install** [Chrome Remote Desktop Extension](https://chrome.google.com/webstore/detail/chrome-remote-desktop/inomeogfingihgjfjlpeplalcfajhgai)
 > 
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56a25ab6-9bfd-4a4c-b21e-d5436f87483d)
@@ -238,10 +244,8 @@
 > > > > > !# Now you can ssh 
 > > > > >  ssh $username@$machine_name.$custom_dns_name
 > > > > > ```
-
-
-> > > > Copy  ssh cmd 
-
+---
+> - #### Benchmarks
 
 
 
@@ -249,6 +253,7 @@
 
 
 
+---
 > **References**
 > > - https://orth.uk/tailscale-ssh/
 > > - https://orth.uk/ssh-over-cloudflare/
