@@ -118,7 +118,7 @@
 ---
 > - #### **SSH**
 > > - #### **Setup** :
-> > > 1. Create a [**TailScale**](https://tailscale.com/) **Account** : `https://login.tailscale.com/start`
+> > > 1. Create a [**TailScale**](https://tailscale.com/) **Account** : **https://login.tailscale.com/start**
 > > > > - **Install** [**TailScale CLI**]()
 > > > > > ```bash
 > > > > > !# On Linux
@@ -136,7 +136,7 @@
 > > > > 
 > > > 2. **Login**
 > > > > - **`Linux`**
-> > > > > 1. **Get an Auth Key** : `https://login.tailscale.com/admin/settings/keys`
+> > > > > 1. **Get an Auth Key** : **https://login.tailscale.com/admin/settings/keys**
 > > > > >
 > > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8ea3ac97-13a2-4e1a-867a-cecf7b96414d)
 > > > > >
@@ -167,8 +167,17 @@
 > > > > >  tailscale ip
 > > > > > !# Have a Dynamic DNS will also act as failsafe
 > > > > > ```
-> > > > > 
+> > > > - **Update NameServers**
+> > > > 
+> > > > - Get an easy to remember DNS 
+> > > > 
 > > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9ea8c02b-5ea4-4e00-bbe1-a77198756775)
+> > > > > 
+> > > > > - **Check**
+> > > > > ```bash
+> > > > > !# NameServers will take ~ 1-7 Hrs to update, so be patient
+> > > > > 
+> > > > > ```
 
 Copy  ssh cmd https://login.tailscale.com/admin/services
 ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cc6ea1d3-8b56-42ff-a4aa-0270b2fd8503)
