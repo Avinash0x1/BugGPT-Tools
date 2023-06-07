@@ -149,8 +149,10 @@
 > > > > > 
 > > > > > 3. Using Tailscale Cli
 > > > > > ```bash
-> > > > > !#Use your AuthKey (Both your Linux || Colab)
+> > > > > !#Use your AuthKey (On Your Linux)
 > > > > >  sudo tailscale login --auth-key=$Auth_key
+> > > > > !# On Colab (NOT YOUR LINUX)
+> > > > >  tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 & tailscale up --authkey=$Auth_key
 > > > > > !# If you provide Invalid key: backend error: invalid key: API key does not exist
 > > > > > !# Else, there will be NO Output 
 > > > > > !# Check Status
