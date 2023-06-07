@@ -130,7 +130,7 @@
 > > > > >  sudo apt-get install tailscale -y
 > > > > > !# On Colab (NOT your Linux)
 > > > > >  sudo su
-> > > > >  curl -fsSL https://tailscale.com/install.sh | sh
+> > > > >  curl -qfsSL "https://tailscale.com/install.sh" | sh
 > > > > > ```
 > > > > [**WingetUI**](https://github.com/marticliment/WingetUI)
 > > > > **Search**: **`Tailscale`** >> **Source** : **`Winget`** >> **Right Click** >> **`Install as Admin`**
@@ -208,12 +208,18 @@
 > > > > ```bash
 > > > > !# This should be auto configured when starting Colab
 > > > > !# In case it doesn't, On Colab's Terminal
+> > > > !# Default
+> > > >  sudo tailscale up --ssh --auth-key=$Auth_key
+> > > > !# Or if using Machine Names
 > > > >  sudo tailscale up --ssh --auth-key=$Auth_key --hostname=$Machine_Name
 > > > > ```
 > > > > - **Check** & **Copy SSH** : **https://login.tailscale.com/admin/services**
 > > > > 
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cc6ea1d3-8b56-42ff-a4aa-0270b2fd8503)
 > > > > 
+> > > > ```bash
+> > > >  ssh $username@$copied_ip
+> > > > ```
 > > > > - **Get A Machine Name** : **https://login.tailscale.com/admin/machines**
 > > > > > - This will allow you to **ssh directly via**: **`ssh $machine_name.$custom_dns_name`**
 > > > > > 
