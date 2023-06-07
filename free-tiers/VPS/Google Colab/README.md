@@ -249,3 +249,10 @@
 
 
 
+> **References**
+> > - https://orth.uk/tailscale-ssh/
+> > - https://orth.uk/ssh-over-cloudflare/
+> > - https://chriskirby.net/web-browser-ssh-terminal-to-homelab-with-cloudflare-zero-trust/
+> > - User Space Networking : https://tailscale.com/kb/1112/userspace-networking/
+> > > - https://github.com/tailscale/tailscale/issues/6941
+> > - https://tailscale.com/kb/1080/cli/
