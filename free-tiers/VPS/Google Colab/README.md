@@ -115,7 +115,65 @@
 > > ```
 > ```bash
 > ```
-> 
+---
+> - #### **SSH**
+> > - #### **Setup** :
+> > > 1. Create a [**TailScale**](https://tailscale.com/) **Account** : `https://login.tailscale.com/start`
+> > > > - **Install** [**TailScale CLI**]()
+> > > > > ```bash
+> > > > > !# On Linux
+> > > > > !# Add Keys
+> > > > >  curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+> > > > >  curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+> > > > > !# Update & Install TailScale
+> > > > >  sudo apt-get update
+> > > > >  sudo apt-get install tailscale -y
+> > > > > ```
+> > > > [**WingetUI**](https://github.com/marticliment/WingetUI)
+> > > > **Search**: **`Tailscale`** >> **Source** : **`Winget`** >> **Right Click** >> **`Install as Admin`**
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/05141548-d49c-4f0b-9695-53b4efdd5a31)
+> > > > 
+> > > 2. **Login**
+> > > > - **`Linux`**
+> > > > > 1. **Get an Auth Key** : `https://login.tailscale.com/admin/settings/keys`
+> > > > >
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/8ea3ac97-13a2-4e1a-867a-cecf7b96414d)
+> > > > >
+> > > > > 2. **MUST ENABLE** **`Reusable`**
+> > > > >
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/5b0719d1-df4a-4963-a753-8cb126e475df)
+> > > > > 
+> > > > > 3. Using Tailscale Cli
+> > > > > ```bash
+> > > > > !#Use your AuthKey
+> > > > >  sudo tailscale login --auth-key $Auth_key
+> > > > > !# If you provide Invalid key: backend error: invalid key: API key does not exist
+> > > > > !# Else, there will be NO Output 
+> > > > > !# Check Status
+> > > > >  sudo tailscale status
+> > > > > ````
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/86dce283-d838-4afc-a269-007b16135557)
+> > > > 
+> > > > - **`Windows`**
+> > > > > 1. Launch TailScale (Search `tailscale` & Double Click) if it's not already Launched
+> > > > > 2. **`Expand`** >> **`System Tray`** >> **Right Click on `TailScale`** >> **`Connect`**
+> > > > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/57818fc4-7570-431c-9e31-62b5bdff9251)
+> > > 3. **DNS** : **https://login.tailscale.com/admin/dns**
+> > > > > ```bash
+> > > > > !# By Default, TailScale Assigns PERMANENT IPv4 + IPv6 Addresses, but they can be hard to remember
+> > > > >  tailscale ip
+> > > > > !# Have a Dynamic DNS will also act as failsafe
+> > > > > ```
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9ea8c02b-5ea4-4e00-bbe1-a77198756775)
+
+Copy  ssh cmd https://login.tailscale.com/admin/services
+![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cc6ea1d3-8b56-42ff-a4aa-0270b2fd8503)
+
+
 
 
 
