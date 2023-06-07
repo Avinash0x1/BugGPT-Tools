@@ -105,7 +105,6 @@ python3_deps()
               echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.zshrc && source  $HOME/.zshrc
               echo 'eval "$(pyenv init -)"' >>  $HOME/.zshrc
               source  $HOME/.zshrc
-              exec "$SHELL"
               #set pyenv global vars
               pyenv install 3.11.2
               pyenv global 3.11.2          
