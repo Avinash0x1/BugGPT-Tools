@@ -9,7 +9,7 @@
   sudo cat /tmp/hostname.tmp > /etc/hostname
 #/etc/hosts  
   sudo cp /etc/hosts /tmp/hosts.tmp
-  sudo sed -i "s/{hostname}/{new_hostname}/g" /tmp/hosts.tmp
+  sudo sed -i "s/$hostname/$new_hostname/g" /tmp/hosts.tmp
   sudo cat /tmp/hosts.tmp > /etc/hosts
  #hostname 
   sudo hostname "$new_hostname"
