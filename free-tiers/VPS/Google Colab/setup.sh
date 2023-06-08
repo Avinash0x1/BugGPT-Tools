@@ -97,19 +97,19 @@ python3_deps()
      clear && echo -e "➼${GREEN} Initializing ${PURPLE}Python${NC} Dependencies${NC}\n"
      sudo aptitude install python3 python3-pip python3-aiohttp python3-certbot-apache python3-requests python3-matplotlib python3-keras python3-opencv python3-django python3-flask -y && clear
      if command -v python3 &> /dev/null 2>&1; then
-     #Setup Pyenv
-       setup_pyenv()
-       {
-          curl -qsk https://pyenv.run | bash 2>/dev/null
-              echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.zshrc
-              echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.zshrc && source  $HOME/.zshrc
-              echo 'eval "$(pyenv init -)"' >>  $HOME/.zshrc
-              source  $HOME/.zshrc
-              #set pyenv global vars
-              pyenv install 3.11.2
-              pyenv global 3.11.2          
-       } 
-       setup_pyenv
+     #Setup Pyenv, Not needed
+#        setup_pyenv()
+#        {
+#           curl -qsk https://pyenv.run | bash 2>/dev/null
+#               echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.zshrc
+#               echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.zshrc && source  $HOME/.zshrc
+#               echo 'eval "$(pyenv init -)"' >>  $HOME/.zshrc
+#               source  $HOME/.zshrc
+#               #set pyenv global vars
+#               pyenv install 3.11.2
+#               pyenv global 3.11.2          
+#        } 
+#        setup_pyenv
      #python3_pipx
        python3_pipx()
        {
@@ -181,5 +181,7 @@ fi
      fi   
   fi
 #-------------------------------------------------------------------------#
+##End && Clean
+aptitude_clean 
 #-------------------------------------------------------------------------#
 #EOF
