@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #Get the current hostname
-  hostname=$(hostname)
+  hostname=$(cat /etc/hostname)
   new_hostname="GCE-Colab"
 #etc_hostname  
   sudo cp /etc/hostname /tmp/hostname.tmp
