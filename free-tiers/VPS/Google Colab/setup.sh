@@ -24,6 +24,30 @@ core_deps()
      #sudo service ssh start
      sudo updatedb --prunepaths=/media 2>/dev/null
 }    
+#Install zsh, for ~/.zshrc
+setup_zsh()
+{
+     sudo apt-get update && sudo apt-get install aptitude -y
+     clear && echo -e "➼${GREEN} Installng  ${PURPLE}zsh${NC}\n"
+   #zsh 
+     sudo aptitude install zsh zsh-syntax-highlighting zsh-autosuggestions -y
+   #fzf  
+     eget sharkdp/fd --to ./fdfind --asset ^gnu && sudo mv ./fdfind /usr/local/bn/fdfind && sudo chmod +xwr /usr/local/bn/fdfind
+     eget sharkdp/bat --to ./batcat --asset ^gnu && sudo mv ./batcat /usr/local/bn/batcat && sudo chmod +xwr /usr/local/bn/batcat
+   #Install fzf
+     if [ ! -d "$HOME/.fzf" ]; then
+       git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
+       ~/.fzf/install --all >/dev/null 2>&1
+     fi  
+   # Setup fzf
+   # fzf is auto setup from ~/.zshrc
+   # Install nerdfonts
+    cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v && clear
+    cd -
+   # Install Starship
+     curl -sS https://starship.rs/install.sh | sudo sh -s -- -y >/dev/null 2>&1
+}
+setup_zsh
 #-------------------------------------------------------------------------#
 #Docker
 install_docker()
