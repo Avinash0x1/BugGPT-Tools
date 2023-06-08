@@ -44,6 +44,10 @@
 > > > 
 ----
 > - #### Setup:
+> ![tailscale authenticate new page terminal](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/0c0eb3ac-83d3-498a-92fa-9fdf68a05d4a)
+![tailscale authenticate new page browser](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6df8d091-a7db-42ec-861b-cb50db0ae414)
+![talscale sshed](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b91295d3-8be7-44bb-87eb-970288dbfc52)
+
 > > Use `Chromium Based Browser` [`NOT FireFox`]
 > 1. **Right Click** [`Open In NewTab`] --> <a href="https://colab.research.google.com/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Colab/VPS.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 > 2. `RUN` **Create User** (If prompted, `RUN ANYWAY`)
