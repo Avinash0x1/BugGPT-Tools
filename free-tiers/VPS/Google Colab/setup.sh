@@ -32,8 +32,8 @@ setup_zsh()
    #zsh 
      sudo aptitude install zsh zsh-syntax-highlighting zsh-autosuggestions -y
    #fzf  
-     eget sharkdp/fd --to ./fdfind --asset ^gnu && sudo mv ./fdfind /usr/local/bn/fdfind && sudo chmod +xwr /usr/local/bn/fdfind
-     eget sharkdp/bat --to ./batcat --asset ^gnu && sudo mv ./batcat /usr/local/bn/batcat && sudo chmod +xwr /usr/local/bn/batcat
+     eget sharkdp/fd --to ./fdfind --asset ^gnu && sudo mv ./fdfind /usr/local/bin/fdfind && sudo chmod +xwr /usr/local/bin/fdfind
+     eget sharkdp/bat --to ./batcat --asset ^gnu && sudo mv ./batcat /usr/local/bin/batcat && sudo chmod +xwr /usr/local/bin/batcat
    #Install fzf
      if [ ! -d "$HOME/.fzf" ]; then
        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
