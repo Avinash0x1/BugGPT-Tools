@@ -255,6 +255,11 @@
 
 ---
 > **References**
+> > - https://github.com/PradyumnaKrishna/Colab-Hacks
+> > - xrdp : https://github.com/RizzyFuzz/mystorage/tree/main 
+> > - https://github.com/akuhnet/w-colab
+> > - https://github.com/akuhnet/Colab-SSH
+> > - https://github.com/abhineetraj1/google-colab-RDP
 > > - https://orth.uk/tailscale-ssh/
 > > - https://orth.uk/ssh-over-cloudflare/
 > > - https://chriskirby.net/web-browser-ssh-terminal-to-homelab-with-cloudflare-zero-trust/
