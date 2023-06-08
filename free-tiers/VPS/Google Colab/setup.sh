@@ -74,8 +74,8 @@ install_docker()
 install_update_go()
 {
     echo -e "➼ ${GREEN}Installing${NC} || ${BLUE}Updating ${PURPLE}golang${NC}..."
-    udhos_golang=$(mktemp)
-    cd $udhos_golang && git clone https://github.com/udhos/update-golang  && cd $udhos_golang/update-golang && sudo ./update-golang.sh
+    cd $(mktemp -d) && git clone https://github.com/udhos/update-golang  && cd $udhos_golang/update-golang && sudo ./update-golang.sh
+    cd -
     source /etc/profile.d/golang_path.sh
     sudo su -c "source /etc/profile.d/golang_path.sh"
     sudo su -c "bash <(curl -sL https://git.io/go-installer)"
@@ -86,12 +86,12 @@ install_update_go()
         GO_VERSION=$(go version | awk '{print $3}')
         if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
            echo "➼ golang version 1.20.0 or greater is not installed. Installing..."
-           cd $udhos_golang && git clone https://github.com/udhos/update-golang  && cd $udhos_golang/update-golang && sudo ./update-golang.sh
+           cd $(mktemp -d) && git clone https://github.com/udhos/update-golang  && cd $udhos_golang/update-golang && sudo ./update-golang.sh
+           cd -
            source /etc/profile.d/golang_path.sh
            sudo su -c "bash <(curl -sL https://git.io/go-installer)"
         fi 
     fi
-    rm -rf "$udhos_golang" 2>/dev/null     
 }
 #-------------------------------------------------------------------------#
 #Go Binaries || Tools updater
