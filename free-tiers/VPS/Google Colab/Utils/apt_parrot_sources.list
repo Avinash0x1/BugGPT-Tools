@@ -1,4 +1,5 @@
-#Sources
+#Sources: /etc/apt/sources.list
+# curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Colab/Utils/apt_parrot_sources.list" | sudo tee -a /etc/apt/sources.list
 #Keys must be Imported:
 #Deps
 #sudo apt install gnupg -y
