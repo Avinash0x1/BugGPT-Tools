@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #tailscale
-if ! command -v tailscale &> /dev/null; then
-   echo -e "\n X Fatal: No TailScale Sessions Found\n"
-   echo -e "Did you run Step 2 : 'SSH' || 'Remote Access' ?\n"
-  exit 1
-fi  
+#This is now natively checked
+# if ! command -v tailscale &> /dev/null; then
+#    echo -e "\n X Fatal: No TailScale Sessions Found\n"
+#    echo -e "Did you run Step 2 : 'SSH' || 'Remote Access' ?\n"
+#   exit 1
+# fi  
 #Unattended
   export DEBIAN_FRONTEND=noninteractive
 #xfce4 DE
