@@ -7,12 +7,31 @@
 export DEBIAN_FRONTEND=noninteractive
 export origin=$(pwd)
 #-------------------------------------------------------------------------#
+#Fetch & Import Parrot Sources
+import_parrot_keys()
+{ 
+    clear && echo -e "➼${GREEN} Importing ${PURPLE}Parrot${NC} Keys${NC}\n"
+     #Download & Append
+     curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Colab/Utils/apt_parrot_sources.list" | sudo tee -a /etc/apt/sources.list
+     sudo DEBIAN_FRONTEND=noninteractive sudo apt update -y
+     # Extract PUBKEY values
+     pubkeys=$(sudo apt update 2>&1 | grep NO_PUBKEY | awk '{print $NF}')
+     for pubkey in $pubkeys
+     do
+        sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com "$pubkey"
+    done
+    #Clean & Update
+    sudo apt-get clean -y && sudo apt-get update
+}
+import_parrot_keys
+#-------------------------------------------------------------------------#
 #aptitude clean cache
 aptitude_clean()
 {    
      sudo DEBIAN_FRONTEND=noninteractive sudo apt-get update -y && sudo apt-get install aptitude -y
      sudo DEBIAN_FRONTEND=noninteractive sudo apt-get update -y
      sudo DEBIAN_FRONTEND=noninteractive sudo aptitude clean -y && sudo aptitude autoclean -y && clear
+     sudo DEBIAN_FRONTEND=noninteractive sudo apt autoremove -y
 }
 #-------------------------------------------------------------------------#
 #Core + misc apt Tools
@@ -20,7 +39,11 @@ core_deps()
 {
      sudo apt-get update && sudo apt-get install aptitude -y
      clear && echo -e "➼${GREEN} Initializing ${PURPLE}Core${NC} Dependencies${NC}\n"
-     sudo DEBIAN_FRONTEND=noninteractive sudo aptitude install apache2 apt-transport-https autoconf awscli build-essential bzip2 ca-certificates ccze chromium colordiff composer cron curl dconf-cli dialog dkms dnsutils dos2unix doxygen freeglut3-dev gawk gh git gnupg-agent gunicorn iputils-ping iputils-arping iputils-clockdiff iputils-tracepath inotify-tools java-common java-compiler java-runtime java-sdk joe jq libao-dev libbz2-dev libcurl4-openssl-dev libffi-dev libfontconfig1-dev libfreetype6-dev libglew-dev libglfw3-dev libglm-dev libglu1-mesa-dev libjpeg-dev liblzma-dev libmpg123-dev libncurses5-dev libncurses-dev libncursesw5-dev libopenjp2-7 libpcap-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libarchive-dev libtiff5 libturbojpeg0-dev libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev libxinerama-dev libxkbcommon-dev libxml2-dev libxmlsec1-dev llvm locate lzma make massdns mesa-common-dev mesa-utils moreutils nano net-tools nikto nim nmap nodejs npm openssh-client openssh-server payloadsallthethings perl php php-cli pkg-config pv postgresql-all psmisc python3-bz2file python3-openssl python3-venv readline-common realpath ruby seclists software-properties-common sqlite3 sqlmap ssh ssh-tools sudo tig tk tk-dev unzip uuid-runtime wfuzz wget whiptail xclip xsltproc xz-utils zip zlib1g-dev -y
+     #Using aptitude resolve some deps
+      sudo DEBIAN_FRONTEND=noninteractive sudo aptitude install default-jre-headless -y && sudo apt-get install node-cacache -y
+     #npm needs to be installed Interactively: sudo aptitude install npm
+    #Main 
+     sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install apache2 apt-transport-https autoconf awscli build-essential bzip2 ca-certificates ccze chromium-browser colordiff composer cron curl dconf-cli dialog dkms dnsutils dos2unix doxygen freeglut3-dev gawk git gnupg-agent gunicorn iputils-ping iputils-arping iputils-clockdiff iputils-tracepath inotify-tools java-common joe jq libao-dev libbz2-dev libcurl4-openssl-dev libffi-dev libfontconfig1-dev libfreetype6-dev libglew-dev libglfw3-dev libglm-dev libglu1-mesa-dev libjpeg-dev liblzma-dev libmpg123-dev libncurses5-dev libncurses-dev libncursesw5-dev libopenjp2-7 libpcap-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libarchive-dev libtiff5 libturbojpeg0-dev libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev libxinerama-dev libxkbcommon-dev libxml2-dev libxmlsec1-dev llvm locate lzma make massdns mesa-common-dev mesa-utils moreutils nano net-tools nikto nim nmap nodejs openssh-client openssh-server payloadsallthethings perl php php-cli pkg-config pv postgresql-all psmisc python3-bz2file python3-openssl python3-venv readline-common ruby seclists software-properties-common sqlite3 sqlmap ssh ssh-tools sudo tig tk tk-dev unzip uuid-runtime wfuzz wget whiptail xclip xsltproc xz-utils zip zlib1g-dev -y --ignore-missing
      echo -e "\n${PURPLE}Indexing Files${NC}....\n${BLUE}Be Patient${NC}"
      #Configure ssh
      #Already pre runs a tailscale instance for ssh
@@ -33,10 +56,10 @@ setup_zsh()
      sudo apt-get update && sudo apt-get install aptitude -y
      clear && echo -e "➼${GREEN} Installng  ${PURPLE}zsh${NC}\n"
    #zsh 
-     sudo DEBIAN_FRONTEND=noninteractive sudo aptitude install zsh zsh-syntax-highlighting zsh-autosuggestions -y
+     sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
    #fzf  
-     eget sharkdp/fd --to ./fdfind --asset ^gnu && sudo mv ./fdfind /usr/local/bin/fdfind && sudo chmod +xwr /usr/local/bin/fdfind
-     eget sharkdp/bat --to ./batcat --asset ^gnu && sudo mv ./batcat /usr/local/bin/batcat && sudo chmod +xwr /usr/local/bin/batcat
+     sudo eget sharkdp/fd --asset gnu --to /usr/local/bin/fdfind && sudo chmod +xwr /usr/local/bin/fdfind
+     eget sharkdp/bat --asset gnu --to /usr/local/bin/batcat && sudo chmod +xwr /usr/local/bin/batcat
    #Install fzf
      if [ ! -d "$HOME/.fzf" ]; then
        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
@@ -512,5 +535,6 @@ toolpack_misc
 ##End && Clean
 cd "$origin"
 aptitude_clean 
+sudo apt autoremove
 #-------------------------------------------------------------------------#
 #EOF
