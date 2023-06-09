@@ -1,14 +1,11 @@
-#Default Sources
-deb http://cdn-aws.deb.debian.org/debian bullseye main
-deb-src http://cdn-aws.deb.debian.org/debian bullseye main
-deb http://security.debian.org/debian-security bullseye-security main
-deb-src http://security.debian.org/debian-security bullseye-security main
-deb http://cdn-aws.deb.debian.org/debian bullseye-updates main
-deb-src http://cdn-aws.deb.debian.org/debian bullseye-updates main
-deb http://cdn-aws.deb.debian.org/debian bullseye-backports main
-deb-src http://cdn-aws.deb.debian.org/debian bullseye-backports main
-
-#Additional Sources
+#Sources
+#Keys must be Imported:
+#Deps
+#sudo apt install gnupg -y
+#Get Key
+#sudo apt update --allow-unauthenticated && sudo apt upgrade -y --allow-unauthenticated
+#Import Key
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $KEY
 deb [trusted=yes] https://deb.parrot.sh/parrot parrot main contrib non-free
 deb [trusted=yes] https://deb.parrot.sh/direct/parrot parrot-security main contrib non-free
 deb [trusted=yes] https://deb.parrot.sh/parrot parrot-backports main contrib non-free
