@@ -5,6 +5,7 @@
 #Pulling a Foreign Script and piping to bash, solves a lot of problems#
 #-------------------------------------------------------------------------#
 export DEBIAN_FRONTEND=noninteractive
+export X_USER="test" #DO NOT CHANGE, this is auto updated
 export origin=$(pwd)
 #-------------------------------------------------------------------------#
 #Fetch & Import Parrot Sources
@@ -43,7 +44,7 @@ core_deps()
       sudo DEBIAN_FRONTEND=noninteractive sudo aptitude install default-jre-headless -y && sudo apt-get install node-cacache -y
      #npm needs to be installed Interactively: sudo aptitude install npm
     #Main 
-     sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install apache2 apt-transport-https autoconf awscli build-essential bzip2 ca-certificates ccze chromium-browser colordiff composer cron curl dconf-cli dkms dnsutils dos2unix doxygen freeglut3-dev gawk git gnupg-agent gunicorn iputils-ping iputils-arping iputils-clockdiff iputils-tracepath inotify-tools java-common joe jq libao-dev libbz2-dev libcurl4-openssl-dev libffi-dev libfontconfig1-dev libfreetype6-dev libglew-dev libglfw3-dev libglm-dev libglu1-mesa-dev liblzma-dev libmpg123-dev libncurses5-dev libncurses-dev libncursesw5-dev libopenjp2-7 libpcap-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libarchive-dev libtiff5 libturbojpeg0-dev libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev libxinerama-dev libxkbcommon-dev libxml2-dev libxmlsec1-dev llvm locate lzma make massdns mesa-common-dev mesa-utils moreutils nano net-tools nikto nim nmap nodejs openssh-client openssh-server payloadsallthethings perl php php-cli pkg-config pv postgresql-all psmisc python3-bz2file python3-openssl python3-venv readline-common ruby software-properties-common sqlite3 sqlmap ssh ssh-tools sudo tig tk tk-dev unzip uuid-runtime wfuzz wget whiptail xclip xsltproc xz-utils zip zlib1g-dev -y --ignore-missing
+     sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install apache2 apt-transport-https autoconf awscli build-essential bzip2 ca-certificates ccze chromium-browser colordiff composer cron curl dconf-cli dkms dnsutils dos2unix doxygen freeglut3-dev gawk git gnupg-agent gunicorn htop iputils-ping iputils-arping iputils-clockdiff iputils-tracepath inotify-tools java-common joe jq libao-dev libbz2-dev libcurl4-openssl-dev libffi-dev libfontconfig1-dev libfreetype6-dev libglew-dev libglfw3-dev libglm-dev libglu1-mesa-dev liblzma-dev libmpg123-dev libncurses5-dev libncurses-dev libncursesw5-dev libopenjp2-7 libpcap-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libarchive-dev libtiff5 libturbojpeg0-dev libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev libxinerama-dev libxkbcommon-dev libxml2-dev libxmlsec1-dev llvm locate lzma make massdns mesa-common-dev mesa-utils moreutils nano net-tools nikto nim nmap nodejs openssh-client openssh-server payloadsallthethings perl php php-cli pkg-config pv postgresql-all psmisc python3-bz2file python3-openssl python3-venv readline-common ruby software-properties-common sqlite3 sqlmap ssh ssh-tools sudo tig tk tk-dev unzip uuid-runtime wfuzz wget whiptail xclip xsltproc xz-utils zip zlib1g-dev -y --ignore-missing
     #Fix Broken
     sudo dpkg --configure -a 
     sudo sudo apt --fix-broken install -y
@@ -77,6 +78,14 @@ setup_zsh()
     cd -
    # Install Starship
      curl -sS https://starship.rs/install.sh | sudo sh -s -- -y >/dev/null 2>&1
+   #Install tmux
+    sudo apt-get install tmux -y
+   #Install plugins
+   #Tmux Plugins
+    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+       mkdir -p "$HOME/.tmux"
+       git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >/dev/null 2>&1
+    fi
 }
 setup_zsh
 #-------------------------------------------------------------------------#
@@ -105,7 +114,7 @@ install_docker()
 install_update_go()
 {
     echo -e "➼ ${GREEN}Installing${NC} || ${BLUE}Updating ${PURPLE}golang${NC}..."
-    cd $(mktemp -d) && git clone https://github.com/udhos/update-golang  && cd $udhos_golang/update-golang && sudo ./update-golang.sh
+    cd $(mktemp -d) && git clone https://github.com/udhos/update-golang  && cd ./update-golang && sudo ./update-golang.sh
     cd -
     source /etc/profile.d/golang_path.sh
     sudo su -c "source /etc/profile.d/golang_path.sh"
@@ -117,7 +126,7 @@ install_update_go()
         GO_VERSION=$(go version | awk '{print $3}')
         if [[ "$(printf '%s\n' "1.20.0" "$(echo "$GO_VERSION" | sed 's/go//')" | sort -V | head -n1)" != "1.20.0" ]]; then
            echo "➼ golang version 1.20.0 or greater is not installed. Installing..."
-           cd $(mktemp -d) && git clone https://github.com/udhos/update-golang  && cd $udhos_golang/update-golang && sudo ./update-golang.sh
+           cd $(mktemp -d) && git clone https://github.com/udhos/update-golang  && cd ./update-golang && sudo ./update-golang.sh
            cd -
            source /etc/profile.d/golang_path.sh
            sudo su -c "bash <(curl -sL https://git.io/go-installer)"
