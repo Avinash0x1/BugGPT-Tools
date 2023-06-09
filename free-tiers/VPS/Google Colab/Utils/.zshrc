@@ -13,7 +13,7 @@ NC='\033[0m'
 
 #Env variables
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
-export GITHUB_REPO="Azathothas/GoogleColab" #Your Gcloud Repo
+export GITHUB_REPO="Azathothas/GoogleColab" #Your Gcolab Repo
 export GITDIR="$HOME/GoogleColab" # The main sync directory, usually, just $HOME/REPO, DO NOT INCLUDE USERNAME
 export SCRIPTS="$GITDIR/.scripts" # Misc Scripts, is backed up
 export Tools="$HOME/Tools" # Not backed up
