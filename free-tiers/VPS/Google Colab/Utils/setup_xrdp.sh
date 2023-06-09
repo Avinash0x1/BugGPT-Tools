@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#vars
+export origin=$(pwd)
 #tailscale
 #This is now natively checked
 # if ! command -v tailscale &> /dev/null; then
@@ -24,8 +26,12 @@ fi
   sudo debconf-set-selections <<< 'tzdata tzdata/Areas select Asia'
   sudo debconf-set-selections <<< 'tzdata tzdata/Zones/Asia select Kathmandu'
 #xfce4 DE
-  sudo DEBIAN_FRONTEND=noninteractive apt install --assume-yes xfce4 xfce4-terminal xrdp
+  sudo DEBIAN_FRONTEND=noninteractive apt install xfce4 xfce4-terminal xrdp --assume-yes
+#Some Misc Tools
+  sudo DEBIAN_FRONTEND=noninteractive apt install codium libu2f-udev mousepad --assume-yes
+  cd $(mktemp -d) && eget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo dpkg -i google-chrome-stable_current_amd64.deb
 #Session
   sudo sed -i.bak '/fi/a xfce4-session \n' /etc/xrdp/startwm.sh > /dev/null 2>&1
   sudo service xrdp start > /dev/null 2>&1
+cd "$origin"  
 #EOF
