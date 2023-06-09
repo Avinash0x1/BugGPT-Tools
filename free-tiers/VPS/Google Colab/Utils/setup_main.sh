@@ -7,6 +7,8 @@
 export DEBIAN_FRONTEND=noninteractive
 export X_USER="test" #DO NOT CHANGE, this is auto updated
 export origin=$(pwd)
+#Mk Dirs
+sudo -u "$X_USER" mkdir -p "$HOME"/{.config,Tools,tmp} >/dev/null 2>&1
 #-------------------------------------------------------------------------#
 #Fetch & Import Parrot Sources
 import_parrot_keys()
