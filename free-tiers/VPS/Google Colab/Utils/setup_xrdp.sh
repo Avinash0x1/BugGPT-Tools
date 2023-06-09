@@ -17,7 +17,7 @@ if ! dpkg -s debconf >/dev/null 2>&1; then
   sudo apt-get install --assume-yes debconf debconf-utils tzdata
 fi
 #KeyBoard Layout
-  sudo DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration --assume-yes
   sudo debconf-set-selections <<< 'keyboard-configuration keyboard-configuration/layout select us'
   sudo debconf-set-selections <<< 'keyboard-configuration keyboard-configuration/xkb-keymap select us'
   debconf-show keyboard-configuration
