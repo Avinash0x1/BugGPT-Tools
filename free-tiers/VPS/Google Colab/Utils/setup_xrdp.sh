@@ -8,6 +8,14 @@
 # fi  
 #Unattended
   export DEBIAN_FRONTEND=noninteractive
+# Check if debconf is installed
+if ! dpkg -s debconf >/dev/null 2>&1; then
+  echo "debconf is not installed. Installing debconf..."
+  sudo apt-get update
+  sudo apt-get install --assume-yes debconf
+fi  
+#KeyBoard Layout
+  sudo debconf-set-selections <<< 'keyboard-configuration keyboard-configuration/layout select us'
 #xfce4 DE
   sudo apt install --assume-yes xfce4 xfce4-terminal xrdp
 #Session
