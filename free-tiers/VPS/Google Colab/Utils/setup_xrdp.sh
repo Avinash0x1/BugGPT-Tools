@@ -12,12 +12,20 @@
 if ! dpkg -s debconf >/dev/null 2>&1; then
   echo "debconf is not installed. Installing debconf..."
   sudo apt-get update
-  sudo apt-get install --assume-yes debconf
+  sudo apt-get install --assume-yes debconf debconf-utils tzdata
+fi
 fi  
 #KeyBoard Layout
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration
   sudo debconf-set-selections <<< 'keyboard-configuration keyboard-configuration/layout select us'
+  sudo debconf-set-selections <<< 'keyboard-configuration keyboard-configuration/xkb-keymap select us'
+  debconf-show keyboard-configuration
+  sleep 5s
+#TimeZones
+  sudo debconf-set-selections <<< 'tzdata tzdata/Areas select Asia'
+  sudo debconf-set-selections <<< 'tzdata tzdata/Zones/Asia select Kathmandu'
 #xfce4 DE
-  sudo apt install --assume-yes xfce4 xfce4-terminal xrdp
+  sudo DEBIAN_FRONTEND=noninteractive apt install --assume-yes xfce4 xfce4-terminal xrdp
 #Session
   sudo sed -i.bak '/fi/a xfce4-session \n' /etc/xrdp/startwm.sh > /dev/null 2>&1
   sudo service xrdp start > /dev/null 2>&1
