@@ -33,5 +33,10 @@ fi
 #Session
   sudo sed -i.bak '/fi/a xfce4-session \n' /etc/xrdp/startwm.sh > /dev/null 2>&1
   sudo service xrdp start > /dev/null 2>&1
+#Cleanups
+sudo apt update --assume-yes
+sudo apt --fix-broken install
+sudo dpkg --configure -a
+sudo apt update --assume-yes
 cd "$origin"  
 #EOF
