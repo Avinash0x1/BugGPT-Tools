@@ -24,9 +24,6 @@ export WORDLIST="$HOME/.wordlists" # Also not backed up
 export SHELL=zsh #have to manually do this
 current_dir=$(pwd)
 
-#Mk Dirs
-mkdir -p "$HOME"/{.config,/bin,Tools,tmp} >/dev/null 2>&1
-
 #aliases
 alias bat='batcat'
 alias dir='dir --color=auto'
