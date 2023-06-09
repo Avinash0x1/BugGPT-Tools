@@ -5,6 +5,7 @@
 #sudo apt install gnupg -y
 #Get Key
 #sudo apt update --allow-unauthenticated && sudo apt upgrade -y --allow-unauthenticated
+#Abv will start to upgrade, better to use: sudo apt update --allow-unauthenticated
 #Import Key
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $KEY
 deb [trusted=yes] https://deb.parrot.sh/parrot parrot main contrib non-free
