@@ -12,6 +12,7 @@ RESET='\033[0m'
 NC='\033[0m'
 
 #Env variables
+export USER="test" #DO NOT CHANGE, this is auto updated
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleColab" #Your Gcolab Repo
 export GITDIR="$HOME/GoogleColab" # The main sync directory, usually, just $HOME/REPO, DO NOT INCLUDE USERNAME
@@ -22,6 +23,9 @@ export TOOLS="$HOME/Tools"
 export WORDLIST="$HOME/.wordlists" # Also not backed up
 export SHELL=zsh #have to manually do this
 current_dir=$(pwd)
+
+#Mk Dirs
+mkdir -p "$HOME"/{.config,/bin,Tools,tmp} >/dev/null 2>&1
 
 #aliases
 alias bat='batcat'
