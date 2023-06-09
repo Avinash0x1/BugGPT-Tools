@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+#--------------------------------------------------#
+###THIS IS EXAMPLE ONLY###
+###MAKE YOUR OWN CHANGES##
+#--------------------------------------------------#
+
 #Check if github is accessable: 
 if ! ping -c 2 github.com > /dev/null; then
   echo "Github.com is Inaccessible"
@@ -16,6 +21,7 @@ export current_dir=$(pwd) #DO NOT CHANGE THIS
 
 #Deps
 go install -v github.com/tomnomnom/anew@latest 2>/dev/null
+cp $(which anew) /usr/local/bin/anew 
 
 #Set Git configs
 cd "$GITDIR"
@@ -33,9 +39,15 @@ mkdir -p "$GITDIR/HOME/"
 cp -r "$HOME/.config" "$GITDIR/HOME/"
 #Copy & Merge DotFiles
 cat "$HOME/.bash_hsitory" | anew -q "$GITDIR/.bash_hsitory" && cat "$GITDIR/.bash_hsitory" | anew -q "$HOME/.bash_hsitory"
+sudo cat /root/.bash_hsitory | sudo tee -a "$GITDIR/.bash_hsitory"
 cat "$HOME/.zsh_hsitory"  | anew -q "$GITDIR/.zsh_hsitory" && cat "$GITDIR/.zsh_hsitory" | anew -q "$HOME/.zsh_hsitory"
+sudo cat /root/.bash_hsitory | anew -q "$HOME/.zsh_hsitory"
 #Current
 history | awk '{$1=""; print substr($0,2)}' | anew -q "$HOME/.shell_history" 
+cat "$HOME/.shell_history" | anew -q "$HOME/.bash_hsitory"
+cat "$HOME/.shell_history" | sudo tee -a "/root/.bash_hsitory"
+cat "$HOME/.shell_history" | anew -q "$HOME/.zsh_hsitory"
+cat "$HOME/.shell_history" | sudo tee -a -q "/root/.zsh_hsitory"
 #Check if any large files:
 find "$GITDIR" -type f -size +90M | sed 's|^./||' | anew -q "$GITDIR/.gitignore"
 #Push gitignore
