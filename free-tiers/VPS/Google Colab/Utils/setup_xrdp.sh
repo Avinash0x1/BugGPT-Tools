@@ -25,6 +25,8 @@ fi
 #TimeZones
   sudo debconf-set-selections <<< 'tzdata tzdata/Areas select Asia'
   sudo debconf-set-selections <<< 'tzdata tzdata/Zones/Asia select Kathmandu'
+  sudo ln -fs /usr/share/zoneinfo/Asia/Kathmandu /etc/localtime
+  sudo dpkg-reconfigure --frontend noninteractive tzdata
 #xfce4 DE
   sudo DEBIAN_FRONTEND=noninteractive apt install xfce4 xfce4-terminal xrdp --assume-yes
 #Some Misc Tools
