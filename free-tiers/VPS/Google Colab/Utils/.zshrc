@@ -12,7 +12,7 @@ RESET='\033[0m'
 NC='\033[0m'
 
 #Env variables
-export USER="test" #DO NOT CHANGE, this is auto updated
+export X_USER="test" #DO NOT CHANGE, this is auto updated
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
 export GITHUB_REPO="Azathothas/GoogleColab" #Your Gcolab Repo
 export GITDIR="$HOME/GoogleColab" # The main sync directory, usually, just $HOME/REPO, DO NOT INCLUDE USERNAME
