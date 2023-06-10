@@ -40,6 +40,10 @@
 > > >   Benchmarks         : See #Benchmarks Below
 > > > Cron                 : Yes # Limited to the 12Hr Window ofc
 > > > ```
+> > > - **GPU**
+> > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/feb06f9e-db8f-4b1b-8b78-6b7fab0af049)
+> > >
 > > > - **Storage**
 > > > 
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9f1b634f-47d3-413c-bbd6-9f22e0be97e9)
