@@ -48,53 +48,55 @@
 ![tailscale authenticate new page browser](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6df8d091-a7db-42ec-861b-cb50db0ae414)
 ![talscale sshed](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b91295d3-8be7-44bb-87eb-970288dbfc52)
 
-> > Use `Chromium Based Browser` [`NOT FireFox`]
-> 1. **Right Click** [`Open In NewTab`] --> <a href="https://colab.research.google.com/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Colab/VPS.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-> 2. `RUN` **Create User** (If prompted, `RUN ANYWAY`)
-> 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9d0247c1-a7ac-42d0-a49e-2f3f35b1f9a8)
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/26cd26e5-1388-4534-94dd-31d77248ac7d)
-> 
-> 3. `RUN` **RDP**
-> 
-> ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b9389adc-2aa7-43a8-9edd-14a54f4edecf)
-> > 1. Visit: https://remotedesktop.google.com/headless
-> > - `Begin` >> `Next` >> `Authorize`
-> > 2. **Copy** `Debian Linux`
-> > 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2cb4824b-493e-4c72-a0cf-dbd8204f9740)
-> > 
-> > 3. **Paste** & **`Enter`**
-> > 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/774d924f-7635-4964-8535-2add26cd07fa)
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b3826997-91f9-4cfb-9a1a-b45b3e99c741)
-> > 
-> > - **Wait for Installation**
-> > 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/fe338f84-878f-4db5-b29a-d40d6ce29ec0)
-> > 
-> 4. `RUN` **Keep Connected**
-> > This is a loop, so it will keep executing infinitely
-> > 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c9a9da72-a85c-436f-94d7-d16ee6742159)
-> 5. `VIEW` : https://remotedesktop.google.com/access
-> 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/750e60f8-c858-4136-928c-094fe924a150)
-> > 
-> > **`Enter PIN`**
-> > 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ead2da79-8faa-4122-bdb2-824679988aea)
-> > 
-> > ```bash
-> > !#Almost all commands have to be run as root: `sudo`
-> > !#Password is : `root`
-> > !!WARNING: Installing neofetch messes up colors
-> > !#Install archey instead: https://github.com/HorlogeSkynet/archey4
-> > sudo pip3 install archey4
-> > !#Note: NOT ALL Displayed Info is ACCURATE
-> > ```
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/76bf2222-d3db-4e96-a632-b8978d4bee4f)
->
+> > - #### **RDP**
+> > > - [**Chrome Remote Desktop**](https://remotedesktop.google.com)
+> > > > - Use `Chromium Based Browser` [`NOT FireFox`]
+> > > > 1. **Right Click** [`Open In NewTab`] --> <a href="https://colab.research.google.com/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Colab/VPS.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+> > > > 2. `RUN` **Create User** (If prompted, `RUN ANYWAY`)
+> > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9d0247c1-a7ac-42d0-a49e-2f3f35b1f9a8)
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/26cd26e5-1388-4534-94dd-31d77248ac7d)
+> > > > 
+> > > > 3. `RUN` **RDP**
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b9389adc-2aa7-43a8-9edd-14a54f4edecf)
+> > > > > 1. Visit: https://remotedesktop.google.com/headless
+> > > > > - `Begin` >> `Next` >> `Authorize`
+> > > > > 2. **Copy** `Debian Linux`
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2cb4824b-493e-4c72-a0cf-dbd8204f9740)
+> > > > > 
+> > > > > 3. **Paste** & **`Enter`**
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/774d924f-7635-4964-8535-2add26cd07fa)
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b3826997-91f9-4cfb-9a1a-b45b3e99c741)
+> > > > > 
+> > > > > - **Wait for Installation**
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/fe338f84-878f-4db5-b29a-d40d6ce29ec0)
+> > > > > 
+> > > > 4. `RUN` **Keep Connected**
+> > > > > This is a loop, so it will keep executing infinitely
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c9a9da72-a85c-436f-94d7-d16ee6742159)
+> > > > 5. `VIEW` : https://remotedesktop.google.com/access
+> > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/750e60f8-c858-4136-928c-094fe924a150)
+> > > > > 
+> > > > > **`Enter PIN`**
+> > > > > 
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ead2da79-8faa-4122-bdb2-824679988aea)
+> > > > > 
+> > > > > ```bash
+> > > > > !#Almost all commands have to be run as root: `sudo`
+> > > > > !#Password is : `root`
+> > > > > !!WARNING: Installing neofetch messes up colors
+> > > > > !#Install archey instead: https://github.com/HorlogeSkynet/archey4
+> > > > > sudo pip3 install archey4
+> > > > > !#Note: NOT ALL Displayed Info is ACCURATE
+> > > > > ```
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/76bf2222-d3db-4e96-a632-b8978d4bee4f)
+> > > >
 > 6. To **`Shutdown`**
 > 
 > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2316fc67-c17e-419f-8139-7e3785bcc41a)
