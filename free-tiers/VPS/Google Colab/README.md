@@ -29,6 +29,7 @@
 > > 
 > > > ```YAML
 > > > CPU                  : 2 Cores (Intel / AMD) ~ 2 GHZ
+> > > GPU                  : Tesla T4 tGPU ~ 16 GB # Not Always Available: https://www.kaggle.com/general/251969
 > > > RAM                  : 12 GB
 > > > Init                 : docker-init # NOT Privileged (ps -p 1 -o comm=)
 > > > Storage (Temp)       : ~ 150 GB # Everything is purged & deleted 
