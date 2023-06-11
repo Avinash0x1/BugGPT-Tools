@@ -2,7 +2,7 @@
 #Get the current hostname
   unset hostname
   hostname=$(cat /etc/hostname) && export hostname="$hostname"
-  new_hostname="Changethis" #ChangeThis
+  new_hostname="$1" #ChangeThis or supply via stdin
 #/etc/hostname  
   sudo cp /etc/hostname /tmp/hostname.tmp
   sudo sed -i "s/$hostname/$new_hostname/g" /tmp/hostname.tmp
