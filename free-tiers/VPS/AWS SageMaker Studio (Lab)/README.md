@@ -2,7 +2,7 @@
 > - [**BenchMarks**]()
 > - [**About**]()
 > - [**Setup**]()
-> - [**Configuraton**]()
+> - [**Configuration**]()
 > - [**SSH**]()
 > - [**RDP**]()
 ---
