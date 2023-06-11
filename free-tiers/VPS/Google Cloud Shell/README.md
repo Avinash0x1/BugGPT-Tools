@@ -1,7 +1,7 @@
 - #### [**Cloud Shell**](https://cloud.google.com/shell)
 > - [**BenchMarks**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#benchmarks)
 > - [**About**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#about-intro--setup)
-> - [**Setup** || **Configuraton**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#configuration)
+> - [**Setup** || **Configuration**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#configuration)
 > - [**SSH**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#ssh)
 > - [**Remote Desktop**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Cloud%20Shell#remote-desktop)
 ---
