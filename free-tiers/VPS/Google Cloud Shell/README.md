@@ -7,7 +7,7 @@
 ---
 > - #### About: [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**Intro** & **Setup**](https://www.youtube.com/watch?v=RdDyF3jVbbE)
 > [![Google Cloud Shell Tutorial for Beginners](https://img.youtube.com/vi/RdDyF3jVbbE/maxresdefault.jpg)](https://www.youtube.com/watch?v=RdDyF3jVbbE)
-> > ➼ **Limits**
+> > ➼ [**Limits**](https://cloud.google.com/shell/docs/quotas-limits)
 > > ```yaml
 > > Quota                           : 50 Hr / Week [~ 7 Hrs / Day]
 > > Interactive Session Limit       : 12 Hr [Auto Terminates and Loses Persistance] # Interactive = You continously use the Shell Environment
