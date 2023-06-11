@@ -293,6 +293,11 @@
 > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/17d47db2-2c38-4f8e-b1de-09087629e43b)
 ---
 > > - #### **Benchmarks**
+> > 
+
+https://github.com/Azathothas/BugGPT-Tools/assets/58171889/1885fc60-980a-48fc-8b2c-54466e62320e
+
+
 ---
 > - **References**
 > > - https://github.com/FrancescoDiSalesGithub/Google-cloud-shell-hacking
