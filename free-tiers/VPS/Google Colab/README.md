@@ -23,13 +23,14 @@
 > > Non Interactive Session Limit   : 20Mins ~ 1 Hr [Auto Terminates and Loses Persistance] # Non Interactive = You do nothing & Shell Environment is Idle
 > > ```
 > > ➼ **Specs**
-> > 1. **No `Credit Card`** || **No `Free Trial`** 
+> > 1. [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**No `Credit Card`** || **No `Free Trial`**](https://www.youtube.com/watch?v=g0xu9DA4gDw)
+> > [![Limits & Comparision](https://img.youtube.com/vi/em9vpO-YS3Y/maxresdefault.jpg)](https://www.youtube.com/watch?v=em9vpO-YS3Y)
 > > 
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c99801e7-0db0-4936-8852-6bdcc545b6e9)
 > > 
 > > > ```YAML
 > > > CPU                  : 2 Cores (Intel / AMD) ~ 2 GHZ
-> > > GPU                  : Tesla T4 (If Lucky) /K80 (If Unlucky) tGPU ~ 16 GB # Not Always Available (If Really unlucky): https://www.kaggle.com/general/251969
+> > > GPU                  : Tesla T4 (~ 16 GB | If Lucky) /K80 (~ 12 GB If Unlucky) | tGPU  # Not Always Available (If Really unlucky): https://www.kaggle.com/general/251969
 > > > RAM                  : 12 GB
 > > > Init                 : docker-init # NOT Privileged (ps -p 1 -o comm=)
 > > > Storage (Temp)       : ~ 150 GB # Everything is purged & deleted 
