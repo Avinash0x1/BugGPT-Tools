@@ -19,7 +19,7 @@ NC='\033[0m'
 { 
     clear && echo -e "➼${GREEN} Importing ${PURPLE}Parrot${NC} Keys${NC}\n"
      #Download & Append
-     curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/parrot_sources.list" | sudo tee -a /etc/apt/sources.list
+     curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_parrot_sources.list" | sudo tee -a /etc/apt/sources.list
      sudo DEBIAN_FRONTEND=noninteractive sudo apt update -y
      # Extract PUBKEY values
      pubkeys=$(sudo apt update 2>&1 | grep NO_PUBKEY | awk '{print $NF}')
