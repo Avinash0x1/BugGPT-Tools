@@ -1,0 +1,49 @@
+- #### [SageMaker Studio Lab <sub><img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/0eacb57a-972e-41fd-ae58-e0bccb8c42e9"  width="30" height="30"> </sub>](https://studiolab.sagemaker.aws)
+> - [**BenchMarks**]()
+> - [**About**]()
+> - [**Setup**]()
+> - [**Configuraton**]()
+> - [**SSH**]()
+> - [**RDP**]()
+---
+
+> - #### About: [<img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/7737d632-1cf6-46a0-8b3a-644482b9022d" width="30" height="30">**Intro** & **Setup**](https://www.youtube.com/watch?v=g0xu9DA4gDw)
+> [![Google Colab Tutorial for Beginners](https://img.youtube.com/vi/SP-WBt2b54o/maxresdefault.jpg)](https://www.youtube.com/watch?v=SP-WBt2b54o)
+> 
+> > ➼ [**Limits**](https://studiolab.sagemaker.aws/faqhttps://studiolab.sagemaker.aws/faq)
+> >
+> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/183cbae2-4388-4b76-96ad-0db9d7692cba)
+> > 
+> > ```yaml
+> > Quota                           : Unlimited # You can just reset & run again 
+> > Interactive Session Limit       : 12 Hr [Auto Terminates and Loses Persistance] # Interactive = You continously use the Shell Environment
+> > Non Interactive Session Limit   : 20Mins ~ 1 Hr [Auto Terminates and Loses Persistance] # Non Interactive = You do nothing & Shell Environment is Idle
+> > ```
+> > ➼ **Specs**
+> > 1. **No `Credit Card`** || **No `Free Trial`**
+> > 
+> > > ```YAML
+> > > CPU                  : 2 Cores (Intel / AMD) ~ 2 GHZ
+> > > GPU                  : Tesla T4 (~ 16 GB | If Lucky) /K80 (~ 12 GB If Unlucky) | tGPU  # Not Always Available (If Really unlucky): https://www.kaggle.com/general/251969
+> > > RAM                  : 12 GB
+> > > Init                 : docker-init # NOT Privileged (ps -p 1 -o comm=)
+> > > Storage (Temp)       : ~ 150 GB # Everything is purged & deleted 
+> > >   Usable             : ~ 80-90 GB # Allocated through different Partitions
+> > > Networking           : Limited
+> > >   IPv4               : Yes
+> > >   IPv6               : No
+> > >   Benchmarks         : See #Benchmarks Below
+> > > Cron                 : Yes # Limited to the 12Hr Window ofc
+> > > ```
+> > > - **GPU**
+> > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/feb06f9e-db8f-4b1b-8b78-6b7fab0af049)
+> > >
+> > > - **Storage**
+> > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9f1b634f-47d3-413c-bbd6-9f22e0be97e9)
+> > > 
+----
+> - #### Setup:
+> > 1. **Request an Account** & **Join `Waitlist`** : https://studiolab.sagemaker.aws/requestAccount
+> > > - **AWS will Verify** & **Approve the request within** **`~ 7 Days`**
