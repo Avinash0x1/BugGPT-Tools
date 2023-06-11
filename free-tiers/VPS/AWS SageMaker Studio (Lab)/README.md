@@ -47,3 +47,11 @@
 > - #### Setup:
 > > 1. **Request an Account** & **Join `Waitlist`** : https://studiolab.sagemaker.aws/requestAccount
 > > > - **AWS will Verify** & **Approve the request within** **`~ 7 Days`**
+
+
+
+
+
+- [![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/roboflow-ai/notebooks/blob/main/notebooks/train-yolov8-object-detection-on-custom-dataset.ipynb) 
+
+- [![SageMaker](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/056e22a6-a19a-4850-b5e6-c94c52472fac)](https://studiolab.sagemaker.aws/import/github/roboflow-ai/notebooks/blob/main/notebooks/train-yolov8-object-detection-on-custom-dataset.ipynb)
