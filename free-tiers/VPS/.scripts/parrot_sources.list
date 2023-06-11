@@ -1,1 +1,38 @@
-
+#-------------------------------------------------------------------------#
+#-------------------------------------------------------------------------#
+#Parrot Security OS#
+#------------------#
+#Fetch & Import Parrot Sources
+#Keys must be Imported:
+#Deps
+#sudo apt install gnupg -y
+#Get Key
+#sudo apt update --allow-unauthenticated && sudo apt upgrade -y --allow-unauthenticated
+#Abv will start to upgrade, better to use: sudo apt update --allow-unauthenticated
+#Or Use below Script:
+#import_parrot_keys()
+#{ 
+#    clear && echo -e "➼${GREEN} Importing ${PURPLE}Parrot${NC} Keys${NC}\n"
+#     #Download & Append
+#     curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Colab/Utils/apt_parrot_sources.list" | sudo tee -a /etc/apt/sources.list
+#     sudo DEBIAN_FRONTEND=noninteractive sudo apt update
+#     # Extract PUBKEY values
+#     pubkeys=$(sudo apt update 2>&1 | grep NO_PUBKEY | awk '{print $NF}')
+#     for pubkey in $pubkeys
+#     do
+#        sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com "$pubkey"
+#    done
+#    #Clean & Update
+#    
+#}
+#import_parrot_keys
+#Sources: /etc/apt/sources.list
+#-------------------------------------------------------------------------#
+#Sources
+#-------#
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $KEY
+deb [trusted=yes] https://deb.parrot.sh/parrot parrot main contrib non-free
+deb [trusted=yes] https://deb.parrot.sh/direct/parrot parrot-security main contrib non-free
+deb [trusted=yes] https://deb.parrot.sh/parrot parrot-backports main contrib non-free
+#-------------------------------------------------------------------------#
+#-------------------------------------------------------------------------#
