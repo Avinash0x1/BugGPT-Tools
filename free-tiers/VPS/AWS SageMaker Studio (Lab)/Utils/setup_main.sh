@@ -47,7 +47,7 @@ export PATH=$HOME/bin:$PATH
 #Addons & Essentials:
 #---------# 
 #From main conda forges
-conda install -c conda-forge autoconf broot bzip2 ca-certificates cmake coreutils curl dnspython dos2unix doxygen dbus fontconfig fzf git gnupg htop inotify-tools jq libcurl libsqlite libcap xorg-libx11 llvm11 make nim ncurses nodejs openssh openssl perl php pipx pkg-config pnpm powerline-status psycopg2 psycopg2-binary pyqt pyqt5-sip readline sshtunnel sshpubkeys sqlite sshfs starship tk tmux wget whitenoise zlib zsh -y
+conda install -c conda-forge autoconf broot bzip2 ca-certificates cmake coreutils curl dnspython dos2unix doxygen dbus fontconfig fzf git gnupg htop inotify-tools jq libcurl libsqlite libcap xorg-libx11 llvm11 make nim ncurses nodejs openssh openssl perl php pipx pkg-config pnpm powerline-status psycopg2 psycopg2-binary pyqt pyqt5-sip readline sshtunnel sshpubkeys sqlite sshfs starship tk tmux wget whitenoise zlib zsh --all -y
 #From alt conda forges
 conda install -c dnachun neofetch  -y
 #fzf deps
