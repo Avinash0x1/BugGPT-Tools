@@ -146,4 +146,8 @@ pip3 install "git+https://github.com/elceef/subzuf.git"
 #----------------------------------------------------------------------#
 cd "$origin"
 #----------------------------------------------------------------------#
+#Source ~/.zshrc
+echo "$(which zsh)" | anew -q "$HOME/.bashrc"
+echo "$(which zsh)" | anew -q "$HOME/.profile"
+source "$HOME/.bashrc"
 #EOF
