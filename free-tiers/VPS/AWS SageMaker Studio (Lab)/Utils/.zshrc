@@ -14,7 +14,6 @@ NC='\033[0m'
 #PATHS
 export PATH=$HOME/.conda/envs/studiolab/bin:$HOME/.local/bin:/opt/conda/condabin:/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.cargo/bin:$HOME/go:$HOME/go/bin:$HOME/.go:$HOME/.go/bin:$HOME/bin/:$PATH
 
-
 #Env variables
 export GITHUB_USER="Azathothas" #Github Username, this is CaseSensitive
 export GITHUB_REPO="Azathothas/Sagemaker" #Your Sagemaker Repo
