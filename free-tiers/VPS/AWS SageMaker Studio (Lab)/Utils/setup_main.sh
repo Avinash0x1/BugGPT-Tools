@@ -31,6 +31,7 @@ export origin=$(pwd)
 mkdir -p "$HOME"/{bin,.fonts,.local/bin,.local/share,Tools,tmp} >/dev/null 2>&1
 #Install golang
 bash <(curl -sL https://git.io/go-installer)
+rm $HOME/go*.gz 
 export PATH=$HOME/go/bin:$PATH  
 # source /home/studio-lab-user/.zshrc
 #Install rust
@@ -77,14 +78,14 @@ mkdir "$HOME/.fonts"
 #         /usr/local/share/fonts # No Perm
 #         /usr/share/fonts # No Perm
 #         /home/studio-lab-user/.fonts
-cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && unzip FiraCode.zip -d "$HOME/.fonts" && fc-cache -f -v && cd - && clear 
+cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && unzip -o FiraCode.zip -d "$HOME/.fonts" && fc-cache -f -v && cd - && clear 
 #----------------------------------------------------------------------#
 
 #----------------------------------------------------------------------#
 #Extras:
 #------#
 #eget
- eget epi052/feroxbuster --to "$HOME/.cargo/bin/feroxbuster" && chmod +x "$HOME/.cargo/bin/feroxbuster"
+ eget epi052/feroxbuster --asset 64-linux-feroxbuster.zip --to "$HOME/.cargo/bin/feroxbuster" && chmod +x "$HOME/.cargo/bin/feroxbuster"
 #gping: https://github.com/orf/gping
  eget orf/gping --asset Linux --asset 64 --to "$HOME/.cargo/bin/gping" && chmod +x "$HOME/.cargo/bin/gping"
 #HaylXon
