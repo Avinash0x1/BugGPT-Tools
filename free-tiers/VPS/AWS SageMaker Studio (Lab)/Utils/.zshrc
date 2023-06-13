@@ -71,8 +71,12 @@ export FZF_CTRL_T_OPTS="--preview 'batcat --color=always --line-range :50 {}'"
 export FZF_ALT_C_COMMAND='fdfind --type d . --hidden --exclude .git'
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
 
-#zsh-interactive-cd [fzf + cd]
-#source $HOME/.oh-my-zsh/plugins/zsh-interactive-cd
+#Tere Config : https://github.com/mgunyho/tere
+tere() {
+    local result=$(command tere "$@")
+    [ -n "$result" ] && cd -- "$result"
+}
+
 #zsh config
 source $HOME/.local/share/zsh-autosuggestions.zsh
 source $HOME/.local/share/zsh-autocomplete.plugin.zsh
