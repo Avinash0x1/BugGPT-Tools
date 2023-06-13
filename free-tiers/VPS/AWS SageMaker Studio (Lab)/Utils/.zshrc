@@ -46,16 +46,17 @@ alias vdir='vdir --color=auto'
 #Donwload Binaries from Github Releases
 eget_dl()
 {
-   REPO=$(echo $1 | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||') && export "REPO=$REPO"
-   BIN=$(echo $1 | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||' | awk -F '/' '{print $2}') && export BIN="$BIN"
+   REPO=$(echo "$1" | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||') && export "REPO=$REPO"
+   BIN=$(echo "$1" | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||' | awk -F '/' '{print $2}') && export "BIN=$BIN"
 
-   #Option Args
-      case "$2" in
+   # Option Args
+   case "$2" in
       -b | -bin | --bin)
          eget "$REPO/$BIN" --to "$HOME/bin/$BIN" && sudo chmod +xwr "$HOME/bin/$BIN"
          ;;
       -c | -cargo | --cargo)
          eget "$REPO/$BIN" --to "$HOME/.cargo/bin/$BIN" && sudo chmod +xwr "$HOME/.cargo/bin/$BIN"
+         ;;
       -g | -go | --go)
          eget "$REPO/$BIN" --to "$HOME/gopath/bin/$BIN" && sudo chmod +xwr "$HOME/gopath/bin/$BIN"
          ;;
