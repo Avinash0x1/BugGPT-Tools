@@ -38,6 +38,8 @@ conda install -c conda-forge rust -y
 go install github.com/zyedidia/eget@latest
 # curl -qfsSL "https://zyedidia.github.io/eget.sh" | bash && mv ./eget /home/studio-lab-user/go/bin/eget
 #Binaries
+#GNU bc (Basic Calculator)
+curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.binaries/bc_x86_64_ELF_LSB_Linux" -o "$HOME/bin/bc" && chmod +x "$HOME/bin/bc"
 export PATH=$HOME/bin:$PATH  
 #----------------------------------------------------------------------#
 
@@ -67,6 +69,7 @@ conda install -c conda-forge git --all -y
 conda install -c conda-forge gnupg --all -y
 conda install -c conda-forge htop --all -y
 conda install -c conda-forge inotify-tools --all -y
+conda install -c conda-forge iperf --all -y
 conda install -c conda-forge jq --all -y
 conda install -c conda-forge ld_impl_linux-64 --all -y
 conda install -c conda-forge libcurl --all -y
@@ -153,10 +156,14 @@ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/downloa
  eget pwnwriter/haylxon --to "$HOME/.cargo/bin/hxn" && chmod +x "$HOME/.cargo/bin/hxn"
 #jless
  eget PaulJuliusMartinez/jless --to "$HOME/bin/jless" && chmod +x "$HOME/bin/jless"
+#pping [Another Alt : https://github.com/r12f/rnp (rustlang)]
+ eget wzv5/pping "$HOME/bin/pping" && chmod +x "$HOME/bin/pping"
 #Speedtest-go
  eget showwin/speedtest-go --to "$HOME/bin/speedtest-go" && chmod +x "$HOME/bin/speedtest-go"
 #tere (Terminal Dir Navigator)
  eget mgunyho/tere --asset gnu --to "$HOME/.cargo/bin/tere" && chmod +x "$HOME/.cargo/bin/tere"
+#xh
+ eget ducaale/xh --to "$HOME/.cargo/bin/xh" && chmod +x "$HOME/.cargo/bin/xh"
 #x8
  eget Sh1Yo/x8 --to "$HOME/.cargo/bin/x8" && chmod +x "$HOME/.cargo/bin/x8"
 #YQ
@@ -170,7 +177,8 @@ go install -v github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest 2>/dev/
 go install -v github.com/schollz/croc/v9@latest 2>/dev/null
 go install -v github.com/cemulus/crt@latest 2>/dev/null
 go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest 2>/dev/null
-go install github.com/ffuf/ffuf/v2@latest 2>/dev/null
+go install -v github.com/ffuf/ffuf/v2@latest 2>/dev/null
+go install -v github.com/antonmedv/fx@latest 2>/dev/null
 go install github.com/Josue87/gotator@latest 2>/dev/null
 go install github.com/nao1215/gup@latest 2>/dev/null
 go install -v github.com/hakluke/hakrevdns@latest 2>/dev/null
@@ -192,7 +200,8 @@ go install -v github.com/d3mondev/puredns/v2@latest 2>/dev/null
 go install -v github.com/dhn/spk@latest 2>/dev/null
 go install -v github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest 2>/dev/null
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest 2>/dev/null
-go install github.com/projectdiscovery/tlsx/cmd/tlsx@latest 2>/dev/null
+go install -v github.com/pouriyajamshidi/tcping@latest 2>/dev/null
+go install -v github.com/projectdiscovery/tlsx/cmd/tlsx@latest 2>/dev/null
 go install -v github.com/tomnomnom/hacks/tok@master 2>/dev/null
 go install -v github.com/tomnomnom/unfurl@latest 2>/dev/null
 go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest 2>/dev/null
