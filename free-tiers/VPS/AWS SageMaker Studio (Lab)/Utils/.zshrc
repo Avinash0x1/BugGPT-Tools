@@ -28,6 +28,7 @@ current_dir=$(pwd)
 
 #aliases
 alias bat='batcat'
+alias benchmark='curl -qfsSL yabs.sh | bash'
 alias dir='dir --color=auto'
 alias esort='for file in ./* ; do sort -u "$file" -o "$file"; done'
 alias egrep='egrep --color=auto'
@@ -35,6 +36,7 @@ alias fdfind='fd'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 alias ls='ls -lh --color=auto'
+alias ping='tcping -r 3 -4 $1 $2 $3 $4 2>/dev/null'
 alias scb='xclip -selection c'
 alias tree='br -sdp'
 alias vdir='vdir --color=auto'
