@@ -26,7 +26,7 @@ export origin=$(pwd)
 #Primaries:
 #---------#
 #Setup base
-mkdir -p "$HOME"/{bin,.fonts,.local/bin,.local/share,Tools,tmp} >/dev/null 2>&1
+mkdir -p "$HOME"/{bin,.fonts,.local/bin,.local/share,Tools,tmp,.zsh} >/dev/null 2>&1
 #Install golang
 bash <(curl -sL https://git.io/go-installer)
 rm $HOME/go*.gz 
@@ -129,10 +129,11 @@ conda install -c conda-forge zsh --all -y
 curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/Utils/.zshrc" -o "$HOME/.zshrc"
 dos2unix --quiet "$HOME/.zshrc" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
 #Plugins
-mkdir "$HOME/.local/share"
-wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/zsh-autocomplete.plugin.zsh" -O "$HOME/.local/share/zsh-autocomplete.plugin.zsh"
-wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/zsh-autosuggestions.zsh" -O "$HOME/.local/share/zsh-autosuggestions.zsh"
-wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/zsh-syntax-highlighting.zsh" -O "$HOME/.local/share/zsh-syntax-highlighting.zsh"
+mkdir -p "$HOME/.zsh" && cd "$HOME/.zsh"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git >/dev/null 2>&1
+git clone https://github.com/zsh-users/zsh-autosuggestions.git >/dev/null 2>&1
+git clone https://github.com/marlonrichert/zsh-autocomplete.git >/dev/null 2>&1
+cd ~
 #Starship deps
 mkdir "$HOME/.fonts"
 conda install -c conda-forge starship --all -y
@@ -203,10 +204,12 @@ go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest 2>/d
 go install -v github.com/pouriyajamshidi/tcping@latest 2>/dev/null
 go install -v github.com/projectdiscovery/tlsx/cmd/tlsx@latest 2>/dev/null
 go install -v github.com/tomnomnom/hacks/tok@master 2>/dev/null
+go install -v github.com/netrixone/udig/cmd/udig@master 2>/dev/null
 go install -v github.com/tomnomnom/unfurl@latest 2>/dev/null
 go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest 2>/dev/null
 go install -v github.com/projectdiscovery/wappalyzergo/cmd/update-fingerprints@latest 2>/dev/null
 go install -v github.com/wdahlenburg/VhostFinder@latest 2>/dev/null
+go install -v github.com/harakeishi/whris@latest
 go install github.com/sibprogrammer/xq@latest
 #pip3
 pip3 install ansi2html 2>/dev/null
