@@ -45,6 +45,8 @@ export PATH=$HOME/bin:$PATH
 #Addons & Essentials:
 #---------# 
 #From main conda forges
+#Update base
+conda update -n base conda -y
 # DO NOT USE One-Liner (pkgs are skipped for UNKNOWN Reason)
 conda install -c conda-forge --all -y
 conda install -c conda-forge aria2 --all -y
