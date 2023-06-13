@@ -58,5 +58,11 @@
 
 ---
 > - **References**
+> > - Main Update & Issue Page : https://github.com/aws/studio-lab-examples/issues
+> > - Intro & Setup : https://www.missioncloud.com/blog/amazon-sagemaker-studio-tutorial
+> > -               : https://thenewstack.io/amazon-sagemaker-studio-lab-from-the-eyes-of-an-mlops-engineer/
+> > - Architecture & Infra : https://dataintegration.info/dive-deep-into-amazon-sagemaker-studio-notebooks-architecture
+> > - https://thenewstack.io/amazon-sagemaker-studio-lab-from-the-eyes-of-an-mlops-engineer/
 > > - https://www.reddit.com/r/aws/comments/10vpgwf/sagemaker_studio_system_terminal_resource_cost/
-> > - 
+> > - No root access 2023/02/04: https://github.com/aws/studio-lab-examples/issues/198#issuecomment-1416420060
+> > - VPC workaround for SSH : https://github.com/ruslanmv/How-to-connect-via-ssh-to-SageMaker
