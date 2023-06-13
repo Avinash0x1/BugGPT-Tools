@@ -28,7 +28,8 @@ current_dir=$(pwd)
 
 #aliases
 alias bat='batcat'
-alias benchmark='curl -qfsSL yabs.sh | bash'
+alias benchmarkQ='curl -qfsSL bench.sh | bash'
+alias benchmarkX='curl -qfsSL yabs.sh | bash'
 alias dir='dir --color=auto'
 alias esort='for file in ./* ; do sort -u "$file" -o "$file"; done'
 alias egrep='egrep --color=auto'
