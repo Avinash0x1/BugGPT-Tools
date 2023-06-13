@@ -96,6 +96,7 @@ eval "$(starship init zsh)"
 starship preset pure-preset -o ~/.config/starship.toml
 cd $current_dir && clear
 # Source Tmux: 
-tmux source-file "$HOME/.tmux.conf"
+tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
+clear
 ###
 #EOF
