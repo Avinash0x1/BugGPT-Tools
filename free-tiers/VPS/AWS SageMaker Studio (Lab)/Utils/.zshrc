@@ -43,22 +43,24 @@ alias tree='br -sdp'
 alias vdir='vdir --color=auto'
 
 #functions
-#Donwload binaries from Github Releases
+#Donwload Binaries from Github Releases
 eget_dl()
 {
-   REPO=$(echo $1 | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||')
-   BIN=$(echo $1 | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||' | awk -F '/' '{print $2}')
+   REPO=$(echo $1 | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||') && export "REPO=$REPO"
+   BIN=$(echo $1 | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||' | awk -F '/' '{print $2}') && export BIN="$BIN"
 
    #Option Args
       case "$2" in
-      -g | -go | --go)
-         sudo "$HOME/gopath/bin/eget" "$REPO/$BIN" --to "$HOME/gopath/bin/$BIN" && sudo chmod +xwr "$HOME/gopath/bin/$BIN"
-         ;;
       -b | -bin | --bin)
-         sudo "$HOME/gopath/bin/eget" "$REPO/$BIN" --to "/usr/local/bin/$BIN" && sudo chmod +xwr "/usr/local/bin/$BIN"
+         eget "$REPO/$BIN" --to "$HOME/bin/$BIN" && sudo chmod +xwr "$HOME/bin/$BIN"
+         ;;
+      -c | -cargo | --cargo)
+         eget "$REPO/$BIN" --to "$HOME/.cargo/bin/$BIN" && sudo chmod +xwr "$HOME/.cargo/bin/$BIN"
+      -g | -go | --go)
+         eget "$REPO/$BIN" --to "$HOME/gopath/bin/$BIN" && sudo chmod +xwr "$HOME/gopath/bin/$BIN"
          ;;
       *)
-         echo "Invalid option. Usage: eget_dl <repository-url> <-g/--go|-b/--bin>"
+         echo -e "Invalid option. \nUsage: eget_dl <repository-url> -b/--bin (Save --> ~/bin/*) [Linux/Any] \n -c/--cargo (Save --> ~/.cargo/bin/*) [Rust] \n -g/--go (Save --> ~/go/bin/*) [Golang]"
          ;;
    esac
 }
