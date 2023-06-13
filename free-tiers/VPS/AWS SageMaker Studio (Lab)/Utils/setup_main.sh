@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #----------------------------------------------------------------------#
 # | apt | root | su --> Disabled
 # pkgs are installed via conda | pip | eget
@@ -47,7 +45,60 @@ export PATH=$HOME/bin:$PATH
 #Addons & Essentials:
 #---------# 
 #From main conda forges
-conda install -c conda-forge autoconf broot bzip2 ca-certificates cmake coreutils curl dnspython dos2unix doxygen dbus fontconfig fzf git gnupg htop inotify-tools jq libcurl libsqlite libcap xorg-libx11 llvm11 make nim ncurses nodejs openssh openssl perl php pipx pkg-config pnpm powerline-status psycopg2 psycopg2-binary pyqt pyqt5-sip readline sshtunnel sshpubkeys sqlite sshfs starship tk tmux wget whitenoise zlib zsh --all -y
+# DO NOT USE One-Liner (pkgs are skipped for UNKNOWN Reason)
+conda install -c conda-forge --all -y
+conda install -c conda-forge aria2 --all -y
+conda install -c conda-forge autoconf --all -y
+conda install -c conda-forge broot --all -y
+conda install -c conda-forge bzip2 --all -y
+conda install -c conda-forge ca-certificates --all -y
+conda install -c conda-forge cmake --all -y
+conda install -c conda-forge coreutils --all -y
+conda install -c conda-forge curl --all -y
+conda install -c conda-forge dnspython --all -y
+conda install -c conda-forge dos2unix --all -y
+conda install -c conda-forge doxygen --all -y
+conda install -c conda-forge dbus --all -y
+conda install -c conda-forge fontconfig --all -y
+conda install -c conda-forge fzf --all -y
+conda install -c conda-forge git --all -y
+conda install -c conda-forge gnupg --all -y
+conda install -c conda-forge htop --all -y
+conda install -c conda-forge inotify-tools --all -y
+conda install -c conda-forge jq --all -y
+conda install -c conda-forge libcurl --all -y
+conda install -c conda-forge libsqlite --all -y
+conda install -c conda-forge libcap --all -y
+conda install -c conda-forge xorg-libx11 --all -y
+conda install -c conda-forge llvm11 --all -y
+conda install -c conda-forge make --all -y
+conda install -c conda-forge nim --all -y
+conda install -c conda-forge ncurses --all -y
+conda install -c conda-forge nodejs --all -y
+conda install -c conda-forge openssh --all -y
+conda install -c conda-forge openssl --all -y
+conda install -c conda-forge perl --all -y
+conda install -c conda-forge php --all -y
+conda install -c conda-forge pipx --all -y
+conda install -c conda-forge pkg-config --all -y
+conda install -c conda-forge pnpm --all -y
+conda install -c conda-forge powerline-status --all -y
+conda install -c conda-forge psycopg2 --all -y
+conda install -c conda-forge psycopg2-binary --all -y
+conda install -c conda-forge pyqt --all -y
+conda install -c conda-forge pyqt5-sip --all -y
+conda install -c conda-forge readline --all -y
+conda install -c conda-forge sshtunnel --all -y
+conda install -c conda-forge sshpubkeys --all -y
+conda install -c conda-forge sqlite --all -y
+conda install -c conda-forge sshfs --all -y
+conda install -c conda-forge starship --all -y
+conda install -c conda-forge tk --all -y
+conda install -c conda-forge tmux --all -y
+conda install -c conda-forge wget --all -y
+conda install -c conda-forge whitenoise --all -y
+conda install -c conda-forge zlib --all -y
+conda install -c conda-forge zsh --all -y
 #From alt conda forges
 conda install -c dnachun neofetch  -y
 #fzf deps
@@ -59,10 +110,12 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >/dev/null 2>&1
 fi
 #.tmux.conf
+conda install -c conda-forge tmux --all -y
 curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/.tmux.conf" -o "$HOME/.tmux.conf"
 tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
 #zsh configs
 #.zshrc
+conda install -c conda-forge zsh --all -y
 curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/Utils/.zshrc" -o "$HOME/.zshrc"
 dos2unix --quiet "$HOME/.zshrc" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
 #Plugins
@@ -72,6 +125,7 @@ wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/fre
 wget --quiet "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/zsh-syntax-highlighting.zsh" -O "$HOME/.local/share/zsh-syntax-highlighting.zsh"
 #Starship deps
 mkdir "$HOME/.fonts"
+conda install -c conda-forge starship --all -y
 # Font directories:
 #         /home/studio-lab-user/.conda/envs/studiolab/fonts 
 #         /home/studio-lab-user/.local/share/fonts
@@ -99,6 +153,7 @@ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/downloa
 #YQ
  eget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 --to "$HOME/bin/yq" && chmod +xwr "$HOME/bin/yq"  
 #go install
+export PATH=$HOME/go/bin:$PATH
 go install -v github.com/owasp-amass/amass/v3/...@master
 go install -v github.com/tomnomnom/anew@latest 2>/dev/null 
 go install -v github.com/projectdiscovery/asnmap/cmd/asnmap@latest 2>/dev/null
