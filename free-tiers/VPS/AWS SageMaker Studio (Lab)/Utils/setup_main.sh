@@ -68,6 +68,7 @@ conda install -c conda-forge gnupg --all -y
 conda install -c conda-forge htop --all -y
 conda install -c conda-forge inotify-tools --all -y
 conda install -c conda-forge jq --all -y
+conda install -c conda-forge ld_impl_linux-64 --all -y
 conda install -c conda-forge libcurl --all -y
 conda install -c conda-forge libsqlite --all -y
 conda install -c conda-forge libcap --all -y
@@ -99,10 +100,14 @@ conda install -c conda-forge tk --all -y
 conda install -c conda-forge tmux --all -y
 conda install -c conda-forge wget --all -y
 conda install -c conda-forge whitenoise --all -y
+conda install -c conda-forge xorg-libxau --all -y
+conda install -c conda-forge xorg-libx11 --all -y
 conda install -c conda-forge zlib --all -y
 conda install -c conda-forge zsh --all -y
 #From alt conda forges
-conda install -c dnachun neofetch  -y
+conda install -c dnachun neofetch --all -y
+conda install -c dnachun xclip --all -y 
+
 #fzf deps
 eget sharkdp/fd --to "$HOME/bin/fdfind" --asset gnu && chmod +xwr "$HOME/bin/fdfind"
 eget sharkdp/bat --to "$HOME/bin/batcat" --asset gnu && chmod +xwr "$HOME/bin/batcat"
@@ -140,7 +145,7 @@ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/downloa
 #----------------------------------------------------------------------#
 #Extras:
 #------#
-#eget
+#eget (mostly for rust binaries, as compile time is too long)
  eget epi052/feroxbuster --asset 64-linux-feroxbuster.zip --to "$HOME/.cargo/bin/feroxbuster" && chmod +x "$HOME/.cargo/bin/feroxbuster"
 #gping: https://github.com/orf/gping
  eget orf/gping --asset Linux --asset 64 --to "$HOME/.cargo/bin/gping" && chmod +x "$HOME/.cargo/bin/gping"
@@ -150,6 +155,8 @@ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/downloa
  eget PaulJuliusMartinez/jless --to "$HOME/bin/jless" && chmod +x "$HOME/bin/jless"
 #Speedtest-go
  eget showwin/speedtest-go --to "$HOME/bin/speedtest-go" && chmod +x "$HOME/bin/speedtest-go"
+#tere (Terminal Dir Navigator)
+ eget mgunyho/tere --asset gnu --to "$HOME/.cargo/bin/tere" && chmod +x "$HOME/.cargo/bin/tere"
 #x8
  eget Sh1Yo/x8 --to "$HOME/.cargo/bin/x8" && chmod +x "$HOME/.cargo/bin/x8"
 #YQ
@@ -191,6 +198,7 @@ go install -v github.com/tomnomnom/unfurl@latest 2>/dev/null
 go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest 2>/dev/null
 go install -v github.com/projectdiscovery/wappalyzergo/cmd/update-fingerprints@latest 2>/dev/null
 go install -v github.com/wdahlenburg/VhostFinder@latest 2>/dev/null
+go install github.com/sibprogrammer/xq@latest
 #pip3
 pip3 install ansi2html 2>/dev/null
 pip3 install ansi2txt 2>/dev/null
