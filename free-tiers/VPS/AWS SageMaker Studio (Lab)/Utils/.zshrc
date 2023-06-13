@@ -81,9 +81,9 @@ tere() {
 }
 
 #zsh config
-source $HOME/.local/share/zsh-autosuggestions.zsh
-source $HOME/.local/share/zsh-autocomplete.plugin.zsh
-source $HOME/.local/share/zsh-syntax-highlighting.zsh
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Select all suggestion instead of top on result only
 zstyle ':autocomplete:tab:*' insert-unambiguous yes
 zstyle ':autocomplete:tab:*' widget-style menu-select
