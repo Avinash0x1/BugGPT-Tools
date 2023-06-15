@@ -58,7 +58,7 @@ eget_dl()
          eget "$REPO" --to "$HOME/.cargo/bin/$BIN" && chmod +xwr "$HOME/.cargo/bin/$BIN"
          ;;
       -g | -go | --go)
-         eget "$REPO" --to "$HOME/gopath/bin/$BIN" && chmod +xwr "$HOME/gopath/bin/$BIN"
+         eget "$REPO" --to "$HOME/go/bin/$BIN" && chmod +xwr "$HOME/go/bin/$BIN"
          ;;
       *)
          echo -e "Invalid option. \nUsage: \neget_dl <https://repository-url> -b/--bin (Save --> ~/bin/*) [Linux/Any] \n -c/--cargo (Save --> ~/.cargo/bin/*) [Rust] \n -g/--go (Save --> ~/go/bin/*) [Golang]"
