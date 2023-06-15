@@ -56,8 +56,13 @@
 > > 3. **`Start Runtime`** >> **WAIT** >> **`Copy To Project`** >> **`Copy Notebook Only`**
 > > 4. **RUN** & **Follow Instructions**
 > > > ---
+> > > https://github.com/Azathothas/BugGPT-Tools/assets/58171889/da5efda1-9164-4699-877f-70d24e52de97
 > > > 
+> > > ---
 ---
+
+
+
 > > >
 ---
 > - **References**
