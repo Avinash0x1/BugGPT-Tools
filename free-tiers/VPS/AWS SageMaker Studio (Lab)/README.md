@@ -16,32 +16,36 @@
 > > 
 > > ```yaml
 > > Quota                           : Unlimited # You can just reset & run again 
-> > Interactive Session Limit       : 12 Hr [Auto Terminates and Loses Persistance] # Interactive = You continously use the Shell Environment
-> > Non Interactive Session Limit   : 20Mins ~ 1 Hr [Auto Terminates and Loses Persistance] # Non Interactive = You do nothing & Shell Environment is Idle
+> > Interactive Session Limit       : 12 Hr (CPU Only,  [Auto Terminates] 
+> > Non Interactive Session Limit   : 12 Hr [Auto Terminates] 
 > > ```
 > > ➼ **Specs**
 > > 1. **No `Credit Card`** || **No `Free Trial`**
 > > 
+> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/204e2fee-1e1d-41e5-9f54-b14a5ca22641)
+> > 
 > > > ```YAML
 > > > CPU                  : 2 Cores (Intel / AMD) ~ 2 GHZ
-> > > GPU                  : Tesla T4 (~ 16 GB | If Lucky) /K80 (~ 12 GB If Unlucky) | tGPU  # Not Always Available (If Really unlucky): https://www.kaggle.com/general/251969
-> > > RAM                  : 12 GB
-> > > Init                 : docker-init # NOT Privileged (ps -p 1 -o comm=)
-> > > Storage (Temp)       : ~ 150 GB # Everything is purged & deleted 
-> > >   Usable             : ~ 80-90 GB # Allocated through different Partitions
+> > > GPU                  : Tesla T4 (~ 16 GB | If Lucky) # Not Always Available (If Really unlucky)
+> > > RAM                  : 16 GB
+> > > Init                 : supervisord JupyterLab  # NOT Privileged (ps -p 1 -o comm=)
+> > > Storage (Temp)       : ~ 50 GB # May Vary based on Availability
+> > >   Usable             : ~ 30 GB # Allocated through different Partitions
+> > >   Persistent         : ~ 15 GB 
 > > > Networking           : Limited
 > > >   IPv4               : Yes
 > > >   IPv6               : No
 > > >   Benchmarks         : See #Benchmarks Below
-> > > Cron                 : Yes # Limited to the 12Hr Window ofc
+> > > Cron                 : ? # 
+> > > ROOTED               : NO # Extremely Locked 
 > > > ```
 > > > - **GPU**
 > > > 
-> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/feb06f9e-db8f-4b1b-8b78-6b7fab0af049)
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/1220ecd7-ed92-43d7-96e5-117578b21b40)
 > > >
 > > > - **Storage**
 > > > 
-> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9f1b634f-47d3-413c-bbd6-9f22e0be97e9)
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/bc0537f3-d1c0-459e-8f6c-3b3892a33d95)
 > > > 
 ----
 > - #### Setup:
@@ -53,7 +57,8 @@
 > > 4. **RUN** & **Follow Instructions**
 > > > ---
 > > > 
-
+---
+> > >
 ---
 > - **References**
 > > - Main Update & Issue Page : https://github.com/aws/studio-lab-examples/issues
