@@ -25,7 +25,7 @@
 > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/204e2fee-1e1d-41e5-9f54-b14a5ca22641)
 > > 
 > > > ```YAML
-> > > CPU                  : 2 Cores (Intel / AMD) ~ 2 GHZ
+> > > CPU                  : 4 Cores (Intel) ~ 2.5 GHZ
 > > > GPU                  : Tesla T4 (~ 16 GB | If Lucky) # Not Always Available (If Really unlucky)
 > > > RAM                  : 16 GB
 > > > Init                 : supervisord JupyterLab  # NOT Privileged (ps -p 1 -o comm=)
