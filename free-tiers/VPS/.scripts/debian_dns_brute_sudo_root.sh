@@ -61,8 +61,12 @@ echo -e "\n==================================\n" && $HOME/go/bin/puredns -h
 #---------#
 #Generated from Huge Data Set for Line on Gcloud Shell
 #shuf -n {N} > {OutFile} # Not really Efficient, but Enough
-#
-
+#Uploady.io#
+https://uploady.io/nor5ktmiqatk/dns_resolvers_test_1M.txt
+#AnonFiles#
+https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt
+https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt
+#Alts: # Deleted if Unfetched ~ 10 Days : https://gofile.io/faq
 #-------------#
 #Get Resolvers
 #------------#
