@@ -47,14 +47,12 @@
 > - #### Setup:
 > > 1. **Request an Account** & **Join `Waitlist`** : https://studiolab.sagemaker.aws/requestAccount
 > > > - **AWS will Verify** & **Approve the request within** **`~ 7 Days`**
+> > 2. **Right Click** >> **Open Link In New Tab** : [![SageMaker](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/056e22a6-a19a-4850-b5e6-c94c52472fac)](https://studiolab.sagemaker.aws/import/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/SageMaker.ipynb)
+> > 3. 
 
 
 
-
-
-- [![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/roboflow-ai/notebooks/blob/main/notebooks/train-yolov8-object-detection-on-custom-dataset.ipynb) 
-
-- [![SageMaker](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/056e22a6-a19a-4850-b5e6-c94c52472fac)](https://studiolab.sagemaker.aws/import/github/roboflow-ai/notebooks/blob/main/notebooks/train-yolov8-object-detection-on-custom-dataset.ipynb)
+- 
 
 ---
 > - **References**
@@ -66,3 +64,5 @@
 > > - https://www.reddit.com/r/aws/comments/10vpgwf/sagemaker_studio_system_terminal_resource_cost/
 > > - No root access 2023/02/04: https://github.com/aws/studio-lab-examples/issues/198#issuecomment-1416420060
 > > - VPC workaround for SSH : https://github.com/ruslanmv/How-to-connect-via-ssh-to-SageMaker
+
+- [![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/roboflow-ai/notebooks/blob/main/notebooks/train-yolov8-object-detection-on-custom-dataset.ipynb) 
