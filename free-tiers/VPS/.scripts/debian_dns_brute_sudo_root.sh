@@ -43,7 +43,7 @@ $HOME/.go/bin/go install -v github.com/d3mondev/puredns/v2@latest 2>/dev/null
 #----------------------------------------------------------------------#
 #Test
 #-----#
-clear && echo -e "==================================\n" && sudo /usr/local/bin massdns -h
+clear && echo -e "==================================\n" && sudo /usr/local/bin/massdns -h
 echo -e "==================================\n" && $HOME/go/bin/goksubdomain test
 echo -e "==================================\n" && $HOME/go/bin/puredns -h
 #----------------------------------------------------------------------#
