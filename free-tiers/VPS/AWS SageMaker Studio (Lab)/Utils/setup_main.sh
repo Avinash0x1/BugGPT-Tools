@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #----------------------------------------------------------------------#
 # | apt | root | su --> Disabled
 # pkgs are installed via conda | pip | eget
