@@ -54,7 +54,7 @@ if [[ $# -gt 0 && ( "$*" == *"up"* || "$*" == *"-up"* || "$*" == *"update"* || "
       curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/aki.sh -o "$REMOTE_FILE"
          if ! diff --brief /usr/local/bin/aki "$REMOTE_FILE" >/dev/null 2>&1; then
              echo -e "➼ ${YELLOW}NEW!! Update Found! ${BLUE}Updating ..${NC}" 
-             dos2unix $REMOTE_FILE > /dev/null 2>&1 
+             dos2unix --quiet $REMOTE_FILE > /dev/null 2>&1 
              sudo mv "$REMOTE_FILE" /usr/local/bin/aki && echo -e "➼ ${GREEN}Updated${NC} to ${BLUE}@latest${NC}\n" 
              echo -e "➼ ${YELLOW}ChangeLog:${NC} ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.message')${NC}"
              echo -e "➼ ${YELLOW}Pushed at${NC}: ${DGREEN}$(curl -s https://api.github.com/repos/Azathothas/BugGPT-Tools/commits?path=aki/aki.sh | jq -r '.[0].commit.author.date')${NC}\n"
@@ -155,7 +155,7 @@ for path in "${paths[@]}"; do
         #APIKEYBEAST
         mkdir -p $HOME/Tools/AKI/Deps/ && cd $HOME/Tools/AKI/Deps/ && wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Deps/APIKEYBEAST-forked.py -O $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py
         wget https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/aki/Deps/APIKEYBEAST-requirements.txt -O $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
-        dos2unix $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py && dos2unix $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
+        dos2unix --quiet $HOME/Tools/AKI/Deps/APIKEYBEAST-forked.py $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
         pip3 install -r $HOME/Tools/AKI/Deps/APIKEYBEAST-requirements.txt
         clear && cd -
     fi
