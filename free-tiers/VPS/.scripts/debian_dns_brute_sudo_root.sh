@@ -5,7 +5,7 @@
 #-----#
 export DEBIAN_FRONTEND=noninteractive 
 sudo apt install curl -y
-sudo apt install libpcap -y
+sudo apt install libpcap-dev -y
 sudo apt install wget -y
 #----------------------------------------------------------------------#
 
