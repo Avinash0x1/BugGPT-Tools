@@ -3,9 +3,10 @@
 #----------------------------------------------------------------------#
 #Deps
 #-----#
-export DEBIAN_FRONTEND=noninteractive apt install curl -y
-export DEBIAN_FRONTEND=noninteractive apt install libpcap -y
-export DEBIAN_FRONTEND=noninteractive apt install wget -y
+export DEBIAN_FRONTEND=noninteractive 
+sudo apt install curl -y
+sudo apt install libpcap -y
+sudo apt install wget -y
 #----------------------------------------------------------------------#
 
 #----------------------------------------------------------------------#
