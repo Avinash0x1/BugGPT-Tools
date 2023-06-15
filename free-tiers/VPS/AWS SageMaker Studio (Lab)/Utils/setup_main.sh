@@ -26,9 +26,9 @@ export origin=$(pwd)
 #Primaries:
 #---------#
 #Setup base
-mkdir -p "$HOME"/{bin,.fonts,.local/bin,.local/share,Tools,tmp,.zsh} >/dev/null 2>&1
+mkdir -p $HOME/{bin,.fonts,.local/bin,.local/share,Tools,tmp,.zsh} >/dev/null 2>&1
 #Install golang
-bash <(curl -sL https://git.io/go-installer)
+bash <(curl -qfsSL https://git.io/go-installer)
 rm $HOME/go*.gz 
 export PATH=$HOME/go/bin:$PATH  
 # source /home/studio-lab-user/.zshrc
@@ -229,7 +229,7 @@ pip3 install "git+https://github.com/elceef/subzuf.git"
 cd "$origin"
 #----------------------------------------------------------------------#
 #Source ~/.zshrc
-echo "$(which zsh)" | anew -q "$HOME/.bashrc"
-echo "$(which zsh)" | anew -q "$HOME/.profile"
+echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.bashrc"
+echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.profile"
 source "$HOME/.bashrc"
 #EOF
