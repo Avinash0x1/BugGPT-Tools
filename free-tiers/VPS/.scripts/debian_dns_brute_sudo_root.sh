@@ -54,4 +54,32 @@ echo -e "\n==================================\n" && $HOME/go/bin/puredns -h
 #                  Kaggle
 #echo -e "\n==================================\n" && /usr/local/bin/speedtest-go
 #----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+#-------------#
+#Get Files
+#---------#
+#Generated from Huge Data Set for Line on Gcloud Shell
+#shuf -n {N} > {OutFile} # Not really Efficient, but Enough
+#
+
+#-------------#
+#Get Resolvers
+#------------#
+curl -qfsSL "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt" -o ./resolvers_proabiral.txt
+curl -qfsSL "https://raw.githubusercontent.com/trickest/resolvers/main/resolvers.txt" -o ./resolvers_trickest.txt
+#-------------#
+#Generate cmds
+#-------------#
+echo -e "\n==================================\n" 
+#No Limiters 
+#-----------#
+echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_1M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_1M_RESOLVED.txt\n"
+echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_10M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_10M_RESOLVED.txt\n"
+echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_50M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_50M_RESOLVED.txt\n"
+#RateLimits 
+#----------#
+#Anything below 5K/S is USELESS
+echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_1M.txt --resolvers ./resolvers_proabiral.txt --rate-limit 10000 --write ./dns_resolvers_test_1M_RESOLVED.txt\n"
+echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_10M.txt --resolvers ./resolvers_proabiral.txt --rate-limit 10000 --write ./dns_resolvers_test_10M_RESOLVED.txt\n"
 #EOF
