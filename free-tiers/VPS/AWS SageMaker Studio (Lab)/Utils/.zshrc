@@ -47,9 +47,8 @@ alias vdir='vdir --color=auto'
 #Donwload Binaries from Github Releases
 eget_dl()
 {
-   REPO=$(echo "$1" | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||') && export "REPO=$REPO"
+   REPO=$(echo "$1" | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed -E 's|https://github.com/([^/]+/[^/]+).*|\1|') && export "REPO=$REPO"
    BIN=$(echo "$1" | sed -e '/^$/d' -e 's/[[:space:]]*$//' | sed 's|https://github.com/||; s|\?.*||' | awk -F '/' '{print $2}') && export "BIN=$BIN"
-
    # Option Args
    case "$2" in
       -b | -bin | --bin)
