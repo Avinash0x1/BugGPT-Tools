@@ -48,7 +48,7 @@
 > > 1. **Request an Account** & **Join `Waitlist`** : https://studiolab.sagemaker.aws/requestAccount
 > > > - **AWS will Verify** & **Approve the request within** **`~ 7 Days`**
 > > 2. **Right Click** >> **Open Link In New Tab** : <a href="https://studiolab.sagemaker.aws/import/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/SageMaker.ipynb" target="_parent"><img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/056e22a6-a19a-4850-b5e6-c94c52472fac" alt="Open In SageMaker"/></a>
-
+<a href="https://colab.research.google.com/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Colab/VPS.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 - 
 
