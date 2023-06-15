@@ -71,11 +71,12 @@ conda install -c conda-forge htop --all -y
 conda install -c conda-forge inotify-tools --all -y
 conda install -c conda-forge iperf --all -y
 conda install -c conda-forge jq --all -y
-conda install -c conda-forge ld_impl_linux-64 --all -y
+conda install -c conda-forge libpcap --all -y
 conda install -c conda-forge libcurl --all -y
 conda install -c conda-forge libsqlite --all -y
-conda install -c conda-forge libcap --all -y
+conda install -c conda-forge libwebsockets --all -y
 conda install -c conda-forge xorg-libx11 --all -y
+conda install -c conda-forge ld_impl_linux-64 --all -y
 conda install -c conda-forge llvm11 --all -y
 conda install -c conda-forge make --all -y
 conda install -c conda-forge nim --all -y
@@ -83,6 +84,7 @@ conda install -c conda-forge ncurses --all -y
 conda install -c conda-forge nodejs --all -y
 conda install -c conda-forge openssh --all -y
 conda install -c conda-forge openssl --all -y
+conda install -c conda-forge pango --all -y
 conda install -c conda-forge perl --all -y
 conda install -c conda-forge php --all -y
 conda install -c conda-forge pipx --all -y
@@ -91,6 +93,7 @@ conda install -c conda-forge pnpm --all -y
 conda install -c conda-forge powerline-status --all -y
 conda install -c conda-forge psycopg2 --all -y
 conda install -c conda-forge psycopg2-binary --all -y
+conda install -c conda-forge pulseaudio --all -y
 conda install -c conda-forge pyqt --all -y
 conda install -c conda-forge pyqt5-sip --all -y
 conda install -c conda-forge readline --all -y
@@ -105,6 +108,8 @@ conda install -c conda-forge wget --all -y
 conda install -c conda-forge whitenoise --all -y
 conda install -c conda-forge xorg-libxau --all -y
 conda install -c conda-forge xorg-libx11 --all -y
+conda install -c conda-forge websockets --all -y
+conda install -c conda-forge websocket-client --all -y
 conda install -c conda-forge zlib --all -y
 conda install -c conda-forge zsh --all -y
 #From alt conda forges
