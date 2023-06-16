@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+#----------------------------------------------------------------------#
 #Sanity Checks
 if [ "$EUID" -ne 0 ]; then
   echo "This script must be run as root"
@@ -7,7 +8,6 @@ if [ "$EUID" -ne 0 ]; then
   echo -e 'Then: curl -qfsSl "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_dns_brute_sudo_root.sh" | sudo bash \n'
   exit 1
 fi
-
 #Incase called from a non sudo, but root environ
 if ! command -v sudo >/dev/null 2>&1; then
     echo -e "➼ sudo is not installed. Installing...\n"
@@ -19,6 +19,19 @@ if ! command -v sudo >/dev/null 2>&1; then
          exit 1
        fi
 fi
+#ctrl c
+# Function to handle Ctrl + C
+ctrl_c() {
+  echo -e "\nCtrl + C pressed. Exiting...\n"
+  echo -e "\n==================================\n"
+  curl -qfsSl "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_dns_brute_sudo_root.sh" | cat
+  echo -e "\n==================================\n"
+  exit 1
+}
+# Set up the trap to catch the interrupt signal (SIGINT)
+trap ctrl_c SIGINT
+#----------------------------------------------------------------------#
+
 #----------------------------------------------------------------------#
 #Deps
 #-----#
@@ -116,18 +129,18 @@ echo -e "\n==================================\n" && sudo $HOME/go/bin/puredns -h
 #Generated from Huge Data Set for Line on Gcloud Shell
 #shuf -n {N} > {OutFile} # Not really Efficient, but Enough
 #AnonFiles#
-echo -e "\n==================================\n" 
-#30.2 MB
+#dns_resolvers_test_1M.txt 302 MB
+echo -e "\n==================================\n Downloading dns_resolvers_test_1M.txt (30.2 MB)\n" 
 curl -fLO $(curl -qfsSL https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt | grep dns_resolvers_test_1M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
-echo -e "\n==================================\n" 
-#151 MB
+#dns_resolvers_test_5M.txt 302 MB
+echo -e "\n==================================\n Downloading dns_resolvers_test_5M.txt (151 MB)\n" 
 curl -fLO $(curl -qfsSL https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt | grep dns_resolvers_test_5M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
-echo -e "\n==================================\n" 
-#302 MB
+#dns_resolvers_test_10M.txt 302 MB
+echo -e "\n==================================\n Downloading dns_resolvers_test_10M.txt (302 MB)\n" 
 curl -fLO $(curl -qfsSL https://anonfiles.com/lbi0X8wdz9/dns_resolvers_test_10M_txt | grep dns_resolvers_test_10M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+#dns_resolvers_test_50M.txt 1541 MB
 echo -e "\n==================================\n" 
 echo -e "Skipping Downloading: dns_resolvers_test_50M.txt (1541 MB)\n Do Manually:"
-#1541 MB
 echo -e "\ncurl -fLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolvers_test_50M_txt | grep dns_resolvers_test_50M.txt | grep -o 'href=\"[^\"]*\"' | cut -d'\"' -f2)\n"
 #Alts: 
 # https://files.fm/
