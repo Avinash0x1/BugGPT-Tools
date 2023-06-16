@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
+#Sanity Checks
+if [ "$EUID" -ne 0 ]; then
+  echo "This script must be run as root"
+  exit 1
+fi
+
 #Incase called from a non sudo, but root environ
 if ! command -v sudo >/dev/null 2>&1; then
     echo "➼ sudo is not installed. Installing...\n"
-    sudo apt-get update && sudo apt-get install sudo -y
+    apt-get update && apt-get install sudo -y
     # Recheck
        if ! command -v sudo >/dev/null 2>&1; then
          echo -e " ➼ sudo was not installed. \nTried Installing & Failed"
