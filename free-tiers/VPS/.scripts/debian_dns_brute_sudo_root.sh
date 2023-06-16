@@ -124,6 +124,11 @@ echo -e "\n==================================\n" && sudo $HOME/go/bin/puredns -h
 
 #----------------------------------------------------------------------#
 #-------------#
+#Get Resolvers
+#------------#
+curl -qfsSL "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt" -o ./resolvers_proabiral.txt
+curl -qfsSL "https://raw.githubusercontent.com/trickest/resolvers/main/resolvers.txt" -o ./resolvers_trickest.txt
+#-------------#
 #Get Files
 #---------#
 #Generated from Huge Data Set for Line on Gcloud Shell
@@ -148,11 +153,6 @@ echo -e "\ncurl -fLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolve
 # https://www.prontoshare.com
 # https://uploady.io
 # https://gofile.io/faq
-#-------------#
-#Get Resolvers
-#------------#
-curl -qfsSL "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt" -o ./resolvers_proabiral.txt
-curl -qfsSL "https://raw.githubusercontent.com/trickest/resolvers/main/resolvers.txt" -o ./resolvers_trickest.txt
 #-------------#
 #Generate cmds
 #-------------#
