@@ -70,26 +70,37 @@ sudo /usr/local/bin/eget showwin/speedtest-go --to /usr/local/bin/speedtest-go &
 #Test
 #-----#
 clear && echo -e "\n==================================\n" && sudo /usr/local/bin/massdns -h
-echo -e "\n==================================\n" && timeout 5s sudo $HOME/go/bin/ksubdomain test
+echo -e "\n==================================\n"
 # Perm Errors
-# https://askubuntu.com/questions/530920/tcpdump-permissions-problem
-sudo cp $(which tcpdump) /usr/sbin/tcpdump
-sudo chmod +xwr /usr/sbin/tcpdump
-sudo ln -s /usr/sbin/tcpdump /usr/local/bin/tcpdump
-sudo groupadd pcap
-sudo usermod -a -G pcap root
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-sudo chown root:root /usr/sbin/tcpdump
-sudo chmod 755 /usr/sbin/tcpdump  
-sudo chgrp pcap /usr/sbin/tcpdump
-sudo chmod 750 /usr/sbin/tcpdump
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-sudo chown root:root /usr/sbin/tcpdump
-sudo chmod 755 /usr/sbin/tcpdump  
-sudo chmod +xwr /usr/sbin/tcpdump  
-sudo chmod +xwr /usr/bin/tcpdump  
-ls -l /usr/sbin/tcpdump
-getcap /usr/sbin/tcpdump
+if sudo tcpdump -i eth0 2>&1 | grep -q "Operation not permitted"; then
+    echo -e "\ncap_net Privilege is Disabled by Default\n Trying a hot fix...."
+     # https://askubuntu.com/questions/530920/tcpdump-permissions-problem
+     sudo cp $(which tcpdump) /usr/sbin/tcpdump
+     sudo chmod +xwr /usr/sbin/tcpdump
+     sudo ln -s /usr/sbin/tcpdump /usr/local/bin/tcpdump
+     sudo groupadd pcap
+     sudo usermod -a -G pcap root
+     sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+     sudo chown root:root /usr/sbin/tcpdump
+     sudo chmod 755 /usr/sbin/tcpdump  
+     sudo chgrp pcap /usr/sbin/tcpdump
+     sudo chmod 750 /usr/sbin/tcpdump
+     sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+     sudo chown root:root /usr/sbin/tcpdump
+     sudo chmod 755 /usr/sbin/tcpdump  
+     sudo chmod +xwr /usr/sbin/tcpdump  
+     sudo chmod +xwr /usr/bin/tcpdump  
+     ls -l /usr/sbin/tcpdump
+     getcap /usr/sbin/tcpdump
+    if sudo tcpdump -i eth0 2>&1 | grep -q "Operation not permitted"; then
+         echo -e "\nFailed to change perms to capture raw packets\n"
+    else
+         echo -e "\nSuccessfully added cap_net Privilege\n"  
+         sudo $HOME/go/bin/ksubdomain test
+    fi  
+else
+     sudo $HOME/go/bin/ksubdomain test
+fi    
 echo -e "\n==================================\n" && sudo $HOME/go/bin/puredns -h
 #THIS CAUSES MASSIVE SPIKES
 #BLOCK IS VERY LIKELY
