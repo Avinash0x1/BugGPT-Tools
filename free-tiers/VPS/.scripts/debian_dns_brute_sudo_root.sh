@@ -3,6 +3,8 @@
 #Sanity Checks
 if [ "$EUID" -ne 0 ]; then
   echo "This script must be run as root"
+  echo -e " First: \n sudo su || su \n"
+  echo -e 'Then: curl -qfsSl "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_dns_brute_sudo_root.sh" | bash \n'
   exit 1
 fi
 
