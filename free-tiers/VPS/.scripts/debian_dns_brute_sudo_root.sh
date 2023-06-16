@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+#Incase called from a non sudo, but root environ
+if ! command -v sudo >/dev/null 2>&1; then
+    echo "➼ sudo is not installed. Installing...\n"
+    sudo apt-get update && sudo apt-get install sudo -y
+    # Recheck
+       if ! command -v sudo >/dev/null 2>&1; then
+         echo -e " ➼ sudo was not installed. \nTried Installing & Failed"
+         echo " Maybe Try Manually : https://www.sudo.ws/getting/download/\n"
+         exit 1
+       fi
+fi
 #----------------------------------------------------------------------#
 #Deps
 #-----#
@@ -61,12 +72,26 @@ echo -e "\n==================================\n" && $HOME/go/bin/puredns -h
 #---------#
 #Generated from Huge Data Set for Line on Gcloud Shell
 #shuf -n {N} > {OutFile} # Not really Efficient, but Enough
-#Uploady.io#
-https://uploady.io/nor5ktmiqatk/dns_resolvers_test_1M.txt
 #AnonFiles#
-https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt
-https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt
-#Alts: # Deleted if Unfetched ~ 10 Days : https://gofile.io/faq
+echo -e "\n==================================\n" 
+#30.2 MB
+curl -qfSLO $(curl -qfsSL https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt | grep dns_resolvers_test_1M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+echo -e "\n==================================\n" 
+#151 MB
+curl -qfSLO $(curl -qfsSL https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt | grep dns_resolvers_test_5M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+echo -e "\n==================================\n" 
+#302 MB
+curl -qfSLO $(curl -qfsSL https://anonfiles.com/lbi0X8wdz9/dns_resolvers_test_10M_txt | grep dns_resolvers_test_10M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+echo -e "\n==================================\n" 
+echo -e "Skipping Downloading: dns_resolvers_test_50M.txt (1541 MB)\n Do Manually:"
+#1541 MB
+echo -e "\ncurl -qfSLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolvers_test_50M_txt | grep dns_resolvers_test_50M.txt | grep -o 'href=\"[^\"]*\"' | cut -d'\"' -f2)\n"
+#Alts: 
+# https://files.fm/
+# https://racaty.io/
+# https://www.prontoshare.com
+# https://uploady.io
+# https://gofile.io/faq
 #-------------#
 #Get Resolvers
 #------------#
