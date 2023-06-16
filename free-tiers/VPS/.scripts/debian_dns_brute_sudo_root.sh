@@ -10,7 +10,7 @@ fi
 
 #Incase called from a non sudo, but root environ
 if ! command -v sudo >/dev/null 2>&1; then
-    echo "➼ sudo is not installed. Installing...\n"
+    echo -e "➼ sudo is not installed. Installing...\n"
     apt-get update && apt-get install sudo -y
     # Recheck
        if ! command -v sudo >/dev/null 2>&1; then
@@ -23,11 +23,16 @@ fi
 #Deps
 #-----#
 export DEBIAN_FRONTEND=noninteractive 
-echo -e "\n==================================\n"
+echo -e "\n==================================\n Installing Curl\n"
 sudo apt install curl -y
-echo -e "\n==================================\n"
+echo -e "\n==================================\n Installing libpcap-dev\n"
 sudo apt install libpcap-dev -y
-echo -e "\n==================================\n"
+echo -e "\n==================================\n Installing net-tools\n"
+sudo apt install net-tools -y
+echo -e "\n==================================\n Installing tcpdump\n"
+sudo apt install tcpdump -y
+sudo apt install libcap2-bin -y
+echo -e "\n==================================\n Installing wget\n"
 sudo apt install wget -y
 #----------------------------------------------------------------------#
 
@@ -45,17 +50,17 @@ export PATH=$HOME/.go/bin:$PATH
 #Binaries
 #--------#
 #eget
-echo -e "\n==================================\n"
-curl -qfsSL "https://zyedidia.github.io/eget.sh" | sudo bash && sudo mv ./eget /usr/local/bin/eget
+echo -e "\n==================================\n Installing eget\n"
+curl -fSL "https://zyedidia.github.io/eget.sh" | sudo bash && sudo mv ./eget /usr/local/bin/eget
 #ksubdomain
-echo -e "\n==================================\n"
+echo -e "\n==================================\n Installing Ksubdomain\n"
 $HOME/.go/bin/go install -v github.com/boy-hack/ksubdomain/cmd/ksubdomain@latest
 #massdns
-echo -e "\n==================================\n"
-sudo curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.binaries/massdns_x86_64_ELF_LSB_Linux" -o /usr/local/bin/massdns
+echo -e "\n==================================\n Installing massdns\n"
+sudo curl -fSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.binaries/massdns_x86_64_ELF_LSB_Linux" -o /usr/local/bin/massdns
 sudo chmod +x /usr/local/bin/massdns
 #PureDNS
-echo -e "\n==================================\n"
+echo -e "\n==================================\n  Installing PureDNS\n"
 $HOME/.go/bin/go install -v github.com/d3mondev/puredns/v2@latest 2>/dev/null
 #Speedtest-go
 sudo /usr/local/bin/eget showwin/speedtest-go --to /usr/local/bin/speedtest-go && sudo chmod +x /usr/local/bin/speedtest-go
@@ -65,8 +70,27 @@ sudo /usr/local/bin/eget showwin/speedtest-go --to /usr/local/bin/speedtest-go &
 #Test
 #-----#
 clear && echo -e "\n==================================\n" && sudo /usr/local/bin/massdns -h
-echo -e "\n==================================\n" && $HOME/go/bin/ksubdomain test
-echo -e "\n==================================\n" && $HOME/go/bin/puredns -h
+echo -e "\n==================================\n" && timeout 5s sudo $HOME/go/bin/ksubdomain test
+# Perm Errors
+# https://askubuntu.com/questions/530920/tcpdump-permissions-problem
+sudo cp $(which tcpdump) /usr/sbin/tcpdump
+sudo chmod +xwr /usr/sbin/tcpdump
+sudo ln -s /usr/sbin/tcpdump /usr/local/bin/tcpdump
+sudo groupadd pcap
+sudo usermod -a -G pcap root
+sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+sudo chown root:root /usr/sbin/tcpdump
+sudo chmod 755 /usr/sbin/tcpdump  
+sudo chgrp pcap /usr/sbin/tcpdump
+sudo chmod 750 /usr/sbin/tcpdump
+sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+sudo chown root:root /usr/sbin/tcpdump
+sudo chmod 755 /usr/sbin/tcpdump  
+sudo chmod +xwr /usr/sbin/tcpdump  
+sudo chmod +xwr /usr/bin/tcpdump  
+ls -l /usr/sbin/tcpdump
+getcap /usr/sbin/tcpdump
+echo -e "\n==================================\n" && sudo $HOME/go/bin/puredns -h
 #THIS CAUSES MASSIVE SPIKES
 #BLOCK IS VERY LIKELY
 #Confirmed Blocks: https://help.goorm.io/en/goormide/18.faq/general/why-blocked
@@ -83,17 +107,17 @@ echo -e "\n==================================\n" && $HOME/go/bin/puredns -h
 #AnonFiles#
 echo -e "\n==================================\n" 
 #30.2 MB
-curl -qfSLO $(curl -qfsSL https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt | grep dns_resolvers_test_1M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+curl -fLO $(curl -qfsSL https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt | grep dns_resolvers_test_1M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
 echo -e "\n==================================\n" 
 #151 MB
-curl -qfSLO $(curl -qfsSL https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt | grep dns_resolvers_test_5M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+curl -fLO $(curl -qfsSL https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt | grep dns_resolvers_test_5M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
 echo -e "\n==================================\n" 
 #302 MB
-curl -qfSLO $(curl -qfsSL https://anonfiles.com/lbi0X8wdz9/dns_resolvers_test_10M_txt | grep dns_resolvers_test_10M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+curl -fLO $(curl -qfsSL https://anonfiles.com/lbi0X8wdz9/dns_resolvers_test_10M_txt | grep dns_resolvers_test_10M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
 echo -e "\n==================================\n" 
 echo -e "Skipping Downloading: dns_resolvers_test_50M.txt (1541 MB)\n Do Manually:"
 #1541 MB
-echo -e "\ncurl -qfSLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolvers_test_50M_txt | grep dns_resolvers_test_50M.txt | grep -o 'href=\"[^\"]*\"' | cut -d'\"' -f2)\n"
+echo -e "\ncurl -fLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolvers_test_50M_txt | grep dns_resolvers_test_50M.txt | grep -o 'href=\"[^\"]*\"' | cut -d'\"' -f2)\n"
 #Alts: 
 # https://files.fm/
 # https://racaty.io/
