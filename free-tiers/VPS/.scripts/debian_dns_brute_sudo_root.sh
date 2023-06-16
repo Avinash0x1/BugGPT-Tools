@@ -65,6 +65,9 @@ export PATH=$HOME/.go/bin:$PATH
 #eget
 echo -e "\n==================================\n Installing eget\n"
 curl -fSL "https://zyedidia.github.io/eget.sh" | sudo bash && sudo mv ./eget /usr/local/bin/eget
+sudo chmod +xwr /usr/local/bin/eget
+echo -e "\n==================================\n Installing btop\n"
+/usr/local/bin/eget aristocratos/btop --to /usr/local/bin/btop && sudo chmod +xwr /usr/local/bin/btop
 #ksubdomain
 echo -e "\n==================================\n Installing Ksubdomain\n"
 $HOME/.go/bin/go install -v github.com/boy-hack/ksubdomain/cmd/ksubdomain@latest
@@ -160,6 +163,7 @@ echo -e "\n==================================\n"
 #No Limiters 
 #-----------#
 echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_1M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_1M_RESOLVED.txt\n"
+echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_5M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_5M_RESOLVED.txt\n"
 echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_10M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_10M_RESOLVED.txt\n"
 echo -e "$HOME/go/bin/puredns resolve ./dns_resolvers_test_50M.txt --resolvers ./resolvers_proabiral.txt --write ./dns_resolvers_test_50M_RESOLVED.txt\n"
 #RateLimits 
