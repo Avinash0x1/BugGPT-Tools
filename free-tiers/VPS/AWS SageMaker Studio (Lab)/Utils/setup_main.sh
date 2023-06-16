@@ -37,7 +37,7 @@ export PATH=$HOME/go/bin:$PATH
 #Install rust
 conda install -c conda-forge rust -y 
 #eget
-go install github.com/zyedidia/eget@latest
+$HOME/.go/bin/go install github.com/zyedidia/eget@latest
 # curl -qfsSL "https://zyedidia.github.io/eget.sh" | bash && mv ./eget /home/studio-lab-user/go/bin/eget
 #Binaries
 #GNU bc (Basic Calculator)
@@ -157,6 +157,9 @@ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/downloa
 #Extras:
 #------#
 #eget (mostly for rust binaries, as compile time is too long)
+#btop
+ eget aristocratos/btop --to "$HOME/bin/btop" && chmod +xwr "$HOME/bin/btop"
+#Feroxbuster
  eget epi052/feroxbuster --asset 64-linux-feroxbuster.zip --to "$HOME/.cargo/bin/feroxbuster" && chmod +x "$HOME/.cargo/bin/feroxbuster"
 #gping: https://github.com/orf/gping
  eget orf/gping --asset Linux --asset 64 --to "$HOME/.cargo/bin/gping" && chmod +x "$HOME/.cargo/bin/gping"
