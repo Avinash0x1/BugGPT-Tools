@@ -1,45 +1,33 @@
 #!/usr/bin/env bash
 
 #----------------------------------------------------------------------#
-#Sanity Checks
-if [ "$EUID" -ne 0 ]; then
-  echo "This script must be run as root"
-  echo -e " First: \n sudo su || su \n"
-  echo -e 'Then: curl -qfsSl "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_dns_brute_sudo_root.sh" | sudo bash \n'
-  exit 1
-fi
-#Incase called from a non sudo, but root environ
-if ! command -v sudo >/dev/null 2>&1; then
-    echo -e "➼ sudo is not installed. Installing...\n"
-    apt-get update && apt-get install sudo -y
-    # Recheck
-       if ! command -v sudo >/dev/null 2>&1; then
-         echo -e " ➼ sudo was not installed. \nTried Installing & Failed"
-         echo " Maybe Try Manually : https://www.sudo.ws/getting/download/\n"
-         exit 1
-       fi
-fi
-#ctrl c
-# Function to handle Ctrl + C
-ctrl_c() {
-  echo -e "\nCtrl + C pressed. Exiting...\n"
-  echo -e "\n==================================\n"
-  curl -qfsSl "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_dns_brute_sudo_root.sh" | cat
-  echo -e "\n==================================\n"
-  exit 1
-}
-# Set up the trap to catch the interrupt signal (SIGINT)
-trap ctrl_c SIGINT
-#----------------------------------------------------------------------#
-
-#----------------------------------------------------------------------#
 #Deps
 #-----#
-export DEBIAN_FRONTEND=noninteractive 
+mkdir -p $HOME/bin
+echo -e "\n==================================\n Installing eget\n"
+curl -fSL "https://zyedidia.github.io/eget.sh" | sh && mv ./eget $HOME/bin/eget
+export PATH=$HOME/bin:$PATH
 echo -e "\n==================================\n Installing Curl\n"
-sudo apt install curl -y
+$HOME/bin/eget moparisthebest/static-curl --to $HOME/bin/curl
+#----------------------------------------------------------------------#
+#Install Conda
+#--------------#
+echo -e "\n==================================\n Installing Conda...\n"
+curl -fSL "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" -o /tmp/install_conda.sh
+chmod +xwr /tmp/install_conda.sh
+bash /tmp/install_conda.sh -b
+export PATH=$HOME/miniconda3/bin:$PATH
+export PATH=$HOME/miniconda3/condabin:$PATH
+echo -e "\n==================================\n Installing Additional Binaries...\n"
+$HOME/miniconda3/bin/conda install -c conda-forge coreutils
+$HOME/miniconda3/bin/conda install -c conda-forge curl --all -y
+$HOME/miniconda3/bin/conda install -c conda-forge libcurl --all -y
+$HOME/miniconda3/bin/conda install -c conda-forge moreutils --all -y
+curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.binaries/locate_x86_64_ELF_LSB_Linux" -o "$HOME/bin/locate" 
+chmod +xwr "$HOME/bin/locate" 
+#----------------------------------------------------------------------#
 echo -e "\n==================================\n Installing libpcap-dev\n"
-sudo apt install libpcap-dev -y
+$HOME/miniconda3/bin/conda install -c conda-forge libpcap --all -y
 echo -e "\n==================================\n Installing net-tools\n"
 sudo apt install net-tools -y
 echo -e "\n==================================\n Installing tcpdump\n"
@@ -47,7 +35,6 @@ sudo apt install tcpdump -y
 sudo apt install libcap2-bin -y
 echo -e "\n==================================\n Installing wget\n"
 sudo apt install wget -y
-#----------------------------------------------------------------------#
 
 #----------------------------------------------------------------------#
 #Install golang
@@ -59,12 +46,12 @@ export PATH=$HOME/go/bin:$PATH
 export PATH=$HOME/.go/bin:$PATH  
 #----------------------------------------------------------------------#
 
+$HOME/miniconda3/condabin/conda install -c conda-forge libpcap
 #----------------------------------------------------------------------#
 #Binaries
 #--------#
 #eget
-echo -e "\n==================================\n Installing eget\n"
-curl -fSL "https://zyedidia.github.io/eget.sh" | sudo bash && sudo mv ./eget /usr/local/bin/eget
+
 sudo chmod +xwr /usr/local/bin/eget
 echo -e "\n==================================\n Installing btop\n"
 /usr/local/bin/eget aristocratos/btop --to /usr/local/bin/btop && sudo chmod +xwr /usr/local/bin/btop
