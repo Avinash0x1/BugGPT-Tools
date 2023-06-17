@@ -19,6 +19,7 @@ NC='\033[0m'
 { 
     clear && echo -e "➼${GREEN} Importing ${PURPLE}Parrot${NC} Keys${NC}\n"
 if command -v sudo &> /dev/null 2>&1; then
+     sudo export DEBIAN_FRONTEND=noninteractive sudo apt install gnupg -y
      #Download & Append
      curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_parrot_sources.list" | sudo tee -a /etc/apt/sources.list
      sudo export DEBIAN_FRONTEND=noninteractive sudo apt update -y
@@ -31,6 +32,7 @@ if command -v sudo &> /dev/null 2>&1; then
     #Clean & Update
     sudo apt-get clean -y && sudo apt-get update
 else
+    export DEBIAN_FRONTEND=noninteractive apt install gnupg -y
     curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_parrot_sources.list" | tee -a /etc/apt/sources.list
     apt update -y
     # Extract PUBKEY values
