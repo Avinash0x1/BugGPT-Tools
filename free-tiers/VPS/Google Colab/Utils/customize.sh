@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 #----------------------------------------------------------------------#
+home_user=$(ls -d /home/*/) && export home_user="$home_user"
 export origin=$(pwd)
 #----------------------------------------------------------------------#
 #Primaries:
@@ -32,6 +33,7 @@ sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install zsh zsh-syntax-highligh
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
     ~/.fzf/install --all >/dev/null 2>&1
   fi
+  cp -r ~/.fzf $home_user
 #fzf deps
  sudo eget sharkdp/fd --asset gnu --to /usr/local/bin/fdfind && sudo chmod +xwr /usr/local/bin/fdfind
  sudo eget sharkdp/bat --asset gnu --to /usr/local/bin/batcat && sudo chmod +xwr /usr/local/bin/batcat
@@ -43,26 +45,37 @@ sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install zsh zsh-syntax-highligh
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
    mkdir -p "$HOME/.tmux"
    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >/dev/null 2>&1
+   sudo cp -r ~/.tmux $home_user
 fi
 #.tmux.conf
 curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/.tmux.conf" -o "$HOME/.tmux.conf"
+cp "$HOME/.tmux.conf" $home_user/.tmux.conf
 tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
 #zsh configs
 #.zshrc
 curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/Utils/.zshrc" -o "$HOME/.zshrc"
 dos2unix --quiet "$HOME/.zshrc" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
+sudo cp $HOME/.zshrc $home_user
 touch ~/.zsh_history
+touch $home_user/.zsh_history
 #Plugins
 mkdir -p "$HOME/.zsh" && cd "$HOME/.zsh"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git >/dev/null 2>&1
 git clone https://github.com/zsh-users/zsh-autosuggestions.git >/dev/null 2>&1
 git clone https://github.com/marlonrichert/zsh-autocomplete.git >/dev/null 2>&1
+sudo cp -r $HOME/.zsh $home_user
 cd ~
 #----------------------------------------------------------------------#
 
 #----------------------------------------------------------------------#
 #Source ~/.zshrc
+go install github.com/tomnomnom/anew@latest
 echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.bashrc"
 echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.profile"
+sudo cp $HOME/.bashrc $home_user
+sudo cp $HOME/.profile $home_user
 source "$HOME/.bashrc"
+#Perms:
+sudo find $home_user -type f -exec sudo chmod a+rwx {} \;
+sudo find $home_user -type d -exec sudo chmod a+rwx {} \;
 #EOF
