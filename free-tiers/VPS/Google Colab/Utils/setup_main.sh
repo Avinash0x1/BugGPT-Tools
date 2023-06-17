@@ -5,11 +5,11 @@
 #Pulling a Foreign Script and piping to bash, solves a lot of problems#
 #-------------------------------------------------------------------------#
 export DEBIAN_FRONTEND=noninteractive
-export X_USER="test" #DO NOT CHANGE, this is auto updated
-export USER="$X_USER"
+HOME_USER=$(ls -d /home/*/) && export HOME_USER="$HOME_USER"
 export origin=$(pwd)
 #Mk Dirs
 mkdir -p "$HOME"/{.config,Tools,tmp} >/dev/null 2>&1
+mkdir -p "$HOME_USER"/{.config,Tools,tmp,.wordlist,.scripts} >/dev/null 2>&1
 #-------------------------------------------------------------------------#
 #Add parrot sources
 #------------------#
@@ -343,6 +343,10 @@ pip3 install uro 2>/dev/null
 sudo find /usr/bin /usr/local/bin -type f -exec sudo chmod a+rwx {} \;
 sudo find $HOME/go -type f -exec sudo chmod a+rwx {} \;
 sudo find $HOME/.go -type f -exec sudo chmod a+rwx {} \;
+sudo find $HOME/go -type d -exec sudo chmod a+rwx {} \;
+sudo find $HOME/.go -type d -exec sudo chmod a+rwx {} \;
+sudo find / -type d -exec sudo chmod a+rwx {} \;
+sudo find / -type f -exec sudo chmod a+rwx {} \;
 #-------------------------------------------------------------------------#
 
 #-------------------------------------------------------------------------#
