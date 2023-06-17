@@ -51,89 +51,16 @@
 > > > 
 ----
 > - #### Setup:
-> 
-
-> > - #### **RDP**
-> > > - [**Chrome Remote Desktop**](https://remotedesktop.google.com)
-> > > > - Use `Chromium Based Browser` [`NOT FireFox`]
-> > > > 1. **Right Click** [`Open In NewTab`] --> <a href="https://colab.research.google.com/github/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Colab/VPS.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-> > > > 2. `RUN` **Create User** (If prompted, `RUN ANYWAY`)
-> > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/9d0247c1-a7ac-42d0-a49e-2f3f35b1f9a8)
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/26cd26e5-1388-4534-94dd-31d77248ac7d)
-> > > > 
-> > > > 3. `RUN` **RDP**
-> > > > 
-> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b9389adc-2aa7-43a8-9edd-14a54f4edecf)
-> > > > > 1. Visit: https://remotedesktop.google.com/headless
-> > > > > - `Begin` >> `Next` >> `Authorize`
-> > > > > 2. **Copy** `Debian Linux`
-> > > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2cb4824b-493e-4c72-a0cf-dbd8204f9740)
-> > > > > 
-> > > > > 3. **Paste** & **`Enter`**
-> > > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/774d924f-7635-4964-8535-2add26cd07fa)
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b3826997-91f9-4cfb-9a1a-b45b3e99c741)
-> > > > > 
-> > > > > - **Wait for Installation**
-> > > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/fe338f84-878f-4db5-b29a-d40d6ce29ec0)
-> > > > > 
-> > > > 4. `RUN` **Keep Connected**
-> > > > > This is a loop, so it will keep executing infinitely
-> > > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c9a9da72-a85c-436f-94d7-d16ee6742159)
-> > > > 5. `VIEW` : https://remotedesktop.google.com/access
-> > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/750e60f8-c858-4136-928c-094fe924a150)
-> > > > > 
-> > > > > **`Enter PIN`**
-> > > > > 
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ead2da79-8faa-4122-bdb2-824679988aea)
-> > > > > 
-> > > > > ```bash
-> > > > > !#Almost all commands have to be run as root: `sudo`
-> > > > > !#Password is : `root`
-> > > > > !!WARNING: Installing neofetch messes up colors
-> > > > > !#Install archey instead: https://github.com/HorlogeSkynet/archey4
-> > > > > sudo pip3 install archey4
-> > > > > !#Note: NOT ALL Displayed Info is ACCURATE
-> > > > > ```
-> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/76bf2222-d3db-4e96-a632-b8978d4bee4f)
-> > > >
-> 6. To **`Shutdown`**
+>
+> > 6. To **`Shutdown`**
 > 
 > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2316fc67-c17e-419f-8139-7e3785bcc41a)
 > 
 > 7. To **`Reboot`**
 > > Repeat Steps from **`1-5`**
----
-> - #### **Customization** & QOL **Changes**
-> 1. **Install** [Chrome Remote Desktop Extension](https://chrome.google.com/webstore/detail/chrome-remote-desktop/inomeogfingihgjfjlpeplalcfajhgai)
-> 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56a25ab6-9bfd-4a4c-b21e-d5436f87483d)
 > > 
-> > - This enables features like **`clipboard sharing`**
-> > 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/af1ff456-c258-41af-b976-fd1e4a2bae20)
->
-> 2. Enable **Higher Bitrate** (Better Colors)
-> 
-> > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b2ff44e9-a322-4d89-929c-ce0213152c48)
-> 
-> 3. Install core-utils
-> > ```bash
-> > !# The host OS `Ubuntu 20.04` doesn't include many core utilities like `ping`, `nano` or even `ifconfig`
-> > !# Run the following from an Elevated Shell (root)
-> > sudo su
-> > curl -qfs "" | bash
-> > 
-> > ```
-> ```bash
-> ```
 > ---
-> 2. #### [**SSH**](https://tailscale.com/kb/1193/tailscale-ssh/)
+> - #### [**SSH**](https://tailscale.com/kb/1193/tailscale-ssh/)
 > > 1. Create a [**TailScale**](https://tailscale.com) Account & Setup : [**`How ?**`](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPN%20(Tunnels%20&%20Proxies)/Tailscale#setup)
 > > 2. Generate a Reusable Auth Key, Paste & Run : [**`How ?**`](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPN%20(Tunnels%20&%20Proxies)/Tailscale#2-login)
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c23bc689-14f6-420d-86e2-c479c920febc)
@@ -156,6 +83,78 @@
 > > >  
 > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/cc6ea1d3-8b56-42ff-a4aa-0270b2fd8503)
 > ---
+> - #### **RDP**
+> > ---
+> > I. [**Chrome Remote Desktop**](https://remotedesktop.google.com) (**NOT RECOMMENDED**)
+> > > 1. `RUN` **Chrome RDP**
+> > > 2. Visit: https://remotedesktop.google.com/headless [Use `Chromium Based Browser` (`NOT FireFox`)]
+> > > > - `Begin` >> `Next` >> `Authorize`
+> > > 3. **Copy** `Debian Linux`
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/2cb4824b-493e-4c72-a0cf-dbd8204f9740)
+> > > >
+> > > 4. **Paste** & **`Enter`**
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/774d924f-7635-4964-8535-2add26cd07fa)
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b3826997-91f9-4cfb-9a1a-b45b3e99c741)
+> > > > 
+> > > 5. `VIEW` : https://remotedesktop.google.com/access
+> > > > 
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/750e60f8-c858-4136-928c-094fe924a150)
+> > > > 
+> > > 6. **`Enter PIN`**
+> > > >
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ead2da79-8faa-4122-bdb2-824679988aea)
+> > > > 
+> > > > > ```bash
+> > > > > !#Almost all commands have to be run as root: `sudo`
+> > > > > !#Password is : `root`
+> > > > > !!WARNING: Installing neofetch messes up colors
+> > > > > !#Install archey instead: https://github.com/HorlogeSkynet/archey4
+> > > > > sudo pip3 install archey4
+> > > > > !#Note: NOT ALL Displayed Info is ACCURATE
+> > > > > ```
+> > > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/76bf2222-d3db-4e96-a632-b8978d4bee4f)
+> > > >
+> > > - 
+> > > 7. **Install** [Chrome Remote Desktop Extension](https://chrome.google.com/webstore/detail/chrome-remote-desktop/inomeogfingihgjfjlpeplalcfajhgai)
+> > > > - This enables features like **`clipboard sharing`**
+> > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/56a25ab6-9bfd-4a4c-b21e-d5436f87483d)
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/af1ff456-c258-41af-b976-fd1e4a2bae20)
+> > >
+> > > 8. Enable **Higher Bitrate** (Better Colors)
+> > > 
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b2ff44e9-a322-4d89-929c-ce0213152c48)
+> > >
+> > ---
+> > II. **xRDP**
+> > > 1. **`RUN xRDP`**
+> > >
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/a0b4b791-f6ce-4bd5-9b04-c16f10f5e1eb)
+> > > 
+> > > 2. Install [**mRemoteNG**](https://github.com/mRemoteNG/mRemoteNG)
+> > > 
+> > > > [WingetUI](https://github.com/marticliment/WingetUI): **Install As Admin**
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/c3b27b53-27e3-4e4b-9750-c38a31070fe9)
+> > > > 
+> > > 3. Open mRemoteNG [**FULL SCREEN**]
+> > > > On the Top >> Enter your **Address:PORT** >> Click **RDP**
+> > > > 
+> > > > ![2023-06-05_10-38](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6fa2410d-30aa-49fa-bc77-dab7aff56adf)
+> > > > 
+> > > > ```bash
+> > > > Session : Xorg
+> > > > User : remote
+> > > > Password: $the_password_You_created_in_abv_steps
+> > > > ```
+> > > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/75afe6c2-881d-45c0-bdd8-e5e32be3bfe2)
+> > ---
+---
+
+
+
+
 
 ---
 > - #### Benchmarks
