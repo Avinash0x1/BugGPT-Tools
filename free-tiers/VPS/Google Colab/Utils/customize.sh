@@ -69,9 +69,10 @@ cd ~
 
 #----------------------------------------------------------------------#
 #Source ~/.zshrc
-go install github.com/tomnomnom/anew@latest
+$HOME/.go/bin/go install github.com/tomnomnom/anew@latest
 echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.bashrc"
 echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.profile"
+echo " . ~/.zshrc" | $HOME/go/bin/anew -q "$HOME/.profile"
 sudo cp $HOME/.bashrc $home_user
 sudo cp $HOME/.profile $home_user
 #Perms:
@@ -79,5 +80,39 @@ sudo find $home_user -type f -exec sudo chmod a+rwx {} \;
 sudo find $home_user -type d -exec sudo chmod a+rwx {} \;
 sudo chmod g-w $home_user/.zsh/zsh-autocomplete/Completions
 sudo chmod g-w $home_user/.zsh/zsh-autocomplete
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+#Some Addons for aliases
+#btop (alias htop)
+ sudo eget aristocratos/btop --to "usr/local/bin/btop" && sudo chmod +xwr "usr/local/bin/btop"
+#broot (alias tree)
+ $HOME/.cargo/bin/cargo install --locked broot 
+ #sudo eget Canop/broot --to "usr/local/bin/broot" && sudo chmod +xwr "usr/local/bin/broot"
+ $HOME/.cargo/bin/broot --install
+#duf (alias df)
+ $HOME/.go/bin/go install -v github.com/muesli/duf@latest
+#dog (alias dig)
+ $HOME/.cargo/bin/cargo install --git "https://github.com/ogham/dog" dog --force
+#tere (alias tree)
+ sudo eget mgunyho/tere --asset gnu --to "usr/local/bin/tere" && sudo chmod +x "usr/local/bin/tere"
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+#This is duplicated to ensure redundency
+#Source ~/.zshrc
+go install github.com/tomnomnom/anew@latest
+echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.bashrc"
+echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.profile"
+echo " . ~/.zshrc" | $HOME/go/bin/anew -q "$HOME/.profile"
+sudo cp $HOME/.bashrc $home_user
+sudo cp $HOME/.profile $home_user
+#Perms:
+sudo find $home_user -type f -exec sudo chmod a+rwx {} \;
+sudo find $home_user -type d -exec sudo chmod a+rwx {} \;
+sudo chmod g-w $home_user/.zsh/zsh-autocomplete/Completions
+sudo chmod g-w $home_user/.zsh/zsh-autocomplete
+#----------------------------------------------------------------------#
+#Source
 source "$HOME/.bashrc"
 #EOF
