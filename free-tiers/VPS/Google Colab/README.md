@@ -67,9 +67,11 @@
 > > > 
 > > 3. **Wait** for it to **Finish** and **Scroll Output**
 > > > 
-> > >
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/033f29a5-6f23-4504-b97f-b42bb5f3dd92)
+> > > 
 > > 4. Copy paste in your Terminal:
 > > >
+> > > ![image](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b6ced77b-c202-405a-b048-11603e2c266f)
 > > >
 > > ---
 > > > - You may need to verify your login:
