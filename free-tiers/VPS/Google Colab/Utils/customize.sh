@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+#----------------------------------------------------------------------#
+export origin=$(pwd)
+#----------------------------------------------------------------------#
+#Primaries:
+#---------#
+#Setup base
+mkdir -p $HOME/{bin,.fonts,.local/bin,.local/share,Tools,tmp,.zsh} >/dev/null 2>&1
+#Install golang
+bash <(curl -qfsSL https://git.io/go-installer)
+rm $HOME/go*.gz 
+export PATH=$HOME/.go/bin:$PATH
+export PATH=$HOME/go/bin:$PATH  
+#Install rust
+curl -qfsSL "https://sh.rustup.rs" | bash /dev/stdin -y 
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/.cargo/env:$PATH
+
+#eget
+$HOME/.go/bin/go install github.com/zyedidia/eget@latest
+curl -qfsSL "https://zyedidia.github.io/eget.sh" | bash && sudo mv ./eget /usr/local/bin/eget
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+#Zsh
+#Install
+sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
+# Install nerdfonts
+ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v && clear
+ cd -
+#Install fzf
+  if [ ! -d "$HOME/.fzf" ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >/dev/null 2>&1
+    ~/.fzf/install --all >/dev/null 2>&1
+  fi
+#fzf deps
+ sudo eget sharkdp/fd --asset gnu --to /usr/local/bin/fdfind && sudo chmod +xwr /usr/local/bin/fdfind
+ sudo eget sharkdp/bat --asset gnu --to /usr/local/bin/batcat && sudo chmod +xwr /usr/local/bin/batcat
+#Install Starship
+ curl -sS https://starship.rs/install.sh | sudo sh -s -- -y >/dev/null 2>&1
+#Install tmux
+ sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install tmux -y
+#Tmux Plugins
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+   mkdir -p "$HOME/.tmux"
+   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >/dev/null 2>&1
+fi
+#.tmux.conf
+conda install -c conda-forge tmux --all -y
+curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/.tmux.conf" -o "$HOME/.tmux.conf"
+tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
+#zsh configs
+#.zshrc
+curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/Utils/.zshrc" -o "$HOME/.zshrc"
+dos2unix --quiet "$HOME/.zshrc" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
+touch ~/.zsh_history
+#Plugins
+mkdir -p "$HOME/.zsh" && cd "$HOME/.zsh"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git >/dev/null 2>&1
+git clone https://github.com/zsh-users/zsh-autosuggestions.git >/dev/null 2>&1
+git clone https://github.com/marlonrichert/zsh-autocomplete.git >/dev/null 2>&1
+cd ~
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+#Source ~/.zshrc
+echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.bashrc"
+echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.profile"
+source "$HOME/.bashrc"
+#EOF
