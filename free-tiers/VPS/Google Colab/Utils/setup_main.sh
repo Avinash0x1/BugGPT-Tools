@@ -12,7 +12,13 @@ export origin=$(pwd)
 sudo -u "$X_USER" mkdir -p "$HOME"/{.config,Tools,tmp} >/dev/null 2>&1
 
 #-------------------------------------------------------------------------#
+#Add parrot sources
+#------------------#
+#This should be automatically done, but just in case
+curl -qfsSL 'https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_add_parrot_sources.list.sh' | bash
+#-------------------------------------------------------------------------#
 #Core + misc apt Tools
+#---------------------#
 #Main
  sudo DEBIAN_FRONTEND=noninteractive sudo apt-get update -y && sudo apt-get install aptitude -y
  sudo DEBIAN_FRONTEND=noninteractive sudo aptitude clean -y && sudo aptitude autoclean -y && clear
