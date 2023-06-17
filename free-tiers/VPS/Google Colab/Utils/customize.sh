@@ -53,7 +53,7 @@ cp "$HOME/.tmux.conf" $home_user/.tmux.conf
 tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
 #zsh configs
 #.zshrc
-curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/Utils/.zshrc" -o "$HOME/.zshrc"
+curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/Google%20Colab/Utils/.zshrc" -o "$HOME/.zshrc"
 dos2unix --quiet "$HOME/.zshrc" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
 sudo cp $HOME/.zshrc $home_user
 touch ~/.zsh_history
@@ -74,8 +74,10 @@ echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.bashrc"
 echo "$(which zsh)" | $HOME/go/bin/anew -q "$HOME/.profile"
 sudo cp $HOME/.bashrc $home_user
 sudo cp $HOME/.profile $home_user
-source "$HOME/.bashrc"
 #Perms:
 sudo find $home_user -type f -exec sudo chmod a+rwx {} \;
 sudo find $home_user -type d -exec sudo chmod a+rwx {} \;
+sudo chmod g-w $home_user/.zsh/zsh-autocomplete/Completions
+sudo chmod g-w $home_user/.zsh/zsh-autocomplete
+source "$HOME/.bashrc"
 #EOF
