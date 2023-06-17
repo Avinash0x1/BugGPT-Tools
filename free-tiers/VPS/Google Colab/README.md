@@ -74,10 +74,10 @@
 > > ---
 > > > - You may need to verify your login:
 > > > - 
-> > > - ![tailscale authenticate new page terminal](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/0c0eb3ac-83d3-498a-92fa-9fdf68a05d4a)
-> > > - ![tailscale authenticate new page browser](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6df8d091-a7db-42ec-861b-cb50db0ae414)
+> > > ![tailscale authenticate new page terminal](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/0c0eb3ac-83d3-498a-92fa-9fdf68a05d4a)
+> > > ![tailscale authenticate new page browser](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6df8d091-a7db-42ec-861b-cb50db0ae414)
 > > ---
-> > - ![talscale sshed](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b91295d3-8be7-44bb-87eb-970288dbfc52) 
+> > ![talscale sshed](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/b91295d3-8be7-44bb-87eb-970288dbfc52) 
 > > > 
 > > > - You can also get SSH from [**TailScale Dashboard**](https://login.tailscale.com/admin/services)
 > > >  
