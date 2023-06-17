@@ -32,7 +32,9 @@ alias bat='batcat'
 alias benchmarkQ='curl -qfsSL bench.sh | bash'
 alias benchmarkX='curl -qfsSL yabs.sh | bash -s -- -i'
 alias dir='dir --color=auto'
-#alias dig='udig -d $1 $2 $3 $4'
+alias dig='dog $1 $2 $3 $4 A AAAA CNAME EUI48 EUI64 HINFO LOC NAPTR MX NS OPENPGPKEY PTR SSHFP TLSA SOA SRV TXT URI'
+alias dig-dns='udig -d $1 $2 $3 $4'
+alias htop='btop'
 alias esort='for file in ./* ; do sort -u "$file" -o "$file"; done'
 alias egrep='egrep --color=auto'
 alias fdfind='fd'
@@ -86,7 +88,7 @@ tere() {
 
 #zsh config
 #Disable perm warnings : https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
-ZSH_DISABLE_COMPFIX=true
+ZSH_DISABLE_COMPFIX="true"
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
