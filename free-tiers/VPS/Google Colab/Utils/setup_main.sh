@@ -124,6 +124,8 @@ mkdir -p "$HOME/Tools"
  go install -v github.com/cemulus/crt@latest 2>/dev/null
 #dalfox
  go install -v github.com/hahwul/dalfox/v2@latest 2>/dev/null
+#dog
+ cargo install --git "https://github.com/ogham/dog" dog --force
 #dmut
  go install -v github.com/bp0lr/dmut@latest 2>/dev/null
 #dnsReaper
@@ -254,6 +256,8 @@ mkdir -p "$HOME/Tools"
  sudo wget https://gitlab.com/api/v4/projects/33695681/packages/generic/nrich/0.4.1/nrich-linux-amd64 -O /usr/local/bin/nrich && clear && sudo chmod +xwr /usr/local/bin/nrich  2>/dev/null
 #Nuclei
  go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest 2>/dev/null
+#oha (server stress tester)
+ sudo eget hatoo/oha --to /usr/local/bin/oha && sudo chmod +x /usr/local/bin/oha
 #Openrisk
  go install -v github.com/projectdiscovery/openrisk@latest 2>/dev/null
 #Parth
