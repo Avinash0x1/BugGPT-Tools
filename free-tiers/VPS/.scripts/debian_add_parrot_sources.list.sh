@@ -18,9 +18,10 @@ NC='\033[0m'
  import_parrot_keys()
 { 
     clear && echo -e "➼${GREEN} Importing ${PURPLE}Parrot${NC} Keys${NC}\n"
+if command -v sudo &> /dev/null 2>&1; then
      #Download & Append
      curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_parrot_sources.list" | sudo tee -a /etc/apt/sources.list
-     sudo DEBIAN_FRONTEND=noninteractive sudo apt update -y
+     sudo export DEBIAN_FRONTEND=noninteractive sudo apt update -y
      # Extract PUBKEY values
      pubkeys=$(sudo apt update 2>&1 | grep NO_PUBKEY | awk '{print $NF}')
      for pubkey in $pubkeys
@@ -29,6 +30,18 @@ NC='\033[0m'
     done
     #Clean & Update
     sudo apt-get clean -y && sudo apt-get update
+else
+    curl -qfs "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_parrot_sources.list" | tee -a /etc/apt/sources.list
+    apt update -y
+    # Extract PUBKEY values
+     pubkeys=$(apt update 2>&1 | grep NO_PUBKEY | awk '{print $NF}')
+         for pubkey in $pubkeys
+     do
+        apt-key adv --recv-keys --keyserver keyserver.ubuntu.com "$pubkey"
+    done
+    #Clean & Update
+    apt-get clean -y && apt-get update
+fi   
 }
 import_parrot_keys
 #---------------------------------------------------------------------------------------#
