@@ -23,7 +23,7 @@ curl -qfsSL 'https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free
  sudo DEBIAN_FRONTEND=noninteractive sudo apt-get update -y && sudo apt-get install aptitude -y
  sudo DEBIAN_FRONTEND=noninteractive sudo aptitude clean -y && sudo aptitude autoclean -y && clear
  sudo DEBIAN_FRONTEND=noninteractive sudo apt autoremove -y
- sudo apt-get install apt-transport-https ca-certificates core-utils curl dos2unix moreutils nano sudo wget -y --ignore-missing
+ sudo apt-get install apt-transport-https ca-certificates coreutils curl dos2unix moreutils nano sudo wget -y --ignore-missing
 #networking
  sudo apt-get install iputils-ping dnsutils iputils-arping iputils-clockdiff iputils-tracepath inotify-tools net-tools openssh-client openssh-server software-properties-common pkg-config ssh ssh-tools -y --ignore-missing
 #BuildTools 
