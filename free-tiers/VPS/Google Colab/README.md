@@ -74,7 +74,6 @@
 > > >
 > > ---
 > > > - You may need to verify your login:
-> > > - 
 > > > ![tailscale authenticate new page terminal](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/0c0eb3ac-83d3-498a-92fa-9fdf68a05d4a)
 > > > ![tailscale authenticate new page browser](https://github.com/Azathothas/BugGPT-Tools/assets/58171889/6df8d091-a7db-42ec-861b-cb50db0ae414)
 > > ---
