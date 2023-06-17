@@ -136,6 +136,7 @@ tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1
 conda install -c conda-forge zsh --all -y
 curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)/Utils/.zshrc" -o "$HOME/.zshrc"
 dos2unix --quiet "$HOME/.zshrc" >/dev/null 2>&1 && sed -e '/^$/d' -e 's/[[:space:]]*$//' -i "$HOME/.zshrc" >/dev/null 2>&1
+touch ~/.zsh_history
 #Plugins
 mkdir -p "$HOME/.zsh" && cd "$HOME/.zsh"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git >/dev/null 2>&1
