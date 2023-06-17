@@ -2,7 +2,6 @@
 > - [**BenchMarks**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#customization--qol-changes)
 > - [**About**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#about-intro--setup)
 > - [**Setup**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#setup)
-> - [**Configuration**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#customization--qol-changes)
 > - [**SSH**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/Google%20Colab#ssh)
 > - [**RDP**](https://github.com/Azathothas/BugGPT-Tools/blob/main/free-tiers/VPS/Google%20Colab/README.md#rdp)
 ---
