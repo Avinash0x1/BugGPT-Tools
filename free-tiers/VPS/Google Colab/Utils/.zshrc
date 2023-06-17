@@ -31,6 +31,7 @@ current_dir=$(pwd)
 alias bat='batcat'
 alias benchmarkQ='curl -qfsSL bench.sh | bash'
 alias benchmarkX='curl -qfsSL yabs.sh | bash -s -- -i'
+alias df='duf'
 alias dir='dir --color=auto'
 alias dig='dog $1 $2 $3 $4 A AAAA CNAME EUI48 EUI64 HINFO LOC NAPTR MX NS OPENPGPKEY PTR SSHFP TLSA SOA SRV TXT URI'
 alias dig-dns='udig -d $1 $2 $3 $4'
