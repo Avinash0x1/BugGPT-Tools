@@ -161,6 +161,10 @@ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/downloa
 #eget (mostly for rust binaries, as compile time is too long)
 #btop
  eget aristocratos/btop --to "$HOME/bin/btop" && chmod +xwr "$HOME/bin/btop"
+#dog
+ $HOME/.cargo/bin/cargo install --git "https://github.com/ogham/dog" dog --force
+#duf
+ go install -v github.com/muesli/duf@latest
 #Feroxbuster
  eget epi052/feroxbuster --asset 64-linux-feroxbuster.zip --to "$HOME/.cargo/bin/feroxbuster" && chmod +x "$HOME/.cargo/bin/feroxbuster"
 #gping: https://github.com/orf/gping
