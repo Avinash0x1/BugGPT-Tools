@@ -9,13 +9,12 @@ export X_USER="test" #DO NOT CHANGE, this is auto updated
 export USER="$X_USER"
 export origin=$(pwd)
 #Mk Dirs
-sudo -u "$X_USER" mkdir -p "$HOME"/{.config,Tools,tmp} >/dev/null 2>&1
-
+mkdir -p "$HOME"/{.config,Tools,tmp} >/dev/null 2>&1
 #-------------------------------------------------------------------------#
 #Add parrot sources
 #------------------#
 #This should be automatically done, but just in case
-curl -qfsSL 'https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_add_parrot_sources.list.sh' | bash
+#curl -qfsSL 'https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_add_parrot_sources.list.sh' | bash
 #-------------------------------------------------------------------------#
 #Core + misc apt Tools
 #---------------------#
