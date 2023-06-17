@@ -26,7 +26,7 @@ curl -qfsSL "https://zyedidia.github.io/eget.sh" | bash && sudo mv ./eget /usr/l
 #Install Zsh
 sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install zsh zsh-syntax-highlighting zsh-autosuggestions -y
 # Install nerdfonts
- cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v && clear
+ cd $(mktemp -d) && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/FiraCode.zip && sudo unzip -o FiraCode.zip -d /usr/share/fonts && sudo fc-cache -f -v && clear
  cd -
 #Install fzf
   if [ ! -d "$HOME/.fzf" ]; then
