@@ -1,8 +1,7 @@
 - #### [SageMaker Studio Lab <sub><img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/0eacb57a-972e-41fd-ae58-e0bccb8c42e9"  width="30" height="30"> </sub>](https://studiolab.sagemaker.aws)
 > - [**BenchMarks**]()
-> - [**About**]()
-> - [**Setup**]()
-> - [**Configuration**]()
+> - [**About**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)#about-intro--setup)
+> - [**Setup**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/AWS%20SageMaker%20Studio%20(Lab)#about-intro--setup)
 > - [**SSH**]()
 > - [**RDP**]()
 ---
@@ -60,7 +59,8 @@
 > > > 
 > > > ---
 ---
-
+> - #### **BenchMarks**
+---
 
 
 > > >
