@@ -31,7 +31,7 @@ export origin=$(pwd)
 mkdir -p $HOME/{bin,.fonts,.local/bin,.local/share,Tools,tmp,.zsh} >/dev/null 2>&1
 #Install golang
 bash <(curl -qfsSL https://git.io/go-installer)
-rm $HOME/go*.gz 
+find $HOME/ -name "*.gz" -type f -delete
 export PATH=$HOME/.go/bin:$PATH
 export PATH=$HOME/go/bin:$PATH  
 # source /home/studio-lab-user/.zshrc
