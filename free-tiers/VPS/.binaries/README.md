@@ -47,6 +47,37 @@
 > !# Using curl, fetch and append all Parrot's sources 
 > !# Will also remove the need to use `--allow-unauthenticated`
 >  curl -qfsSL "https://raw.githubusercontent.com/Azathothas/BugGPT-Tools/main/free-tiers/VPS/.scripts/debian_add_parrot_sources.list.sh" | bash
+>
+> !# Install Python3: Pip+pipx+pyenv
+>  apt install python3 python3-pip python3-aiohttp python3-certbot-apache python3-requests python3-matplotlib python3-keras python3-opencv python3-django python3-flask -y --ignore-missing --allow-unauthenticated
+>  python3 -m pip install pipx 
+>  pip3 install dbus-python PyQt5 db-sqlite3 psycopg2-binary readline whitenoise --upgrade
+>  pip3 install --upgrade pip
+>
+> !# Install Golang
+>  bash <(curl -qfsSL https://git.io/go-installer)
+>  find $HOME -maxdepth 1 -name "go*.gz" -type f -delete
+>  export PATH=$HOME/.go/bin:$PATH
+>  export PATH=$HOME/go/bin:$PATH  
+>  $HOME/.go/bin/go install github.com/zyedidia/eget@latest
+>  # This is an alt: curl -qfsSL "https://zyedidia.github.io/eget.sh" | bash && mv ./eget /usr/local/bin/eget
+> 
+> !# Install rust
+>  curl -qfsSL "https://sh.rustup.rs" | bash /dev/stdin -y 
+>  export PATH=$HOME/.cargo/bin:$PATH
+>  export PATH=$HOME/.cargo/env:$PATH
+>
+> !# Some BenchMarks (Caution: May get Banned)
+>  # speedtest-go : https://github.com/showwin/speedtest-go
+>  eget showwin/speedtest-go --to /usr/local/bin/speedtest-go && chmod +x /usr/local/bin/speedtest-go
+>  speedtest-go
+>  # speedtest-cli : https://github.com/sivel/speedtest-cli
+>  pip3 install speedtest-cli
+>  speedtest-cli
+>  # Sys Benchmarks (Quick)
+>  curl -qfsSL "https://bench.sh" | bash
+>  # Sys Benchmarks (Extensive)
+>  curl -qfsSL "https://raw.githubusercontent.com/masonr/yet-another-bench-script/master/yabs.sh" | bash -s -- -i
 > ```
 > ---
 > 
