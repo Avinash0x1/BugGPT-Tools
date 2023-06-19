@@ -39,8 +39,10 @@
 > !# At this point you can Install & Use:
 > !# Tunshell : https://tunshell.com/
 > !# TailScale : https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPN%20(Tunnels%20%26%20Proxies)/Tailscale#1-create-a-tailscale-account--httpslogintailscalecomstart 
-> !# Make sure to use --tun=userspace-networking when running TailScale on VMS
->
+> !# Make sure to use --tun=userspace-networking when running TailScale on VMS : https://tailscale.com/kb/integrations/cloud-server/
+> # tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
+> # tailscale up --ssh --hostname='Test' --authkey=tskey-auth-6y7ajkdanOPSwuDJmWEOWSJSKSEWKJ
+> 
 > !# Optionally Install Addons
 >  apt install bzip2 coreutils colordiff cron dnsutils dos2unix iputils-arping iputils-clockdiff iputils-tracepath jq locate net-tools moreutils nano openssh-client openssh-server pkg-config readline-common software-properties-common ssh ssh-tools tree xsltproc zip -y --ignore-missing --allow-unauthenticated
 > !# Optionally Resolve Broken Pkgs
