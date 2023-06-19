@@ -35,7 +35,12 @@
 >  apt install wget -y --allow-unauthenticated
 > !# Optionally also Install sudo, if it's not
 >  apt install sudo -y --allow-unauthenticated
-> 
+>
+> !# At this point you can Install & Use:
+> !# Tunshell : https://tunshell.com/
+> !# TailScale : https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPN%20(Tunnels%20%26%20Proxies)/Tailscale#1-create-a-tailscale-account--httpslogintailscalecomstart 
+> !# Make sure to use --tun=userspace-networking when running TailScale on VMS
+>
 > !# Optionally Install Addons
 >  apt install bzip2 coreutils colordiff cron dnsutils dos2unix iputils-arping iputils-clockdiff iputils-tracepath jq locate net-tools moreutils nano openssh-client openssh-server pkg-config readline-common software-properties-common ssh ssh-tools tree xsltproc zip -y --ignore-missing --allow-unauthenticated
 > !# Optionally Resolve Broken Pkgs
