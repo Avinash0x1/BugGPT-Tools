@@ -7,8 +7,10 @@
 > !# OS Info
 >  cat /etc/os-release 
 >
-> !# Pure bash neofetch
+> !# Pure bash neofetch (Doesn't work if sudo prompt password)
 > echo -e "\nHostname: $(hostname)\nUser: $(whoami) $([ "$EUID" -ne 0 ] && echo '(NOT root)' || echo '(root)')\nRoot: $(grep "^root:" /etc/passwd | cut -d: -f1 2>/dev/null && echo '#Exists in /etc/passwd')\nSudo: $(command -v sudo >/dev/null 2>&1 && echo 'Yes' $(sudo grep -E '^\s*[^#]*\s+ALL\s*=\s*\(\s*ALL\s*\)\s+NOPASSWD:' /etc/sudoers >/dev/null 2>&1 && echo '(Passwordless)') || echo 'Not Installed/Available')\nUptime: $(uptime -p 2>/dev/null || uptime | awk '{sub(/,$/, "", $3); print $3}')\nOS: $(cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | sed 's/"//g') ($(cat /etc/os-release | grep ID_LIKE | cut -d= -f2 | sed 's/"//g'))\nArchitecture: $(uname -m)\nKernel: $(uname -r)\nPackage Manager: $(cmds=$(for cmd in apk apt brew conda dnf emerge eopkg flatpak guix installer nix pacman pacman4 pisi pkg pkgutil port snap swupd tdnf xbps yum zypper; do command -v "$cmd" >/dev/null && printf "%s," "$cmd"; done) ; echo "${cmds%,}")\nSystem: $(ps -p 1 -o comm=)\nShell: $(echo "$SHELL")\nCPU: $(grep -c ^processor /proc/cpuinfo) x $(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2 ) @ $(grep -m1 "cpu MHz" /proc/cpuinfo | cut -d: -f2 | tr -d '[:space:]') MHz\nRAM: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')\nDisk: $(df -h 2>/dev/null | awk '/^\/dev\// {if (line) line = line " | "; line = line $1"("$6")" " " $3 "/" $2 " (" $5 " used)"} END {print line}')\nIPv4: $(curl -qfsSL "http://ipv4.whatismyip.akamai.com" 2>/dev/null || echo 'Failed, Maybe no Curl?')\nIPv6: $(curl -qfsSL --ipv6 "http://ipv6.whatismyip.akamai.com" 2>/dev/null || echo 'Failed to Connect')\nCurl: $(command -v curl >/dev/null 2>&1 && which curl || echo '(Not Installed)')\nWget: $(command -v wget >/dev/null 2>&1 && which wget || echo '(Not Installed)')\nGoLang: $(command -v go >/dev/null 2>&1 && go version || echo '(Not Installed)')\nPython(pip): $(command -v pip >/dev/null 2>&1 && pip -V || echo '(Not Installed, maybe try pip3)')\nRust(Cargo): $(command -v cargo >/dev/null 2>&1 && cargo -V || echo '(Not Installed)')\n"
+> !# Works with no Interactions
+> echo -e "\nHostname: $(hostname)\nUser: $(whoami) $([ "$EUID" -ne 0 ] && echo '(NOT root)' || echo '(root)')\nSudo: $(command -v sudo >/dev/null 2>&1 && echo 'Installed' || echo 'Not Installed/Available')\nUptime: $(uptime -p 2>/dev/null || uptime | awk '{sub(/,$/, "", $3); print $3}')\nOS: $(cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | sed 's/"//g') ($(cat /etc/os-release | grep ID_LIKE | cut -d= -f2 | sed 's/"//g'))\nArchitecture: $(uname -m)\nKernel: $(uname -r)\nPackage Manager: $(cmds=$(for cmd in apk apt brew conda dnf emerge eopkg flatpak guix installer nix pacman pacman4 pisi pkg pkgutil port snap swupd tdnf xbps yum zypper; do command -v "$cmd" >/dev/null && printf "%s," "$cmd"; done) ; echo "${cmds%,}")\nSystem: $(ps -p 1 -o comm=)\nShell: $(echo "$SHELL")\nCPU: $(grep -c ^processor /proc/cpuinfo) x $(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2 ) @ $(grep -m1 "cpu MHz" /proc/cpuinfo | cut -d: -f2 | tr -d '[:space:]') MHz\nRAM: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')\nDisk: $(df -h 2>/dev/null | awk '/^\/dev\// {if (line) line = line " | "; line = line $1"("$6")" " " $3 "/" $2 " (" $5 " used)"} END {print line}')\nIPv4: $(curl -qfsSL "http://ipv4.whatismyip.akamai.com" 2>/dev/null || echo 'Failed, Maybe no Curl?')\nIPv6: $(curl -qfsSL --ipv6 "http://ipv6.whatismyip.akamai.com" 2>/dev/null || echo 'Failed to Connect')\nCurl: $(command -v curl >/dev/null 2>&1 && which curl || echo '(Not Installed)')\nWget: $(command -v wget >/dev/null 2>&1 && which wget || echo '(Not Installed)')\nGoLang: $(command -v go >/dev/null 2>&1 && go version || echo '(Not Installed)')\nPython(pip): $(command -v pip >/dev/null 2>&1 && pip -V || echo '(Not Installed, maybe try pip3)')\nRust(Cargo): $(command -v cargo >/dev/null 2>&1 && cargo -V || echo '(Not Installed)')\n"
 > ```
 
 
@@ -39,6 +41,8 @@
 > !# At this point you can Install & Use:
 > !# Tunshell : https://tunshell.com/
 > !# TailScale : https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPN%20(Tunnels%20%26%20Proxies)/Tailscale#1-create-a-tailscale-account--httpslogintailscalecomstart 
+> !# sudo su
+> !# curl -qfsSL "https://tailscale.com/install.sh" | sh
 > !# Make sure to use --tun=userspace-networking when running TailScale on VMS : https://tailscale.com/kb/integrations/cloud-server/
 > # tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
 > # tailscale up --ssh --hostname='Test' --authkey=tskey-auth-6y7ajkdanOPSwuDJmWEOWSJSKSEWKJ
@@ -76,7 +80,8 @@
 >
 > !# Some BenchMarks (Caution: May get Banned)
 >  # speedtest-go : https://github.com/showwin/speedtest-go
->  eget showwin/speedtest-go --to /usr/local/bin/speedtest-go && chmod +x /usr/local/bin/speedtest-go
+>  $HOME/go/bin/eget showwin/speedtest-go --to /usr/local/bin/speedtest-go && chmod +x /usr/local/bin/speedtest-go
+>  #/usr/local/bin/eget showwin/speedtest-go --to /usr/local/bin/speedtest-go && chmod +x /usr/local/bin/speedtest-go
 >  speedtest-go
 >  # speedtest-cli : https://github.com/sivel/speedtest-cli
 >  pip3 install speedtest-cli
