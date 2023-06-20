@@ -70,7 +70,7 @@
 >  find $HOME -maxdepth 1 -name "go*.gz" -type f -delete
 >  export PATH=$HOME/.go/bin:$PATH
 >  export PATH=$HOME/go/bin:$PATH  
->  $HOME/.go/bin/go install github.com/zyedidia/eget@latest
+>  $HOME/.go/bin/go install -v github.com/zyedidia/eget@latest
 >  # This is an alt: curl -qfsSL "https://zyedidia.github.io/eget.sh" | bash && mv ./eget /usr/local/bin/eget
 > 
 > !# Install rust
