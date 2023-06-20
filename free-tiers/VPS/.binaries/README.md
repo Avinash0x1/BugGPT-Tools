@@ -92,8 +92,13 @@
 >  curl -qfsSL "https://raw.githubusercontent.com/masonr/yet-another-bench-script/master/yabs.sh" | bash -s -- -i
 > ```
 > ---
-> 
-> You are in a very limited environment with limited access (either no root, or default `apt install xyz` doesn't do it)
+> - **No ROOT Access**
+> > **Assumptions**
+> > > 1. Python/Pip is Installed
+> > > > ```bash
+> > > > 
+> > > > ```
+> > > 3. 
 
 > 1. Via pip (python)
 ```bash
