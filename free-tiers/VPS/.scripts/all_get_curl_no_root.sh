@@ -51,7 +51,7 @@ arch=$(uname -m) && export arch="$arch"
 mkdir -p $HOME/bin
 #curl
 if ! command -v curl >/dev/null 2>&1; then
- echo -e "\n----\n Curl not found (X)......\n----\n"
+ echo -e "\n----\n Curl not found (?)......\n----\n"
   if ! command -v wget >/dev/null 2>&1; then
    echo -e "\n----\n wget not found (X)......\n----\n"   
     if ! command -v pip >/dev/null 2>&1; then 
