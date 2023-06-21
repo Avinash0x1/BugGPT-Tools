@@ -1,4 +1,4 @@
-- #### [Cloudflare R2 <sub><img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ceaee7c3-473e-48e6-81e7-e4dccf6a1c51"  width="33" height="33"> </sub>](https://studiolab.sagemaker.aws)
+- #### [Cloudflare R2 <sub><img src="https://github.com/Azathothas/BugGPT-Tools/assets/58171889/ceaee7c3-473e-48e6-81e7-e4dccf6a1c51"  width="33" height="33"> </sub>](https://developers.cloudflare.com/r2/)
 > - [**About**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/Storage%20(Buckets%20%26%20Databases)/R2%20(Cloudflare)%20#about)
 > - [**Setup**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/Storage%20(Buckets%20%26%20Databases)/R2%20(Cloudflare)%20#setup)
 > - [**Config**](https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/Storage%20(Buckets%20%26%20Databases)/R2%20(Cloudflare)%20#config)
