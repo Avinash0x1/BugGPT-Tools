@@ -1,6 +1,26 @@
 #!/usr/bin/env bash
 
 #----------------------------------------------------------------------#
+#Sanity Checks
+#If curl already installed
+if command -v curl >/dev/null 2>&1; then
+   echo -e "W: curl is already installed at: $(which curl)"
+   echo -e "W: Why so eager to fix smth that's not broken ?\n"
+   echo -e "Further Steps: https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/.binaries"
+  exit 1
+fi  
+#If invoked as root
+if [ "$EUID" -eq 0 ]; then
+   echo -e "W: This is mean to be run wthout ROOT"
+   echo -e "W: Running anyway may mess up all your dirs & settings"
+   echo -e "W: Will also probably fail"
+   echo -e "W: Hit (ctrl + c) if this was a mistake"
+   echo -e "W: Script will run anyway within 15s..."
+   sleep 15s
+fi   
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
 #Get Sys Info
 echo -e "\n----\nGetting System Information......\n----\n"
 #Pure bash neofetch
