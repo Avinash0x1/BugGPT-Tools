@@ -136,21 +136,26 @@ curl -qfsSL "https://raw.githubusercontent.com/trickest/resolvers/main/resolvers
 #---------#
 #Generated from Huge Data Set for Line on Gcloud Shell
 #shuf -n {N} > {OutFile} # Not really Efficient, but Enough
-#AnonFiles#
-#dns_resolvers_test_1M.txt 302 MB
+#dns_resolvers_test_1M.txt 30.2 MB
 echo -e "\n==================================\n Downloading dns_resolvers_test_1M.txt (30.2 MB)\n" 
-curl -fLO $(curl -qfsSL https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt | grep dns_resolvers_test_1M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
-#dns_resolvers_test_5M.txt 302 MB
+curl -qSLO "https://r2-pub.prashansa.com.np/dns_resolvers_test_1M.txt"
+#curl -fLO $(curl -qfsSL https://anonfiles.com/3270Oew0z5/dns_resolvers_test_1M_txt | grep dns_resolvers_test_1M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+#dns_resolvers_test_5M.txt 151 MB
 echo -e "\n==================================\n Downloading dns_resolvers_test_5M.txt (151 MB)\n" 
-curl -fLO $(curl -qfsSL https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt | grep dns_resolvers_test_5M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+curl -qSLO "https://r2-pub.prashansa.com.np/dns_resolvers_test_5M.txt"
+#curl -fLO $(curl -qfsSL https://anonfiles.com/W273Odwezf/dns_resolvers_test_5M_txt | grep dns_resolvers_test_5M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
 #dns_resolvers_test_10M.txt 302 MB
 echo -e "\n==================================\n Downloading dns_resolvers_test_10M.txt (302 MB)\n" 
-curl -fLO $(curl -qfsSL https://anonfiles.com/lbi0X8wdz9/dns_resolvers_test_10M_txt | grep dns_resolvers_test_10M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
+curl -qSLO "https://r2-pub.prashansa.com.np/dns_resolvers_test_10M.txt"
+#curl -fLO $(curl -qfsSL https://anonfiles.com/lbi0X8wdz9/dns_resolvers_test_10M_txt | grep dns_resolvers_test_10M.txt | grep -o 'href="[^"]*"' | cut -d'"' -f2)
 #dns_resolvers_test_50M.txt 1541 MB
 echo -e "\n==================================\n" 
 echo -e "Skipping Downloading: dns_resolvers_test_50M.txt (1541 MB)\n Do Manually:"
-echo -e "\ncurl -fLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolvers_test_50M_txt | grep dns_resolvers_test_50M.txt | grep -o 'href=\"[^\"]*\"' | cut -d'\"' -f2)\n"
+echo -e "curl -qSLO \"https://r2-pub.prashansa.com.np/dns_resolvers_test_50M.txt\""
+#echo -e "\ncurl -fLO \$(curl -qfsSL https://anonfiles.com/B1qcX8w3za/dns_resolvers_test_50M_txt | grep dns_resolvers_test_50M.txt | grep -o 'href=\"[^\"]*\"' | cut -d'\"' -f2)\n"
 #Alts: 
+# CloudFlare R2 : https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/Storage%20(Buckets%20%26%20Databases)/R2%20(Cloudflare)%20
+# https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/Storage%20(Buckets%20%26%20Databases)
 # https://files.fm/
 # https://racaty.io/
 # https://www.prontoshare.com
