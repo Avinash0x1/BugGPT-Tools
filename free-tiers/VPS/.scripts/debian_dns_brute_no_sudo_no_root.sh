@@ -1,14 +1,39 @@
 #!/usr/bin/env bash
 
+#Sanity Checks
+if [ "$EUID" -eq 0 ]; then
+   echo -e "This is mean to be run wthout ROOT"
+   echo -e "Running anyway will mess up all your dirs & settings"
+   exit 1
+fi   
 #----------------------------------------------------------------------#
 #Deps
 #-----#
 mkdir -p $HOME/bin
-echo -e "\n==================================\n Installing eget\n"
-curl -fSL "https://zyedidia.github.io/eget.sh" | sh && mv ./eget $HOME/bin/eget
-export PATH=$HOME/bin:$PATH
-echo -e "\n==================================\n Installing Curl\n"
-$HOME/bin/eget moparisthebest/static-curl --to $HOME/bin/curl
+#curl
+if ! command -v curl >/dev/null 2>&1; then
+  # do smoth
+      if ! command -v curl >/dev/null 2>&1; then 
+        echo -e "Fatal: No root, No curl, & No pip/pip3, & No Golang"
+        echo -e "Read: https://github.com/Azathothas/BugGPT-Tools/tree/main/free-tiers/VPS/.binaries\n"
+        exit 1
+      fi
+    fi
+  fi 
+else
+     if command -v pip >/dev/null 2>&1; then
+        pip install httpie 2>/dev/null
+     elif command -v pip3 >/dev/null 2>&1; then   
+         pip3 install httpie 2>/dev/null
+  fi
+   echo -e "\n==================================\n Installing Curl\n"
+   $HOME/bin/eget moparisthebest/static-curl --to $HOME/bin/curl
+#eget
+if ! command -v eget >/dev/null 2>&1; then
+  echo -e "\n==================================\n Installing eget\n"
+  curl -fSL "https://zyedidia.github.io/eget.sh" | sh && mv ./eget $HOME/bin/eget
+  export PATH=$HOME/bin:$PATH
+fi
 #----------------------------------------------------------------------#
 #Install Conda
 #--------------#
