@@ -1,20 +1,28 @@
 ## **Setup** 
 > #### 1. Create a [**TailScale**](https://tailscale.com/) **Account** : **https://login.tailscale.com/start**
 > > - **Install** [**TailScale CLI**]()
-> > > - [**Linux**](https://tailscale.com/kb/1031/install-linux/)
+> > > - [**Linux**](https://tailscale.com/kb/1031/install-linux/) (**ROOT**) [**NOT VM**]
+> > > > 1. Requires **`ROOT Access`** & **Won't work** on **`Docker`** or Similar Containers (**Not booted** with `Systemd` or `Init` System)
 > > > > ```bash
-> > > > !# On Linux (Running with Systemd or Init System) [Debian Based]
+> > > > 
+> > > > !# For General
+> > > >  sudo su
+> > > >  curl -qfsSL "https://tailscale.com/install.sh" | sh
+> > > >
+> > > > !#For Debian, you can also do:
 > > > > !# Add Keys
 > > > >  curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
 > > > >  curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
 > > > > !# Update & Install TailScale
 > > > >  sudo apt-get update
 > > > >  sudo apt-get install tailscale -y
+> > > > ```
+> > > > 
+> > > - [**Linux**](https://tailscale.com/kb/1031/install-linux/) (**UserSpace**)
 > > > > !# On Linux (Running on Containers without init) | [Not Debian]
 > > > > !# Same for Arch and Variants
 > > > > !# Read: https://tailscale.com/kb/1031/install-linux/
-> > > >  sudo su
-> > > >  curl -qfsSL "https://tailscale.com/install.sh" | sh
+> > > >  
 > > > > ```
 > > - [**Windows**](https://tailscale.com/kb/1022/install-windows/)
 > > > [**WingetUI**](https://github.com/marticliment/WingetUI)
